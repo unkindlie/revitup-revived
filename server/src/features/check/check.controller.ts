@@ -1,6 +1,7 @@
 import {
     Body,
     Controller,
+    Get,
     Post,
     UploadedFile,
     UseInterceptors,
@@ -9,6 +10,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 import { FirebaseStorageService } from '../../common/firebase/firebase-storage.service';
 import { FileUploadDto } from '../../common/firebase/dto/file-upload.dto';
+import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('check')
 export class CheckController {
@@ -38,5 +40,15 @@ export class CheckController {
         await this.service.deleteFile(fileLink);
 
         return { message: 'Good' };
+    }
+
+    @Get('cache')
+    @UseInterceptors(CacheInterceptor)
+    @CacheKey('hello')
+    @CacheTTL(10000)
+    async getCacheData() {
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+
+        return { hello: 'world' };
     }
 }
