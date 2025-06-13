@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
+import { CheckModule } from './check/check.module';
 
 @Module({
-    imports: [],
+    imports: [CheckModule],
 })
 export class FeaturesModule {}
