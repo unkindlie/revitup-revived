@@ -21,8 +21,8 @@ export class ResponseInterceptor implements NestInterceptor {
         return next.handle().pipe(
             map((value) => ({
                 statusCode,
-                date: new Date(),
                 path: req.path,
+                date: new Date(),
                 response: {
                     data: value as unknown,
                     error: null,

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { UserRepository } from './user.repository';
+import { UserCreateDto } from './dto/user-create.dto';
 
 @Injectable()
 export class UserService {
@@ -9,8 +10,8 @@ export class UserService {
     async getUsers() {
         return await this.repository.getAllUsers();
     }
-    async createUser() {
-        await this.repository.createUser();
+    async createUser(input: UserCreateDto) {
+        await this.repository.createUser(input);
     }
     async deleteUser(userId: number) {
         await this.repository.deleteUser(userId);
