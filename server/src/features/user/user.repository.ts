@@ -1,6 +1,10 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+    ConflictException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 
 import { UserEntity } from './user.entity';
 import { UserCreateDto } from './dto/user-create.dto';
@@ -11,8 +15,16 @@ export class UserRepository {
         @InjectRepository(UserEntity) private repo: Repository<UserEntity>,
     ) {}
 
-    async getAllUsers(): Promise<UserEntity[]> {
+    async getUsers(): Promise<UserEntity[]> {
         return await this.repo.find();
+    }
+    async getUserByCondition(
+        condition: FindOptionsWhere<UserEntity>,
+    ): Promise<UserEntity> {
+        const entity = await this.repo.findOneBy(condition);
+        if (!entity) throw new NotFoundException("Such user doesn't exist");
+
+        return entity;
     }
     // TODO: create method for availability of user acc
     async createUser(input: UserCreateDto) {

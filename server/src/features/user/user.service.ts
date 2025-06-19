@@ -8,7 +8,10 @@ export class UserService {
     constructor(private repository: UserRepository) {}
 
     async getUsers() {
-        return await this.repository.getAllUsers();
+        return await this.repository.getUsers();
+    }
+    async getUserById(id: number) {
+        return await this.repository.getUserByCondition({ id });
     }
     async createUser(input: UserCreateDto) {
         await this.repository.createUser(input);
