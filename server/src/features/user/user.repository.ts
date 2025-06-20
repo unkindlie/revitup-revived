@@ -15,8 +15,8 @@ export class UserRepository {
         @InjectRepository(UserEntity) private repo: Repository<UserEntity>,
     ) {}
 
-    async getUsers(): Promise<UserEntity[]> {
-        return await this.repo.find();
+    async getUsers(): Promise<[UserEntity[], number]> {
+        return await this.repo.findAndCount();
     }
     async getUserByCondition(
         condition: FindOptionsWhere<UserEntity>,

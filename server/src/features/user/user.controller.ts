@@ -7,12 +7,14 @@ import {
     HttpStatus,
     Param,
     ParseIntPipe,
+    Query,
 } from '@nestjs/common';
 
 import { UserService } from './user.service';
 import { UserShortDto } from './dto/user-short.dto';
 import { ValidatedArray } from '../../common/types/validated-array.type';
 import { ExposingSerialization } from '../../common/decorators/exposing-serialization.decorator';
+import { PaginatedQuery } from '../../common/types/pagination.type';
 
 @Controller('users')
 export class UserController {
@@ -20,10 +22,10 @@ export class UserController {
 
     @Get()
     @ExposingSerialization(ValidatedArray({ users: UserShortDto }))
-    async getUsers() {
-        const users = await this.service.getUsers();
+    async getUsers(@Query() query: PaginatedQuery) {
+        const [users, count] = await this.service.getUsers();
 
-        return { users };
+        return { users, count, query };
     }
 
     @Get(':id')

@@ -1,5 +1,7 @@
 import { Expose, Type } from 'class-transformer';
 
+import { PaginatedQuery } from './pagination.type';
+
 export function ValidatedArray<T>(propObj: Record<string, new () => T>) {
     const propName = Object.keys(propObj)[0];
     const propType = Object.values(propObj)[0];
@@ -8,6 +10,12 @@ export function ValidatedArray<T>(propObj: Record<string, new () => T>) {
         @Expose()
         @Type(() => propType)
         [propName]: T[];
+
+        @Expose()
+        count: number;
+
+        @Expose()
+        query: PaginatedQuery;
     }
 
     return Cls;

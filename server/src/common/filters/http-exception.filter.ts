@@ -22,7 +22,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
                 data: null,
                 error: {
                     name: (exception.getResponse() as { error: string }).error,
-                    message: exception.message,
+                    message: (
+                        exception.getResponse() as {
+                            message: string | string[];
+                        }
+                    ).message,
                 },
             },
         });
