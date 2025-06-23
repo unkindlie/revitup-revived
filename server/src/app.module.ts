@@ -4,15 +4,16 @@ import { ConfigModule } from '@nestjs/config';
 
 import { FeaturesModule } from './features/features.module';
 import { DatabaseModule } from './common/database/database.module';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
 import databaseConfig from './common/database/database.config';
 import firebaseAdminConfig from './common/firebase/firebase-admin.config';
-import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import authConfig from './features/auth/auth.config';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             envFilePath: `.env.${process.env.NODE_ENV}`,
-            load: [databaseConfig, firebaseAdminConfig],
+            load: [databaseConfig, firebaseAdminConfig, authConfig],
         }),
         DatabaseModule,
         FeaturesModule,
