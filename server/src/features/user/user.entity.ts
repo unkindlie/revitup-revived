@@ -19,6 +19,7 @@ export class UserEntity {
 
     @Column({
         name: 'user_email_address',
+        unique: true,
     })
     emailAddress: string;
 }

@@ -9,6 +9,7 @@ export class PaginatedQuery {
     @IsPositive()
     page?: number;
 
+    // TODO: default take will be in the user's settings
     @Expose()
     @Type(() => Number)
     @IsPositive()

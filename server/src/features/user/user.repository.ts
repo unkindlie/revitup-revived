@@ -8,6 +8,7 @@ import { FindOptionsWhere, Repository } from 'typeorm';
 
 import { UserEntity } from './user.entity';
 import { UserCreateDto } from './dto/user-create.dto';
+import { UserUpdateDto } from './dto/user-update.dto';
 
 @Injectable()
 export class UserRepository {
@@ -37,6 +38,11 @@ export class UserRepository {
         const entity = this.repo.create(input);
 
         await this.repo.insert(entity);
+    }
+    async updateUserInfo(input: UserUpdateDto) {
+        const { id, ...rest } = input;
+
+        await this.repo.update(id, rest);
     }
     async deleteUser(userId: number) {
         await this.repo.delete(userId);
