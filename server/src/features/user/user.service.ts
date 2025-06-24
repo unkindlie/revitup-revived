@@ -15,10 +15,13 @@ export class UserService {
     async getUserById(id: number): Promise<UserEntity> {
         return await this.repository.getUserByCondition({ id });
     }
+    async getUserByEmail(emailAddress: string): Promise<UserEntity> {
+        return await this.repository.getUserByCondition({ emailAddress });
+    }
     async createUser(input: UserCreateDto): Promise<void> {
         await this.repository.createUser(input);
     }
-    async updateUserInfo(input: UserUpdateDto) {
+    async updateUserInfo(input: UserUpdateDto): Promise<void> {
         await this.repository.updateUserInfo(input);
     }
     async deleteUser(userId: number): Promise<void> {

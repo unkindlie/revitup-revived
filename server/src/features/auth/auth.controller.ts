@@ -1,7 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 
 import { AuthService } from './auth.service';
 import { UserCreateDto } from '../user/dto/user-create.dto';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { User } from '../../common/decorators/user.decorator';
+import { UserPayloadDto } from './dto/user-payload.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -12,5 +15,11 @@ export class AuthController {
         await this.service.register(body);
 
         return { message: 'User was successfully created' };
+    }
+
+    @Post('login')
+    @UseGuards(LocalAuthGuard)
+    login(@User() user: UserPayloadDto) {
+        return user;
     }
 }
