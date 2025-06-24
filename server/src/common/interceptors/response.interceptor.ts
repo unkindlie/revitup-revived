@@ -24,7 +24,7 @@ export class ResponseInterceptor implements NestInterceptor {
                 path: req.path,
                 date: new Date(),
                 response: {
-                    data: value as unknown,
+                    data: (value as unknown) || null,
                     error: null,
                 },
             })),
