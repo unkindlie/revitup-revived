@@ -1,10 +1,10 @@
 import {
     ForbiddenException,
+    Inject,
     Injectable,
     UnauthorizedException,
 } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
+import { ConfigType } from '@nestjs/config';
 import { hash, compare } from 'bcrypt';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 
@@ -13,19 +13,21 @@ import { UserCreateDto } from '../user/dto/user-create.dto';
 import { UserPayloadDto } from './dto/user-payload.dto';
 import { TokensDto } from './dto/tokens.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
+import { TokenHelper } from './helpers/token.helper';
+
+import authConfig from './auth.config';
 
 @Injectable()
 export class AuthService {
     constructor(
+        @Inject(authConfig.KEY)
+        private config: ConfigType<typeof authConfig>,
         private userSerivce: UserService,
-        private configService: ConfigService,
-        private jwtService: JwtService,
+        private tokenHelper: TokenHelper,
     ) {}
 
     async register(input: UserCreateDto): Promise<void> {
-        const salt = parseInt(
-            this.configService.getOrThrow<string>('authConfig.hashSaltAmount'),
-        );
+        const salt = parseInt(this.config.hashSaltAmount!);
         input.password = await hash(input.password, salt);
 
         await this.userSerivce.createUser(input);
@@ -52,23 +54,11 @@ export class AuthService {
     }
     private async generateTokens(payload: UserPayloadDto): Promise<TokensDto> {
         const plain = instanceToPlain(payload);
-        const accessToken = await this.jwtService.signAsync(
-            { sub: plain },
-            {
-                secret: this.configService.get('authConfig.accessTokenSecret'),
-                expiresIn: this.configService.get(
-                    'authConfig.accessTokenExpiresIn',
-                ),
-            },
-        );
-        const refreshToken = await this.jwtService.signAsync(
-            { sub: plain },
-            {
-                secret: this.configService.get('authConfig.refreshTokenSecret'),
-                expiresIn: this.configService.get(
-                    'authConfig.refreshTokenExpiresIn',
-                ),
-            },
+
+        const accessToken = await this.tokenHelper.signPayload(plain, 'access');
+        const refreshToken = await this.tokenHelper.signPayload(
+            plain,
+            'refresh',
         );
 
         return {

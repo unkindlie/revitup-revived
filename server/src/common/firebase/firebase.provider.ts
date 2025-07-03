@@ -1,38 +1,31 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigType } from '@nestjs/config';
 import * as admin from 'firebase-admin';
 
 import { FIREBASE_APP } from './firebase.constants';
+import firebaseAdminConfig from './firebase-admin.config';
 
 export default {
     provide: FIREBASE_APP,
-    useFactory: (configService: ConfigService) => {
+    useFactory: (config: ConfigType<typeof firebaseAdminConfig>) => {
         const firebaseConfig = {
-            type: configService.get<string>('firebaseAdmin.type'),
-            projectId: configService.get('firebaseAdmin.projectId'),
-            privateKeyId: configService.get<string>(
-                'firebaseAdmin.privateKeyId',
-            ),
-            privateKey: configService.get('firebaseAdmin.privateKey'),
-            clientEmail: configService.get('firebaseAdmin.clientEmail'),
-            clientId: configService.get<string>('firebaseAdmin.clientId'),
-            authUri: configService.get<string>('firebaseAdmin.authUri'),
-            tokenUri: configService.get<string>('firebaseAdmin.tokenUri'),
-            authProviderCertUrl: configService.get<string>(
-                'firebaseAdmin.authProviderCertUrl',
-            ),
-            clientCertUrl: configService.get<string>(
-                'firebaseAdmin.clientCertUrl',
-            ),
-            universalDomain: configService.get<string>(
-                'firebaseAdmin.universalDomain',
-            ),
+            type: config.type,
+            projectId: config.projectId,
+            privateKeyId: config.privateKeyId,
+            privateKey: config.privateKey,
+            clientEmail: config.clientEmail,
+            clientId: config.clientId,
+            authUri: config.authUri,
+            tokenUri: config.tokenUri,
+            authProviderCertUrl: config.authProviderCertUrl,
+            clientCertUrl: config.clientCertUrl,
+            universalDomain: config.universalDomain,
         } as admin.ServiceAccount;
 
         return admin.initializeApp({
             credential: admin.credential.cert(firebaseConfig),
-            storageBucket: configService.get('firebaseAdmin.storageBucket'),
+            storageBucket: config.storageBucket,
         });
     },
-    inject: [ConfigService],
-    import: [ConfigModule],
+    inject: [firebaseAdminConfig.KEY],
+    import: [ConfigModule.forFeature(firebaseAdminConfig)],
 };

@@ -12,7 +12,7 @@ import { UserCreateDto } from '../user/dto/user-create.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { User } from '../../common/decorators/user.decorator';
 import { AuthResponseDto } from './dto/auth-response.dto';
-import { CookieInterceptor } from './interceptors/cookie.interceptor';
+import { RefreshCookieInterceptor } from './interceptors/refresh-cookie.interceptor';
 import { AccessTokenGuard } from './guards/access-token.guard';
 import { UserPayloadDto } from './dto/user-payload.dto';
 
@@ -29,7 +29,7 @@ export class AuthController {
 
     @Post('login')
     @UseGuards(LocalAuthGuard)
-    @UseInterceptors(new CookieInterceptor('refreshToken'))
+    @UseInterceptors(RefreshCookieInterceptor)
     login(@User() user: AuthResponseDto) {
         return user;
     }

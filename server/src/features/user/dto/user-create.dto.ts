@@ -6,7 +6,7 @@ import {
     MinLength,
 } from 'class-validator';
 
-import { strongPasswordReqs } from '../../auth/constants/auth.constants';
+import { STRONG_PASSWORD_REQS } from '../../auth/constants/auth.constants';
 
 export class UserCreateDto {
     @IsString()
@@ -14,7 +14,7 @@ export class UserCreateDto {
     @MaxLength(100)
     username: string;
 
-    @IsStrongPassword(strongPasswordReqs, {
+    @IsStrongPassword(STRONG_PASSWORD_REQS, {
         message: "Password doesn't meet the requirements",
     })
     password: string;
