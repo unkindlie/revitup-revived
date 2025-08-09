@@ -1,9 +1,4 @@
-import {
-    ForbiddenException,
-    Inject,
-    Injectable,
-    UnauthorizedException,
-} from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { hash, compare } from 'bcrypt';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
@@ -37,7 +32,6 @@ export class AuthService {
         password: string,
     ): Promise<AuthResponseDto> {
         const user = await this.userSerivce.getUserByEmail(emailAddress);
-        if (!user) throw new UnauthorizedException("This user doesn't exist");
 
         const isPasswordMatching = await compare(password, user.password);
         if (!isPasswordMatching)
@@ -50,6 +44,18 @@ export class AuthService {
         return {
             user: payload,
             tokens: await this.generateTokens(payload),
+        };
+    }
+    async refresh(payload: UserPayloadDto) {
+        const user = await this.userSerivce.getUserByEmail(
+            payload.emailAddress,
+        );
+        const newPayload = plainToInstance(UserPayloadDto, user, {
+            excludeExtraneousValues: true,
+        });
+        return {
+            user: newPayload,
+            tokens: await this.generateTokens(newPayload),
         };
     }
     private async generateTokens(payload: UserPayloadDto): Promise<TokensDto> {

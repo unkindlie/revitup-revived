@@ -13,7 +13,6 @@ export class CookieHelper {
     setCookie({ key, res, value, options }: SetCookie): void {
         res.cookie(key, value, {
             httpOnly: true,
-            secure: true,
             ...options,
         });
     }

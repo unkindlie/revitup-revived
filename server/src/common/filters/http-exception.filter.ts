@@ -14,6 +14,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const req = ctx.getRequest<Request>();
         const res = ctx.getResponse<Response>();
 
+        res.status(exception.getStatus());
         res.send({
             statusCode: res.statusCode,
             path: req.path,

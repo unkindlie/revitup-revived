@@ -15,6 +15,7 @@ import { AuthResponseDto } from './dto/auth-response.dto';
 import { RefreshCookieInterceptor } from './interceptors/refresh-cookie.interceptor';
 import { AccessTokenGuard } from './guards/access-token.guard';
 import { UserPayloadDto } from './dto/user-payload.dto';
+import { RefreshTokenGuard } from './guards/refresh-token.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -37,6 +38,13 @@ export class AuthController {
     @Get('verify')
     @UseGuards(AccessTokenGuard)
     verifyUser(@User() user: UserPayloadDto) {
-        return user.emailAddress;
+        return user;
+    }
+
+    @Get('refresh')
+    @UseGuards(RefreshTokenGuard)
+    @UseInterceptors(RefreshCookieInterceptor)
+    refresh(@User() user: AuthResponseDto) {
+        return user;
     }
 }

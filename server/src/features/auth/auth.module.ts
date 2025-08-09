@@ -10,6 +10,7 @@ import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { CookieHelper } from './helpers/cookie.helper';
 import { TokenHelper } from './helpers/token.helper';
 import authConfig from './auth.config';
+import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 
 @Module({
     imports: [
@@ -22,6 +23,7 @@ import authConfig from './auth.config';
         AuthService,
         LocalStrategy,
         AccessTokenStrategy,
+        RefreshTokenStrategy,
         CookieHelper,
         TokenHelper,
     ],
