@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 
 export class UserPayloadDto {
     @Expose()
-    id: string;
+    id: number;
 
     @Expose()
     username: string;

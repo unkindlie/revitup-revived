@@ -1,4 +1,9 @@
-import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
+import {
+    ConflictException,
+    ForbiddenException,
+    Inject,
+    Injectable,
+} from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { hash, compare } from 'bcrypt';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
@@ -22,6 +27,12 @@ export class AuthService {
     ) {}
 
     async register(input: UserCreateDto): Promise<void> {
+        const exists = await this.userSerivce.userExistsByEmail(
+            input.emailAddress,
+        );
+        if (exists)
+            throw new ConflictException('User with such email already exists');
+
         const salt = parseInt(this.config.hashSaltAmount!);
         input.password = await hash(input.password, salt);
 
@@ -46,7 +57,7 @@ export class AuthService {
             tokens: await this.generateTokens(payload),
         };
     }
-    async refresh(payload: UserPayloadDto) {
+    async refresh(payload: UserPayloadDto): Promise<AuthResponseDto> {
         const user = await this.userSerivce.getUserByEmail(
             payload.emailAddress,
         );

@@ -27,5 +27,6 @@ import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
         CookieHelper,
         TokenHelper,
     ],
+    exports: [TokenHelper],
 })
 export class AuthModule {}

@@ -27,4 +27,7 @@ export class UserService {
     async deleteUser(userId: number): Promise<void> {
         await this.repository.deleteUser(userId);
     }
+    async userExistsByEmail(emailAddress: string): Promise<boolean> {
+        return await this.repository.existsBy({ emailAddress });
+    }
 }

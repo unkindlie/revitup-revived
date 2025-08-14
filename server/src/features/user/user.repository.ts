@@ -1,8 +1,4 @@
-import {
-    ConflictException,
-    Injectable,
-    NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 
@@ -27,24 +23,20 @@ export class UserRepository {
 
         return entity;
     }
-    // TODO: create method for availability of user acc
-    async createUser(input: UserCreateDto) {
-        const exists = await this.repo.existsBy({
-            emailAddress: input.emailAddress,
-        });
-        if (exists)
-            throw new ConflictException('User with such email already exists');
-
+    async createUser(input: UserCreateDto): Promise<void> {
         const entity = this.repo.create(input);
 
         await this.repo.insert(entity);
     }
-    async updateUserInfo(input: UserUpdateDto) {
+    async updateUserInfo(input: UserUpdateDto): Promise<void> {
         const { id, ...rest } = input;
 
         await this.repo.update(id, rest);
     }
-    async deleteUser(userId: number) {
+    async deleteUser(userId: number): Promise<void> {
         await this.repo.delete(userId);
+    }
+    async existsBy(options: FindOptionsWhere<UserEntity>): Promise<boolean> {
+        return await this.repo.existsBy(options);
     }
 }

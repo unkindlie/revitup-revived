@@ -25,4 +25,9 @@ export class TokenHelper {
             },
         );
     }
+    async verifyPayload<T>(token: string, type: TokenType): Promise<T> {
+        return (await this.jwtService.verifyAsync(token, {
+            secret: this.config[type].secret,
+        })) as T;
+    }
 }
