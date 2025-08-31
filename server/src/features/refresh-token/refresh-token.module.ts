@@ -1,12 +1,17 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RefreshTokenEntity } from './refresh-token.entity';
-import { AuthModule } from '../auth/auth.module';
-import { RefreshTokenRepository } from './refresh-token.repository';
-import { RefreshTokenService } from './refresh-token.service';
+
+import { AuthModule } from 'features/auth/auth.module';
+import { RefreshTokenEntity } from 'features/refresh-token/refresh-token.entity';
+import { RefreshTokenRepository } from 'features/refresh-token/refresh-token.repository';
+import { RefreshTokenService } from 'features/refresh-token/refresh-token.service';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([RefreshTokenEntity]), AuthModule],
-    providers: [RefreshTokenService, RefreshTokenRepository],
+  imports: [
+    TypeOrmModule.forFeature([RefreshTokenEntity]),
+    forwardRef(() => AuthModule),
+  ],
+  providers: [RefreshTokenService, RefreshTokenRepository],
+  exports: [RefreshTokenService],
 })
 export class RefreshTokenModule {}

@@ -1,7 +1,7 @@
-import { UserPayloadDto } from './user-payload.dto';
+import { UserPayloadDto } from 'features/auth/dto/user-payload.dto';
 
 export interface AuthPayloadDto {
-    sub: UserPayloadDto;
-    iat: number;
-    exp: number;
+  sub: UserPayloadDto;
+  iat: number;
+  exp: number;
 }

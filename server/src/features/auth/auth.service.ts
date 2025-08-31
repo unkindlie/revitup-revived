@@ -1,86 +1,97 @@
 import {
-    ConflictException,
-    ForbiddenException,
-    Inject,
-    Injectable,
+  ConflictException,
+  ForbiddenException,
+  Inject,
+  Injectable,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { hash, compare } from 'bcrypt';
+import { compare, hash } from 'bcrypt';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 
-import { UserService } from '../user/user.service';
-import { UserCreateDto } from '../user/dto/user-create.dto';
-import { UserPayloadDto } from './dto/user-payload.dto';
-import { TokensDto } from './dto/tokens.dto';
-import { AuthResponseDto } from './dto/auth-response.dto';
-import { TokenHelper } from './helpers/token.helper';
-
-import authConfig from './auth.config';
+import authConfig from 'features/auth/auth.config';
+import { AuthResponseDto } from 'features/auth/dto/auth-response.dto';
+import { TokensDto } from 'features/auth/dto/tokens.dto';
+import { UserPayloadDto } from 'features/auth/dto/user-payload.dto';
+import { TokenHelper } from 'features/auth/helpers/token.helper';
+import { RefreshTokenService } from 'features/refresh-token/refresh-token.service';
+import { UserCreateDto } from 'features/user/dto/user-create.dto';
+import { UserService } from 'features/user/user.service';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        @Inject(authConfig.KEY)
-        private config: ConfigType<typeof authConfig>,
-        private userSerivce: UserService,
-        private tokenHelper: TokenHelper,
-    ) {}
+  constructor(
+    @Inject(authConfig.KEY)
+    private config: ConfigType<typeof authConfig>,
+    private userSerivce: UserService,
+    private tokenService: RefreshTokenService,
+    private tokenHelper: TokenHelper,
+  ) {}
 
-    async register(input: UserCreateDto): Promise<void> {
-        const exists = await this.userSerivce.userExistsByEmail(
-            input.emailAddress,
-        );
-        if (exists)
-            throw new ConflictException('User with such email already exists');
+  async register(input: UserCreateDto): Promise<void> {
+    const exists = await this.userSerivce.userExistsByEmail(input.emailAddress);
+    if (exists)
+      throw new ConflictException('User with such email already exists');
 
-        const salt = parseInt(this.config.hashSaltAmount!);
-        input.password = await hash(input.password, salt);
+    const salt = parseInt(this.config.hashSaltAmount!);
+    input.password = await hash(input.password, salt);
 
-        await this.userSerivce.createUser(input);
-    }
-    async login(
-        emailAddress: string,
-        password: string,
-    ): Promise<AuthResponseDto> {
-        const user = await this.userSerivce.getUserByEmail(emailAddress);
+    await this.userSerivce.createUser(input);
+  }
+  async login(
+    emailAddress: string,
+    password: string,
+  ): Promise<AuthResponseDto> {
+    const user = await this.userSerivce.getUserByEmail(emailAddress);
 
-        const isPasswordMatching = await compare(password, user.password);
-        if (!isPasswordMatching)
-            throw new ForbiddenException("Password doesn't match");
+    const isPasswordMatching = await compare(password, user.password);
+    if (!isPasswordMatching)
+      throw new ForbiddenException("Password doesn't match");
 
-        const payload = plainToInstance(UserPayloadDto, user, {
-            excludeExtraneousValues: true,
-        });
+    const payload = plainToInstance(UserPayloadDto, user, {
+      excludeExtraneousValues: true,
+    });
+    const tokens = await this.generateTokens(payload);
+    await this.tokenService.createTokenEntry(tokens.refreshToken);
 
-        return {
-            user: payload,
-            tokens: await this.generateTokens(payload),
-        };
-    }
-    async refresh(payload: UserPayloadDto): Promise<AuthResponseDto> {
-        const user = await this.userSerivce.getUserByEmail(
-            payload.emailAddress,
-        );
-        const newPayload = plainToInstance(UserPayloadDto, user, {
-            excludeExtraneousValues: true,
-        });
-        return {
-            user: newPayload,
-            tokens: await this.generateTokens(newPayload),
-        };
-    }
-    private async generateTokens(payload: UserPayloadDto): Promise<TokensDto> {
-        const plain = instanceToPlain(payload);
+    return {
+      user: payload,
+      tokens,
+    };
+  }
+  async refresh(
+    payload: UserPayloadDto,
+    oldRefreshToken: string,
+  ): Promise<AuthResponseDto> {
+    const tokenExistsInDb =
+      await this.tokenService.isTokenAvailable(oldRefreshToken);
+    if (!tokenExistsInDb)
+      throw new ForbiddenException('Refresh token was not found');
 
-        const accessToken = await this.tokenHelper.signPayload(plain, 'access');
-        const refreshToken = await this.tokenHelper.signPayload(
-            plain,
-            'refresh',
-        );
+    const user = await this.userSerivce.getUserByEmail(payload.emailAddress);
+    const newPayload = plainToInstance(UserPayloadDto, user, {
+      excludeExtraneousValues: true,
+    });
 
-        return {
-            accessToken,
-            refreshToken,
-        };
-    }
+    const tokens = await this.generateTokens(newPayload);
+    await this.tokenService.updateTokenEntry({
+      oldToken: oldRefreshToken,
+      newToken: tokens.refreshToken,
+    });
+
+    return {
+      user: newPayload,
+      tokens,
+    };
+  }
+  private async generateTokens(payload: UserPayloadDto): Promise<TokensDto> {
+    const plain = instanceToPlain(payload);
+
+    const accessToken = await this.tokenHelper.signPayload(plain, 'access');
+    const refreshToken = await this.tokenHelper.signPayload(plain, 'refresh');
+
+    return {
+      accessToken,
+      refreshToken,
+    };
+  }
 }

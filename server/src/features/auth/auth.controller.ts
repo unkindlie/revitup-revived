@@ -1,50 +1,58 @@
 import {
-    Body,
-    Controller,
-    Get,
-    Post,
-    UseGuards,
-    UseInterceptors,
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
-import { AuthService } from './auth.service';
-import { UserCreateDto } from '../user/dto/user-create.dto';
-import { LocalAuthGuard } from './guards/local-auth.guard';
-import { User } from '../../common/decorators/user.decorator';
-import { AuthResponseDto } from './dto/auth-response.dto';
-import { RefreshCookieInterceptor } from './interceptors/refresh-cookie.interceptor';
-import { AccessTokenGuard } from './guards/access-token.guard';
-import { UserPayloadDto } from './dto/user-payload.dto';
-import { RefreshTokenGuard } from './guards/refresh-token.guard';
+import { AuthService } from 'features/auth/auth.service';
+import { AuthPayload } from 'features/auth/decorators/user.decorator';
+import { AuthResponseDto } from 'features/auth/dto/auth-response.dto';
+import { UserPayloadDto } from 'features/auth/dto/user-payload.dto';
+import { AccessTokenGuard } from 'features/auth/guards/access-token.guard';
+import { LocalAuthGuard } from 'features/auth/guards/local-auth.guard';
+import { RefreshTokenGuard } from 'features/auth/guards/refresh-token.guard';
+import { LogoutInterceptor } from 'features/auth/interceptors/logout.interceptor';
+import { RefreshCookieInterceptor } from 'features/auth/interceptors/refresh-cookie.interceptor';
+import { UserCreateDto } from 'features/user/dto/user-create.dto';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private service: AuthService) {}
+  constructor(private service: AuthService) {}
 
-    @Post('register')
-    async register(@Body() body: UserCreateDto) {
-        await this.service.register(body);
+  @Post('register')
+  async register(@Body() body: UserCreateDto) {
+    await this.service.register(body);
 
-        return { message: 'User was successfully created' };
-    }
+    return { message: 'User was successfully created' };
+  }
 
-    @Post('login')
-    @UseGuards(LocalAuthGuard)
-    @UseInterceptors(RefreshCookieInterceptor)
-    login(@User() user: AuthResponseDto) {
-        return user;
-    }
+  @Post('login')
+  @UseGuards(LocalAuthGuard)
+  @UseInterceptors(RefreshCookieInterceptor)
+  login(@AuthPayload() payload: AuthResponseDto) {
+    return payload;
+  }
 
-    @Get('verify')
-    @UseGuards(AccessTokenGuard)
-    verifyUser(@User() user: UserPayloadDto) {
-        return user;
-    }
+  @Post('logout')
+  @UseGuards(AccessTokenGuard)
+  @UseInterceptors(LogoutInterceptor)
+  logout() {
+    return { message: 'Successfully logged out' };
+  }
 
-    @Get('refresh')
-    @UseGuards(RefreshTokenGuard)
-    @UseInterceptors(RefreshCookieInterceptor)
-    refresh(@User() user: AuthResponseDto) {
-        return user;
-    }
+  @Get('verify')
+  @UseGuards(AccessTokenGuard)
+  verifyUser(@AuthPayload() payload: UserPayloadDto) {
+    return payload;
+  }
+
+  @Get('refresh')
+  @UseGuards(RefreshTokenGuard)
+  @UseInterceptors(RefreshCookieInterceptor)
+  refresh(@AuthPayload() payload: AuthResponseDto) {
+    return payload;
+  }
 }

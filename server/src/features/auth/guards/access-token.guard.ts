@@ -1,23 +1,15 @@
-import {
-    ExecutionContext,
-    Injectable,
-    UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+
+import { AuthPayloadDto } from 'features/auth/dto/auth-payload.dto';
 
 @Injectable()
 export class AccessTokenGuard extends AuthGuard('access') {
-    handleRequest<TUser = any>(
-        err: any,
-        user: any,
-        info: any,
-        context: ExecutionContext,
-        status?: any,
-    ): TUser {
-        if (!user || err) {
-            throw new UnauthorizedException('Payload is not valid');
-        }
-
-        return user;
+  handleRequest<TUser extends AuthPayloadDto>(err: any, user: TUser): TUser {
+    if (!user || err) {
+      throw new UnauthorizedException('Payload is not valid');
     }
+
+    return user;
+  }
 }

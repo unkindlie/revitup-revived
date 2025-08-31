@@ -1,25 +1,26 @@
 import {
-    Column,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
-import { UserEntity } from '../user/user.entity';
+
+import { UserEntity } from 'features/user/user.entity';
 
 @Entity('refresh_tokens')
 export class RefreshTokenEntity {
-    @PrimaryGeneratedColumn('increment', {
-        name: 'refresh_token_id',
-    })
-    id: number;
+  @PrimaryGeneratedColumn('increment', {
+    name: 'refresh_token_id',
+  })
+  id: number;
 
-    @Column({
-        name: 'refresh_token',
-    })
-    token: string;
+  @Column({
+    name: 'refresh_token',
+  })
+  token: string;
 
-    @ManyToOne(() => UserEntity)
-    @JoinColumn()
-    user: UserEntity;
+  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id' })
+  user: UserEntity;
 }

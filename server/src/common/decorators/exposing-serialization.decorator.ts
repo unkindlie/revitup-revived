@@ -1,16 +1,16 @@
 import {
-    applyDecorators,
-    ClassSerializerInterceptor,
-    SerializeOptions,
-    UseInterceptors,
+  ClassSerializerInterceptor,
+  SerializeOptions,
+  UseInterceptors,
+  applyDecorators,
 } from '@nestjs/common';
 
 export function ExposingSerialization<T>(type: new () => T) {
-    return applyDecorators(
-        UseInterceptors(ClassSerializerInterceptor),
-        SerializeOptions({
-            type,
-            excludeExtraneousValues: true,
-        }),
-    );
+  return applyDecorators(
+    UseInterceptors(ClassSerializerInterceptor),
+    SerializeOptions({
+      type,
+      excludeExtraneousValues: true,
+    }),
+  );
 }
