@@ -4,7 +4,7 @@ import { IsOptional, IsPositive } from 'class-validator';
 export class PaginatedQuery {
   @Expose()
   @Type(() => Number)
-  @Transform(({ value }) => (value as number) ?? 1)
+  @Transform(({ value }) => (value as number) || 1)
   @IsOptional()
   @IsPositive()
   page?: number;
