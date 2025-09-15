@@ -1,0 +1,22 @@
+{
+  "header": {
+    "dropdown": {
+      "login": "Login",
+      "register": "Register"
+    },
+    "sections": {
+      "news": "News",
+      "events": "Events"
+    }
+  },
+  "footer": {
+    "authorship": "created by unkindly"
+  },
+  "dialogs": {
+    "login": {
+      "title": "Login",
+      "description": "Here you can log into your account",
+      "action": "Proceed"
+    }
+  }
+}

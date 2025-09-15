@@ -4,26 +4,28 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../../ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import { faGripLines } from '@fortawesome/free-solid-svg-icons';
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from '../../ui/dialog';
-import { LoginForm } from '../../features/auth/forms/LoginForm';
+} from '@/components/ui/dialog';
 import { useState } from 'react';
+import { LoginDialog } from '@/components/features/auth/dialogs/LoginDialog';
+import { useTranslation } from 'react-i18next';
 
 type DialogType = 'login' | 'register';
 
 export const HeaderDropdown = () => {
+  const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>();
 
   const handleDialogDisplay = () => {
     switch (dialog) {
       case 'login':
-        return <LoginForm />;
+        return <LoginDialog />;
       case 'register':
         return (
           <DialogContent aria-describedby={undefined}>
@@ -47,10 +49,10 @@ export const HeaderDropdown = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-4">
           <DialogTrigger asChild onClick={() => setDialog('login')}>
-            <DropdownMenuItem>Login</DropdownMenuItem>
+            <DropdownMenuItem>{t('header.dropdown.login')}</DropdownMenuItem>
           </DialogTrigger>
           <DialogTrigger asChild onClick={() => setDialog('register')}>
-            <DropdownMenuItem>Register</DropdownMenuItem>
+            <DropdownMenuItem>{t('header.dropdown.register')}</DropdownMenuItem>
           </DialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
