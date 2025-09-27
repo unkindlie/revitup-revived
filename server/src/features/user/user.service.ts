@@ -15,8 +15,8 @@ export class UserService {
   async getUserById(id: number): Promise<UserEntity> {
     return await this.repository.getUserByCondition({ id });
   }
-  async getUserByEmail(emailAddress: string): Promise<UserEntity> {
-    return await this.repository.getUserByCondition({ emailAddress });
+  async getUserByEmail(email: string): Promise<UserEntity> {
+    return await this.repository.getUserByCondition({ email });
   }
   async createUser(input: UserCreateDto): Promise<void> {
     await this.repository.createUser(input);
@@ -28,6 +28,6 @@ export class UserService {
     await this.repository.deleteUser(userId);
   }
   async userExistsByEmail(emailAddress: string): Promise<boolean> {
-    return await this.repository.existsBy({ emailAddress });
+    return await this.repository.existsBy({ email: emailAddress });
   }
 }

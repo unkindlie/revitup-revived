@@ -8,5 +8,5 @@ export class UserPayloadDto {
   username: string;
 
   @Expose()
-  emailAddress: string;
+  email: string;
 }

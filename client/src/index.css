@@ -8,6 +8,11 @@
   src: url('./assets/fonts/Inter_Tight.ttf');
 }
 
+@font-face {
+  font-family: 'Planet Kosmos', sans-serif;
+  src: url('./assets/fonts/Planet_Kosmos.ttf');
+}
+
 :root {
   font-family: 'Inter Tight', sans-serif;
   line-height: 1.5;
@@ -93,6 +98,8 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   --color-header: var(--header);
+
+  --font-planet-kosmos: 'Planet Kosmos', sans-serif;
 }
 
 .dark {

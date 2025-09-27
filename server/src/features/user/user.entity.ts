@@ -19,8 +19,8 @@ export class UserEntity {
   password: string;
 
   @Column({
-    name: 'user_email_address',
+    name: 'user_email',
     unique: true,
   })
-  emailAddress: string;
+  email: string;
 }

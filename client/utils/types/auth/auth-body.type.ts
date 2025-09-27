@@ -1,4 +1,4 @@
 export type TAuthBody = {
-  emailAddress: string;
+  email: string;
   password: string;
 };

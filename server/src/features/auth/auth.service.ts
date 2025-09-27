@@ -28,7 +28,7 @@ export class AuthService {
   ) {}
 
   async register(input: UserCreateDto): Promise<void> {
-    const exists = await this.userSerivce.userExistsByEmail(input.emailAddress);
+    const exists = await this.userSerivce.userExistsByEmail(input.email);
     if (exists)
       throw new ConflictException('User with such email already exists');
 
@@ -67,7 +67,7 @@ export class AuthService {
     if (!tokenExistsInDb)
       throw new ForbiddenException('Refresh token was not found');
 
-    const user = await this.userSerivce.getUserByEmail(payload.emailAddress);
+    const user = await this.userSerivce.getUserByEmail(payload.email);
     const newPayload = plainToInstance(UserPayloadDto, user, {
       excludeExtraneousValues: true,
     });
