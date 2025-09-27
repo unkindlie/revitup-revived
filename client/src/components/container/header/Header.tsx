@@ -2,6 +2,7 @@ import { HeaderLink } from '@/components/container/header/HeaderLink';
 import { HeaderLogo } from '@/components/container/header/HeaderLogo';
 import { HeaderDropdown } from '@/components/container/header/HeaderDropdown';
 import { useTranslation } from 'react-i18next';
+import { DropdownDialogProvider } from '@/providers/DropdownDialogProvider';
 
 export const Header = () => {
   const { t } = useTranslation();
@@ -15,7 +16,9 @@ export const Header = () => {
           <HeaderLink to="/events" title={t('header.sections.events')}  />
         </div>
       </div>
-      <HeaderDropdown />
+      <DropdownDialogProvider initialValue={undefined}>
+        <HeaderDropdown />
+      </DropdownDialogProvider>
     </header>
   );
 };

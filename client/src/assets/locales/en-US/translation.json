@@ -10,13 +10,13 @@
     }
   },
   "footer": {
-    "authorship": "created by unkindly"
+    "authorship": "created by unkindly1"
   },
   "dialogs": {
     "login": {
       "title": "Login",
-      "description": "Here you can log into your account",
-      "action": "Proceed"
+      "description": "Enter your email/nickname and password to log into your account",
+      "action": "Log in"
     }
   }
 }

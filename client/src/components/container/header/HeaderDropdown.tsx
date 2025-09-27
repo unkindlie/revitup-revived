@@ -6,24 +6,17 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { faGripLines } from '@fortawesome/free-solid-svg-icons';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { useState } from 'react';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { LoginDialog } from '@/components/features/auth/dialogs/LoginDialog';
 import { useTranslation } from 'react-i18next';
-
-type DialogType = 'login' | 'register';
+import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
 
 export const HeaderDropdown = () => {
   const { t } = useTranslation();
-  const [dialog, setDialog] = useState<DialogType>();
+  const { dialogType, setDialogType } = useDropdownDialogContext();
 
-  const handleDialogDisplay = () => {
-    switch (dialog) {
+  const HandleDialogDisplay = () => {
+    switch (dialogType) {
       case 'login':
         return <LoginDialog />;
       case 'register':
@@ -38,7 +31,10 @@ export const HeaderDropdown = () => {
   };
 
   return (
-    <Dialog>
+    <Dialog
+      open={dialogType !== undefined}
+      onOpenChange={(isOpen) => setDialogType(isOpen ? dialogType : undefined)}
+    >
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="cursor-pointer">
           <FontAwesomeIcon
@@ -48,15 +44,15 @@ export const HeaderDropdown = () => {
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-4">
-          <DialogTrigger asChild onClick={() => setDialog('login')}>
-            <DropdownMenuItem>{t('header.dropdown.login')}</DropdownMenuItem>
-          </DialogTrigger>
-          <DialogTrigger asChild onClick={() => setDialog('register')}>
-            <DropdownMenuItem>{t('header.dropdown.register')}</DropdownMenuItem>
-          </DialogTrigger>
+          <DropdownMenuItem onClick={() => setDialogType('login')}>
+            {t('header.dropdown.login')}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setDialogType('register')}>
+            {t('header.dropdown.register')}
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {handleDialogDisplay()}
+      {HandleDialogDisplay()}
     </Dialog>
   );
 };

@@ -14,9 +14,7 @@ export const LoginDialog = () => {
     <DialogContent aria-describedby={undefined}>
       <DialogHeader>
         <DialogTitle>{t('dialogs.login.title')}</DialogTitle>
-        <DialogDescription>
-          {t('dialogs.login.description')}
-        </DialogDescription>
+        <DialogDescription>{t('dialogs.login.description')}</DialogDescription>
       </DialogHeader>
       <LoginForm />
     </DialogContent>
