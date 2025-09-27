@@ -15,8 +15,16 @@
   "dialogs": {
     "login": {
       "title": "Login",
-      "description": "Enter your email/nickname and password to log into your account",
-      "action": "Log in"
+      "description": "Enter the info below to log into your account",
+      "action": "Log in",
+      "errorFields": {
+        "email": {
+          "user_not_exist": "Such user does not exist"
+        },
+        "password": {
+          "wrong_pw": "Password is wrong, please try again"
+        }
+      }
     }
   }
 }

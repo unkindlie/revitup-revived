@@ -19,7 +19,11 @@ export class UserRepository {
     condition: FindOptionsWhere<UserEntity>,
   ): Promise<UserEntity> {
     const entity = await this.repo.findOneBy(condition);
-    if (!entity) throw new NotFoundException("Such user doesn't exist");
+    if (!entity)
+      throw new NotFoundException({
+        message: 'Such user does not exist',
+        fields: { email: 'user_not_exist' },
+      });
 
     return entity;
   }

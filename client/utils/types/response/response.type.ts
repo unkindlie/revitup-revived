@@ -5,6 +5,7 @@ export type TErrorResponse = {
   error: {
     name: string;
     message: string;
+    fields?: Record<string, string>;
   };
 };
 

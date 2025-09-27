@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ACCESS_TOKEN } from '^/constants/auth.constants';
-import AuthService from './services/auth.service';
+import AuthService from '@/api/services/auth.service';
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URI,
@@ -29,6 +29,9 @@ api.interceptors.response.use(
         return api.request(originalRequest);
       } catch (e) {
         console.error('Error while refreshing tokens', e);
+
+        localStorage.removeItem(ACCESS_TOKEN);
+        await AuthService.logout();
 
         return Promise.reject(e);
       }

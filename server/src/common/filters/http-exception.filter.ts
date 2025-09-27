@@ -14,6 +14,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const req = ctx.getRequest<Request>();
     const res = ctx.getResponse<Response>();
 
+    console.log(exception);
+
     res.status(exception.getStatus());
     res.send({
       statusCode: res.statusCode,
@@ -23,11 +25,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         data: null,
         error: {
           name: (exception.getResponse() as { error: string }).error,
-          message: (
-            exception.getResponse() as {
-              message: string | string[];
-            }
-          ).message,
+          ...(exception.getResponse() as object),
         },
       },
     });

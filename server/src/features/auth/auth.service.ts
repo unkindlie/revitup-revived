@@ -45,7 +45,12 @@ export class AuthService {
 
     const isPasswordMatching = await compare(password, user.password);
     if (!isPasswordMatching)
-      throw new ForbiddenException("Password doesn't match");
+      throw new ForbiddenException({
+        message: 'Passwords do not match',
+        fields: {
+          password: 'wrong_pw',
+        },
+      });
 
     const payload = plainToInstance(UserPayloadDto, user, {
       excludeExtraneousValues: true,

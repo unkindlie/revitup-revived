@@ -14,16 +14,12 @@ class AuthService {
 
     return res.data;
   }
+  static async logout(): Promise<void> {
+    await api.post(joinStr('/', this.BASE_URL, 'logout'));
+  }
   static async refresh(): Promise<TResponse<TAuthResponse>> {
     const res = await api.get<TResponse<TAuthResponse>>(
       joinStr('/', this.BASE_URL, 'refresh'),
-    );
-
-    return res.data;
-  }
-  static async verify(): Promise<TResponse<TAuthResponse>> {
-    const res = await api.get<TResponse<TAuthResponse>>(
-      joinStr('/', this.BASE_URL, 'verify'),
     );
 
     return res.data;
