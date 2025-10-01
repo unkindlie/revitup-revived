@@ -1,5 +1,7 @@
 import { useUserStore } from '@/stores/user.store';
 import { useShallow } from 'zustand/react/shallow';
+import { Button } from '../components/ui/button';
+import AuthService from '@/api/services/auth.service';
 
 export const StartPage = () => {
   const { user, loadingFlag } = useUserStore(
@@ -9,10 +11,17 @@ export const StartPage = () => {
     })),
   );
 
+  const cb = () => {
+    AuthService.refresh();
+  };
+
   const { isLoading } = loadingFlag;
 
   return (
     <div className="flex flex-col">
+      <Button className="size-fit" onClick={cb}>
+        Click
+      </Button>
       {!user && isLoading && <span>Loading</span>}
       {user && <span>{JSON.stringify(user, null, 2)}</span>}
     </div>

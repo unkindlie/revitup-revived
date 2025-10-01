@@ -12,6 +12,10 @@
   "footer": {
     "authorship": "created by"
   },
+  "fields": {
+    "email": "E-mail",
+    "password": "Password"
+  },
   "dialogs": {
     "login": {
       "title": "Login",

@@ -6,7 +6,12 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { faGripLines } from '@fortawesome/free-solid-svg-icons';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { LoginDialog } from '@/components/features/auth/dialogs/LoginDialog';
 import { useTranslation } from 'react-i18next';
 import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
@@ -26,15 +31,12 @@ export const HeaderDropdown = () => {
           </DialogContent>
         );
       default:
-        return null;
+        return null
     }
   };
 
   return (
-    <Dialog
-      open={dialogType !== undefined}
-      onOpenChange={(isOpen) => setDialogType(isOpen ? dialogType : undefined)}
-    >
+    <Dialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="cursor-pointer">
           <FontAwesomeIcon
@@ -44,12 +46,16 @@ export const HeaderDropdown = () => {
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-4">
-          <DropdownMenuItem onClick={() => setDialogType('login')}>
-            {t('header.dropdown.login')}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setDialogType('register')}>
-            {t('header.dropdown.register')}
-          </DropdownMenuItem>
+          <DialogTrigger asChild>
+            <DropdownMenuItem onClick={() => setDialogType('login')}>
+              {t('header.dropdown.login')}
+            </DropdownMenuItem>
+          </DialogTrigger>
+          <DialogTrigger asChild>
+            <DropdownMenuItem onClick={() => setDialogType('register')}>
+              {t('header.dropdown.register')}
+            </DropdownMenuItem>
+          </DialogTrigger>
         </DropdownMenuContent>
       </DropdownMenu>
       {HandleDialogDisplay()}

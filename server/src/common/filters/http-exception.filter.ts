@@ -6,6 +6,13 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
+import { extractErrorNameFromClass } from 'common/helpers/common.helpers';
+
+type ExceptionRes = {
+  message: string;
+  fields?: Record<string, string>;
+};
+
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
@@ -14,7 +21,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const req = ctx.getRequest<Request>();
     const res = ctx.getResponse<Response>();
 
-    console.log(exception);
+    exception.name = extractErrorNameFromClass(exception.name);
+
+    const exRes = exception.getResponse() as ExceptionRes;
 
     res.status(exception.getStatus());
     res.send({
@@ -24,8 +33,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
       response: {
         data: null,
         error: {
-          name: (exception.getResponse() as { error: string }).error,
-          ...(exception.getResponse() as object),
+          name: exception.name,
+          ...exRes,
         },
       },
     });

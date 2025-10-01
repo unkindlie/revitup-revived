@@ -12,6 +12,7 @@ import { AuthPayload } from 'features/auth/decorators/user.decorator';
 import { AuthResponseDto } from 'features/auth/dto/auth-response.dto';
 import { UserPayloadDto } from 'features/auth/dto/user-payload.dto';
 import { AccessTokenGuard } from 'features/auth/guards/access-token.guard';
+import { AlreadyAuthedGuard } from 'features/auth/guards/already-authed.guard';
 import { LocalAuthGuard } from 'features/auth/guards/local-auth.guard';
 import { RefreshTokenGuard } from 'features/auth/guards/refresh-token.guard';
 import { LogoutInterceptor } from 'features/auth/interceptors/logout.interceptor';
@@ -30,7 +31,7 @@ export class AuthController {
   }
 
   @Post('login')
-  @UseGuards(LocalAuthGuard)
+  @UseGuards(AlreadyAuthedGuard, LocalAuthGuard)
   @UseInterceptors(RefreshCookieInterceptor)
   login(@AuthPayload() payload: AuthResponseDto) {
     return payload;

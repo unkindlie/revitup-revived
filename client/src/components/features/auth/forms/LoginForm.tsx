@@ -6,19 +6,18 @@ import { useLogin } from '@/hooks/auth/useLogin';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import type { TAuthBody } from '^/types/auth';
 import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
-import { useGetError } from '@/hooks/data-handling';
-import { AxiosError } from 'axios';
-import type { TResponse } from '^/types/response/response.type';
 import { useState } from 'react';
 import { joinStr } from '@/lib/utils';
 import { InputErrorWrapper } from '@/components/common/inputs/InputErrorWrapper';
+import { PasswordInput } from '@/components/common/inputs/PasswordInput';
+import { getFieldErrors } from '^/helpers/response/getFieldErrors';
+import { getErrorFromAxiosError } from '^/helpers/response/getErrorFromAxiosError';
+import { getErrorFromResponse } from '^/helpers/response/getResponse';
 
 type LogInErrors = Partial<{
   email: string;
   password: string;
 }>;
-
-type LoginKeys = keyof LogInErrors;
 
 export const LoginForm = () => {
   const { setDialogType } = useDropdownDialogContext();
@@ -34,12 +33,10 @@ export const LoginForm = () => {
 
       setDialogType(undefined);
     } catch (axiosErr) {
-      const getErr = useGetError;
+      const err = getErrorFromAxiosError(axiosErr);
 
-      const err = (axiosErr as AxiosError).response?.data as TResponse;
-
-      const errData = getErr(err);
-      const fields = errData.fields as Record<LoginKeys, string>;
+      const errData = getErrorFromResponse(err);
+      const fields = getFieldErrors<keyof LogInErrors>(errData);
 
       if (fields?.email) {
         setErrors({
@@ -60,26 +57,29 @@ export const LoginForm = () => {
   };
 
   return (
-    <form className="flex flex-col space-y-3" onSubmit={handleSubmit(onSubmit)}>
+    <form className="flex flex-col space-y-2" onSubmit={handleSubmit(onSubmit)}>
       <InputErrorWrapper errorMessage={errors.email}>
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" placeholder="Email" {...register('email')} />
+          <Label htmlFor="email">{t('fields.email')}</Label>
+          <Input
+            id="email"
+            placeholder={t('fields.email')}
+            {...register('email')}
+          />
         </div>
       </InputErrorWrapper>
       <InputErrorWrapper errorMessage={errors.password}>
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
-          <Input
+          <Label htmlFor="password">{t('fields.password')}</Label>
+          <PasswordInput
             id="password"
-            placeholder="Password"
-            type="password"
+            placeholder={t('fields.password')}
             {...register('password')}
           />
         </div>
       </InputErrorWrapper>
       <Button
-        className="mt-1 h-10 cursor-pointer font-semibold"
+        className="mt-2 h-10 cursor-pointer font-semibold"
         type="submit"
         disabled={isPending}
       >
