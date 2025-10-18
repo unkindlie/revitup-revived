@@ -2,23 +2,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { faGripLines } from '@fortawesome/free-solid-svg-icons';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { LoginDialog } from '@/components/features/auth/dialogs/LoginDialog';
-import { useTranslation } from 'react-i18next';
 import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
+import { useCheckLogged } from '@/hooks/auth/useCheckLogged';
+import { HeaderLoggedDropdown } from '@/components/container/header/dropdowns/HeaderLoggedDropdown';
+import { HeaderDefaultDropdown } from '@/components/container/header/dropdowns/HeaderDefaultDropdown';
 
 export const HeaderDropdown = () => {
-  const { t } = useTranslation();
-  const { dialogType, setDialogType } = useDropdownDialogContext();
+  const { dialogType } = useDropdownDialogContext();
+  const isLogged = useCheckLogged();
 
   const HandleDialogDisplay = () => {
     switch (dialogType) {
@@ -31,7 +27,7 @@ export const HeaderDropdown = () => {
           </DialogContent>
         );
       default:
-        return null
+        return null;
     }
   };
 
@@ -46,16 +42,7 @@ export const HeaderDropdown = () => {
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-4">
-          <DialogTrigger asChild>
-            <DropdownMenuItem onClick={() => setDialogType('login')}>
-              {t('header.dropdown.login')}
-            </DropdownMenuItem>
-          </DialogTrigger>
-          <DialogTrigger asChild>
-            <DropdownMenuItem onClick={() => setDialogType('register')}>
-              {t('header.dropdown.register')}
-            </DropdownMenuItem>
-          </DialogTrigger>
+          {isLogged ? <HeaderLoggedDropdown /> : <HeaderDefaultDropdown />}
         </DropdownMenuContent>
       </DropdownMenu>
       {HandleDialogDisplay()}

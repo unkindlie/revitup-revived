@@ -1,8 +1,10 @@
 {
   "header": {
     "dropdown": {
-      "login": "Login",
-      "register": "Register"
+      "default": { "login": "Login", "register": "Register" },
+      "logged": {
+        "logout": "Log out"
+      }
     },
     "sections": {
       "news": "News",

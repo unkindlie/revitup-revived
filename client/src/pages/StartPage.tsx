@@ -1,7 +1,7 @@
 import { useUserStore } from '@/stores/user.store';
 import { useShallow } from 'zustand/react/shallow';
-import { Button } from '../components/ui/button';
-import AuthService from '@/api/services/auth.service';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 export const StartPage = () => {
   const { user, loadingFlag } = useUserStore(
@@ -12,7 +12,10 @@ export const StartPage = () => {
   );
 
   const cb = () => {
-    AuthService.refresh();
+    toast.error('idkbruv', {
+      description: 'wow',
+      
+    });
   };
 
   const { isLoading } = loadingFlag;

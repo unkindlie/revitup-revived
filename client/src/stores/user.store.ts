@@ -8,7 +8,7 @@ type LoadingFlag = {
 
 type TUserStore = {
   user: TStoredUser | null;
-  setUser: (val: TStoredUser) => void;
+  setUser: (val: TStoredUser | null) => void;
   loadingFlag: LoadingFlag;
   setLoadingFlag: (val: LoadingFlag) => void;
 };
