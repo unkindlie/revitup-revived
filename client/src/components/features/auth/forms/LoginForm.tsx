@@ -6,13 +6,15 @@ import { useLogin } from '@/hooks/auth/useLogin';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import type { TAuthBody } from '^/types/auth';
 import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { joinStr } from '@/lib/utils';
 import { InputErrorWrapper } from '@/components/common/inputs/InputErrorWrapper';
 import { PasswordInput } from '@/components/common/inputs/PasswordInput';
 import { getFieldErrors } from '^/helpers/response/getFieldErrors';
 import { getErrorFromAxiosError } from '^/helpers/response/getErrorFromAxiosError';
 import { getErrorFromResponse } from '^/helpers/response/getResponse';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { authLoginSchema } from '^/schemas/auth/auth-login.schema';
 
 type LogInErrors = Partial<{
   email: string;
@@ -22,9 +24,20 @@ type LogInErrors = Partial<{
 export const LoginForm = () => {
   const { setDialogType } = useDropdownDialogContext();
   const { t } = useTranslation();
-  const { register, handleSubmit } = useForm<TAuthBody>();
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid, errors: formErrors },
+  } = useForm<TAuthBody>({
+    resolver: yupResolver(authLoginSchema),
+    mode: 'onChange'
+  });
   const { mutateAsync, isPending } = useLogin();
   const [errors, setErrors] = useState<LogInErrors>({});
+
+  useEffect(() => {
+    console.log(formErrors);
+  }, [formErrors]);
 
   const onSubmit: SubmitHandler<TAuthBody> = async (data) => {
     setErrors({});
@@ -81,7 +94,7 @@ export const LoginForm = () => {
       <Button
         className="mt-2 h-10 cursor-pointer font-semibold"
         type="submit"
-        disabled={isPending}
+        disabled={!isValid || isPending}
       >
         {isPending && <span>Loading</span>}
         {t('dialogs.login.action')}

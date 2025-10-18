@@ -10,7 +10,7 @@ export const PasswordInput = ({
 
   return (
     <div className="flex items-center">
-      <Input type={hidden ? 'password' : 'text'} {...props} />
+      <Input className='pr-10' type={hidden ? 'password' : 'text'} {...props} />
       <FontAwesomeIcon
         className="absolute left-[88%] cursor-pointer"
         icon={hidden ? faEye : faEyeSlash}
