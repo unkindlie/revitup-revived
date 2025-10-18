@@ -30,7 +30,7 @@ export const LoginForm = () => {
     formState: { isValid, errors: formErrors },
   } = useForm<TAuthBody>({
     resolver: yupResolver(authLoginSchema),
-    mode: 'onChange'
+    mode: 'onChange',
   });
   const { mutateAsync, isPending } = useLogin();
   const [errors, setErrors] = useState<LogInErrors>({});
@@ -71,7 +71,9 @@ export const LoginForm = () => {
 
   return (
     <form className="flex flex-col space-y-2" onSubmit={handleSubmit(onSubmit)}>
-      <InputErrorWrapper errorMessage={errors.email}>
+      <InputErrorWrapper
+        errorMessage={errors.email || formErrors.email?.message}
+      >
         <div className="space-y-2">
           <Label htmlFor="email">{t('fields.email')}</Label>
           <Input
@@ -81,7 +83,9 @@ export const LoginForm = () => {
           />
         </div>
       </InputErrorWrapper>
-      <InputErrorWrapper errorMessage={errors.password}>
+      <InputErrorWrapper
+        errorMessage={errors.password || formErrors.password?.message}
+      >
         <div className="space-y-2">
           <Label htmlFor="password">{t('fields.password')}</Label>
           <PasswordInput
