@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { AuthPayloadDto } from 'features/auth/dto/auth-payload.dto';
+import { AuthPayloadDto } from 'features/auth/dto';
 
 @Injectable()
 export class AccessTokenGuard extends AuthGuard('access') {

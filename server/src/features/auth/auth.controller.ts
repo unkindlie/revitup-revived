@@ -11,17 +11,18 @@ import {
 
 import { AuthService } from 'features/auth/auth.service';
 import { AuthPayload } from 'features/auth/decorators/user.decorator';
-import { AuthResponseDto } from 'features/auth/dto/auth-response.dto';
-import { UserPayloadDto } from 'features/auth/dto/user-payload.dto';
+import {
+  AuthResponseDto,
+  AuthRoleChangeDto,
+  UserPayloadDto,
+} from 'features/auth/dto';
 import { AccessTokenGuard } from 'features/auth/guards/access-token.guard';
 import { AlreadyAuthedGuard } from 'features/auth/guards/already-authed.guard';
 import { LocalAuthGuard } from 'features/auth/guards/local-auth.guard';
 import { RefreshTokenGuard } from 'features/auth/guards/refresh-token.guard';
 import { LogoutInterceptor } from 'features/auth/interceptors/logout.interceptor';
 import { RefreshCookieInterceptor } from 'features/auth/interceptors/refresh-cookie.interceptor';
-import { UserCreateDto } from 'features/user/dto/user-create.dto';
-
-import { AuthRoleChangeDto } from './dto/auth-role-change.dto';
+import { UserCreateDto } from 'features/user/dto';
 
 // TODO: add Roles decorator
 @Controller('auth')

@@ -2,8 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Repository } from 'typeorm';
 
-import { UserCreateDto } from 'features/user/dto/user-create.dto';
-import { UserUpdateDto } from 'features/user/dto/user-update.dto';
+import { UserCreateDto, UserUpdateDto } from 'features/user/dto';
 import { UserEntity } from 'features/user/user.entity';
 
 @Injectable()

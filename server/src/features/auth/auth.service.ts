@@ -10,15 +10,16 @@ import { compare, hash } from 'bcrypt';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 
 import authConfig from 'features/auth/auth.config';
-import { AuthResponseDto } from 'features/auth/dto/auth-response.dto';
-import { TokensDto } from 'features/auth/dto/tokens.dto';
-import { UserPayloadDto } from 'features/auth/dto/user-payload.dto';
+import {
+  AuthResponseDto,
+  AuthRoleChangeDto,
+  TokensDto,
+  UserPayloadDto,
+} from 'features/auth/dto';
 import { TokenHelper } from 'features/auth/helpers/token.helper';
 import { RefreshTokenService } from 'features/refresh-token/refresh-token.service';
-import { UserCreateDto } from 'features/user/dto/user-create.dto';
+import { UserCreateDto } from 'features/user/dto';
 import { UserService } from 'features/user/user.service';
-
-import { AuthRoleChangeDto } from './dto/auth-role-change.dto';
 
 @Injectable()
 export class AuthService {

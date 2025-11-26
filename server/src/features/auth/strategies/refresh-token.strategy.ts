@@ -6,7 +6,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import authConfig from 'features/auth/auth.config';
 import { AuthService } from 'features/auth/auth.service';
-import { AuthPayloadDto } from 'features/auth/dto/auth-payload.dto';
+import { AuthPayloadDto } from 'features/auth/dto';
 import { RefreshTokenExtractor } from 'features/auth/extractors/refresh-token.extractor';
 
 import { DEFAULT_SECRET } from '../constants/auth.constants';

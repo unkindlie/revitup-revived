@@ -15,8 +15,7 @@ import { ExposingSerialization } from 'common/decorators/exposing-serialization.
 import { PaginatedQuery } from 'common/types/pagination.type';
 import { ValidatedArray } from 'common/types/validated-array.type';
 
-import { UserShortDto } from 'features/user/dto/user-short.dto';
-import { UserUpdateDto } from 'features/user/dto/user-update.dto';
+import { UserShortDto, UserUpdateDto } from 'features/user/dto';
 import { UserService } from 'features/user/user.service';
 
 @Controller('users')

@@ -11,7 +11,7 @@ import {
   REFRESH_TOKEN_LIFE_IN_MS,
   REFRESH_TOKEN_NAME,
 } from 'features/auth/constants/auth.constants';
-import { AuthResponseDto } from 'features/auth/dto/auth-response.dto';
+import { AuthResponseDto } from 'features/auth/dto';
 import { CookieHelper } from 'features/auth/helpers/cookie.helper';
 
 @Injectable()
