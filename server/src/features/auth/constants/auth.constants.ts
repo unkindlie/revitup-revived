@@ -2,10 +2,10 @@ import { IsStrongPasswordOptions } from 'class-validator';
 
 export const STRONG_PASSWORD_REQS: IsStrongPasswordOptions = {
   minLength: 8,
-  minUppercase: 0,
+  minUppercase: 1,
   minLowercase: 0,
   minNumbers: 0,
-  minSymbols: 0,
+  minSymbols: 1,
 };
 
 export const REFRESH_TOKEN_NAME = 'refreshToken';
