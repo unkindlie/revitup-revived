@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  Logger,
+  Patch,
   Post,
   UseGuards,
   UseInterceptors,
@@ -19,8 +21,13 @@ import { LogoutInterceptor } from 'features/auth/interceptors/logout.interceptor
 import { RefreshCookieInterceptor } from 'features/auth/interceptors/refresh-cookie.interceptor';
 import { UserCreateDto } from 'features/user/dto/user-create.dto';
 
+import { AuthRoleChangeDto } from './dto/auth-role-change.dto';
+
+// TODO: add Roles decorator
 @Controller('auth')
 export class AuthController {
+  private logger: Logger = new Logger(AuthController.name);
+
   constructor(private service: AuthService) {}
 
   @Post('register')
@@ -55,5 +62,16 @@ export class AuthController {
   @UseInterceptors(RefreshCookieInterceptor)
   refresh(@AuthPayload() payload: AuthResponseDto) {
     return payload;
+  }
+
+  // ? Subject to change
+  @Patch('change-role')
+  @UseGuards(AccessTokenGuard)
+  async changeUserRole(@Body() body: AuthRoleChangeDto) {
+    Logger.log(body);
+
+    await this.service.changeRole(body);
+
+    return { message: "User's role changed successfully" };
   }
 }

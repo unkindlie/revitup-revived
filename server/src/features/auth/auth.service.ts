@@ -3,6 +3,7 @@ import {
   ForbiddenException,
   Inject,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { compare, hash } from 'bcrypt';
@@ -16,6 +17,8 @@ import { TokenHelper } from 'features/auth/helpers/token.helper';
 import { RefreshTokenService } from 'features/refresh-token/refresh-token.service';
 import { UserCreateDto } from 'features/user/dto/user-create.dto';
 import { UserService } from 'features/user/user.service';
+
+import { AuthRoleChangeDto } from './dto/auth-role-change.dto';
 
 @Injectable()
 export class AuthService {
@@ -88,6 +91,16 @@ export class AuthService {
       tokens,
     };
   }
+  async changeRole(input: AuthRoleChangeDto) {
+    const exists = await this.userSerivce.userExistsById(input.userId);
+    if (!exists) throw new NotFoundException("This user doesn't exist");
+
+    await this.userSerivce.updateUserInfo({
+      id: input.userId,
+      role: input.role,
+    });
+  }
+
   private async generateTokens(payload: UserPayloadDto): Promise<TokensDto> {
     const plain = instanceToPlain(payload);
 

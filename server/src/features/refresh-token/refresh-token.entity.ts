@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -10,14 +11,13 @@ import { UserEntity } from 'features/user/user.entity';
 
 @Entity('refresh_tokens')
 export class RefreshTokenEntity {
-  @PrimaryGeneratedColumn('increment', {
-    name: 'refresh_token_id',
-  })
+  @PrimaryGeneratedColumn('increment')
   id: number;
 
   @Column({
     name: 'refresh_token',
   })
+  @Index('refresh_tokens_token_idx')
   token: string;
 
   @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
