@@ -11,4 +11,7 @@ export class UserShortDto {
 
   @Expose()
   role: UserRole;
+
+  @Expose()
+  createdAt: Date;
 }

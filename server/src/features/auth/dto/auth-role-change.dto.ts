@@ -8,5 +8,5 @@ export class AuthRoleChangeDto {
   userId: number;
 
   @IsEnum(UserRole, { each: true })
-  role: UserRole[] = [UserRole.USER];
+  roles: UserRole[] = [UserRole.USER];
 }

@@ -2,7 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  Logger,
   Patch,
   Post,
   UseGuards,
@@ -10,6 +9,7 @@ import {
 } from '@nestjs/common';
 
 import { AuthService } from 'features/auth/auth.service';
+import { Roles } from 'features/auth/decorators/roles.decorator';
 import { AuthPayload } from 'features/auth/decorators/user.decorator';
 import {
   AuthResponseDto,
@@ -23,16 +23,10 @@ import { RefreshTokenGuard } from 'features/auth/guards/refresh-token.guard';
 import { LogoutInterceptor } from 'features/auth/interceptors/logout.interceptor';
 import { RefreshCookieInterceptor } from 'features/auth/interceptors/refresh-cookie.interceptor';
 import { UserCreateDto } from 'features/user/dto';
+import { UserRole } from 'features/user/enums/user-role.enum';
 
-import { UserRole } from '../user/enums/user-role.enum';
-import { Roles } from './decorators/roles.decorator';
-import { RolesGuard } from './guards/roles.guard';
-
-// TODO: add Roles decorator
 @Controller('auth')
 export class AuthController {
-  private logger: Logger = new Logger(AuthController.name);
-
   constructor(private service: AuthService) {}
 
   @Post('register')
@@ -57,7 +51,7 @@ export class AuthController {
   }
 
   @Get('verify')
-  @UseGuards(AccessTokenGuard, RolesGuard)
+  @UseGuards(AccessTokenGuard)
   verifyUser(@AuthPayload() payload: UserPayloadDto) {
     return payload;
   }
@@ -73,11 +67,9 @@ export class AuthController {
   @Patch('change-role')
   @UseGuards(AccessTokenGuard)
   async changeUserRole(@Body() body: AuthRoleChangeDto) {
-    Logger.log(body);
-
     await this.service.changeRole(body);
 
-    return { message: "User's role changed successfully" };
+    return { message: "User's roles changed successfully" };
   }
 
   // ! Firstly the Roles decorator, then the guard

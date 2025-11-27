@@ -9,7 +9,7 @@
 ## 26-11-2025
 
 - ~~Replace a singular role value in DB and token payload with an array of roles~~ (done: 27-11-2025)
-- Add a **Role** guard that checks for roles in decoded user
+- ~~Add a **Role** guard that checks for roles in decoded user~~ (done: 27-11-2025)
 - Add `created_at` and `updated_at` columns to available tables
 - Check if caching works with Valkey
 - Start to create a **Password Reset** feature
