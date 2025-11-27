@@ -98,7 +98,7 @@ export class AuthService {
 
     await this.userSerivce.updateUserInfo({
       id: input.userId,
-      role: input.role,
+      roles: input.role,
     });
   }
 

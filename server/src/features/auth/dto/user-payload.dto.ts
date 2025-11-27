@@ -13,5 +13,5 @@ export class UserPayloadDto {
   email: string;
 
   @Expose()
-  role: UserRole;
+  roles: UserRole[];
 }

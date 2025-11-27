@@ -24,6 +24,10 @@ import { LogoutInterceptor } from 'features/auth/interceptors/logout.interceptor
 import { RefreshCookieInterceptor } from 'features/auth/interceptors/refresh-cookie.interceptor';
 import { UserCreateDto } from 'features/user/dto';
 
+import { UserRole } from '../user/enums/user-role.enum';
+import { Roles } from './decorators/roles.decorator';
+import { RolesGuard } from './guards/roles.guard';
+
 // TODO: add Roles decorator
 @Controller('auth')
 export class AuthController {
@@ -53,7 +57,7 @@ export class AuthController {
   }
 
   @Get('verify')
-  @UseGuards(AccessTokenGuard)
+  @UseGuards(AccessTokenGuard, RolesGuard)
   verifyUser(@AuthPayload() payload: UserPayloadDto) {
     return payload;
   }
@@ -74,5 +78,13 @@ export class AuthController {
     await this.service.changeRole(body);
 
     return { message: "User's role changed successfully" };
+  }
+
+  // ! Firstly the Roles decorator, then the guard
+  @Get('role-checkup')
+  @Roles([UserRole.ADMIN])
+  @UseGuards(AccessTokenGuard)
+  roleCheckup() {
+    return { message: 'Roles work' };
   }
 }
