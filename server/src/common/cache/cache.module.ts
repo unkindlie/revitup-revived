@@ -1,4 +1,4 @@
-import { createKeyv } from '@keyv/redis';
+import { createKeyv } from '@keyv/valkey';
 import { CacheModule as AppCacheModule } from '@nestjs/cache-manager';
 import { DynamicModule } from '@nestjs/common';
 
