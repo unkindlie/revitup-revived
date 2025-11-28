@@ -1,5 +1,12 @@
 # Server TODOs
 
+## 28-11-2025
+
+- Finishing Password Reset module
+  - Add the password change by request (if not logged)
+  - Change the password (if logged) and store the request as completed with `LOGGED` source
+  - Handle different error cases
+
 ## 27-11-2025
 
 - Add the proper functionality just to reset the password (reducing interaction with DB data)
@@ -7,7 +14,7 @@
 - Separate the user in `AuthPayloadDto` from tokens
 - Implement the verification of the user
   - For now just to add the `isVerified` column in `users` table
-- Replace `@keyv/redis` package with `@keyv/valkey`
+- ~~Replace `@keyv/redis` package with `@keyv/valkey`~~ (done: 28-11-2025)
 
 ## 26-11-2025
 

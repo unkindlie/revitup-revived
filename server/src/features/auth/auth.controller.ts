@@ -50,12 +50,6 @@ export class AuthController {
     return { message: 'Successfully logged out' };
   }
 
-  @Get('verify')
-  @UseGuards(AccessTokenGuard)
-  verifyUser(@AuthPayload() payload: UserPayloadDto) {
-    return payload;
-  }
-
   @Get('refresh')
   @UseGuards(RefreshTokenGuard)
   @UseInterceptors(RefreshCookieInterceptor)
@@ -63,8 +57,15 @@ export class AuthController {
     return payload;
   }
 
+  @Get('verify')
+  @UseGuards(AccessTokenGuard)
+  verifyUser(@AuthPayload() payload: UserPayloadDto) {
+    return payload;
+  }
+
   // ? Subject to change
   @Patch('change-role')
+  @Roles([UserRole.ADMIN])
   @UseGuards(AccessTokenGuard)
   async changeUserRole(@Body() body: AuthRoleChangeDto) {
     await this.service.changeRole(body);

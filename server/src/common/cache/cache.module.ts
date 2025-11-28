@@ -1,4 +1,4 @@
-import { createKeyv } from '@keyv/valkey';
+import KeyvValkey from '@keyv/valkey';
 import { CacheModule as AppCacheModule } from '@nestjs/cache-manager';
 import { DynamicModule } from '@nestjs/common';
 
@@ -9,7 +9,7 @@ export class CacheModule {
       imports: [
         AppCacheModule.registerAsync({
           useFactory: () => ({
-            stores: [createKeyv('redis://localhost:6379')],
+            stores: [new KeyvValkey('redis://localhost:6379')],
           }),
           isGlobal: true,
         }),

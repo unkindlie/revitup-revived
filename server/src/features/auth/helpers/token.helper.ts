@@ -20,8 +20,8 @@ export class TokenHelper {
     return this.jwtService.signAsync(
       { sub: payload },
       {
-        secret: this.config[type].secret,
-        expiresIn: this.config[type].expiresIn,
+        secret: this.config[type].secret!,
+        expiresIn: 3000,
       },
     );
   }

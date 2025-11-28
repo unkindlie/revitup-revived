@@ -36,8 +36,7 @@ export class AuthService {
     if (exists)
       throw new ConflictException('User with such email already exists');
 
-    const salt = parseInt(this.config.hashSaltAmount!);
-    input.password = await hash(input.password, salt);
+    input.password = await this.saltPassword(input.password);
 
     await this.userSerivce.createUser(input);
   }
@@ -112,5 +111,10 @@ export class AuthService {
       accessToken,
       refreshToken,
     };
+  }
+  private async saltPassword(password: string): Promise<string> {
+    const salt = parseInt(this.config.hashSaltAmount!);
+
+    return await hash(password, salt);
   }
 }

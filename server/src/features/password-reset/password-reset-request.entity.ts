@@ -9,26 +9,35 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { UserEntity } from 'features/user/user.entity';
-
 import {
   CREATED_AT_COLUMN_NAME,
   UPDATED_AT_COLUMN_NAME,
-} from '../../common/constants/database.constants';
+} from 'common/constants/database.constants';
 
-@Entity('refresh_tokens')
-export class RefreshTokenEntity {
-  @PrimaryGeneratedColumn('increment')
-  id: number;
+import { UserEntity } from 'features/user/user.entity';
+
+import { RequestSource } from './enums/request-source.enum';
+
+@Entity('password_reset_requests')
+export class PasswordResetRequestEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({
-    name: 'refresh_token',
+    name: 'completed_at',
+    nullable: true,
   })
-  @Index('refresh_tokens_token_idx')
-  token: string;
+  completedAt: Date;
+
+  @Column({
+    type: 'enum',
+    enum: RequestSource,
+  })
+  source: RequestSource;
 
   @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
+  @Index('password_reset_requests_user_id_idx')
   user: UserEntity;
 
   @CreateDateColumn({
