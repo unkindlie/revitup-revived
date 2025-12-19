@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Param,
   ParseUUIDPipe,
@@ -12,6 +13,7 @@ import { UserPayloadDto } from '../auth/dto';
 import { AccessTokenGuard } from '../auth/guards/access-token.guard';
 import { RequestSource } from './enums/request-source.enum';
 import { PasswordResetService } from './password-reset.service';
+import { PasswordResetDto } from './dto/password-reset.dto';
 
 @Controller('auth/password-reset')
 export class PasswordResetController {
@@ -29,7 +31,18 @@ export class PasswordResetController {
   }
 
   @Patch(':id')
-  async changePassword(@Param('id', ParseUUIDPipe) id: string) {
-    
+  @UseGuards(AccessTokenGuard)
+  async changePassword(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() body: PasswordResetDto,
+    @AuthPayload() payload: UserPayloadDto,
+  ) {
+    await this.service.changePassword({
+      id,
+      userId: payload.id,
+      password: body.password,
+    });
+
+    return { message: 'Password was changed successfully' };
   }
 }

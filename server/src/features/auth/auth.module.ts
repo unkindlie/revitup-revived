@@ -12,6 +12,7 @@ import { LocalStrategy } from 'features/auth/strategies/local.strategy';
 import { RefreshTokenStrategy } from 'features/auth/strategies/refresh-token.strategy';
 import { RefreshTokenModule } from 'features/refresh-token/refresh-token.module';
 import { UserModule } from 'features/user/user.module';
+import { PasswordHelper } from './helpers/password.helper';
 
 @Module({
   imports: [
@@ -28,7 +29,8 @@ import { UserModule } from 'features/user/user.module';
     RefreshTokenStrategy,
     CookieHelper,
     TokenHelper,
+    PasswordHelper,
   ],
-  exports: [TokenHelper],
+  exports: [TokenHelper, AuthService, PasswordHelper],
 })
 export class AuthModule {}

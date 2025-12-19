@@ -6,7 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { compare, hash } from 'bcrypt';
+import { compare } from 'bcrypt';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
 
 import authConfig from 'features/auth/auth.config';
@@ -20,6 +20,7 @@ import { TokenHelper } from 'features/auth/helpers/token.helper';
 import { RefreshTokenService } from 'features/refresh-token/refresh-token.service';
 import { UserCreateDto } from 'features/user/dto';
 import { UserService } from 'features/user/user.service';
+import { PasswordHelper } from './helpers/password.helper';
 
 @Injectable()
 export class AuthService {
@@ -29,6 +30,7 @@ export class AuthService {
     private userSerivce: UserService,
     private tokenService: RefreshTokenService,
     private tokenHelper: TokenHelper,
+    private passwordHelper: PasswordHelper,
   ) {}
 
   async register(input: UserCreateDto): Promise<void> {
@@ -36,7 +38,7 @@ export class AuthService {
     if (exists)
       throw new ConflictException('User with such email already exists');
 
-    input.password = await this.saltPassword(input.password);
+    input.password = await this.passwordHelper.hashPassword(input.password);
 
     await this.userSerivce.createUser(input);
   }
@@ -49,7 +51,7 @@ export class AuthService {
     const isPasswordMatching = await compare(password, user.password);
     if (!isPasswordMatching)
       throw new ForbiddenException({
-        message: 'Passwords do not match',
+        message: 'Password is invalid',
         fields: {
           password: 'wrong_pw',
         },
@@ -111,10 +113,5 @@ export class AuthService {
       accessToken,
       refreshToken,
     };
-  }
-  private async saltPassword(password: string): Promise<string> {
-    const salt = parseInt(this.config.hashSaltAmount!);
-
-    return await hash(password, salt);
   }
 }
