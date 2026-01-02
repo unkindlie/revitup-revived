@@ -14,7 +14,6 @@ export const StartPage = () => {
   const cb = () => {
     toast.error('idkbruv', {
       description: 'wow',
-      
     });
   };
 

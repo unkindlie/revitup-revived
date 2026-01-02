@@ -30,6 +30,10 @@
         "password": {
           "wrong_pw": "Password is wrong, please try again"
         }
+      },
+      "lowerActions": {
+        "pwForgot": "Forgot the password?",
+        "noAccount": "I don't have an account"
       }
     }
   }

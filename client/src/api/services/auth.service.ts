@@ -1,28 +1,26 @@
 import { api } from '@/api';
-import { joinStr } from '@/lib/utils';
 import type { TResponse } from '^/types/response/response.type';
 import type { TAuthBody, TAuthResponse } from '^/types/auth';
+import { BackendRoutes } from '@/lib/routing/backend';
 
 class AuthService {
-  private static BASE_URL = '/auth';
-
   static async login(body: TAuthBody): Promise<TResponse<TAuthResponse>> {
-    const res = await api.post<TResponse<TAuthResponse>>(
-      joinStr('/', this.BASE_URL, 'login'),
+    const { data } = await api.post<TResponse<TAuthResponse>>(
+      BackendRoutes.AuthLogin,
       body,
     );
 
-    return res.data;
+    return data;
   }
   static async logout(): Promise<void> {
-    await api.post(joinStr('/', this.BASE_URL, 'logout'));
+    await api.post(BackendRoutes.AuthLogout);
   }
   static async refresh(): Promise<TResponse<TAuthResponse>> {
-    const res = await api.get<TResponse<TAuthResponse>>(
-      joinStr('/', this.BASE_URL, 'refresh'),
+    const { data } = await api.get<TResponse<TAuthResponse>>(
+      BackendRoutes.AuthRefresh,
     );
 
-    return res.data;
+    return data;
   }
 }
 

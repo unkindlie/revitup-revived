@@ -1,8 +1,8 @@
 import { Container } from '@/components/container/Container';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { StartPage } from './pages/StartPage';
 import { AuthProvider } from '@/providers/AuthProvider';
+import { RegistrationPage, StartPage } from '@/pages';
 
 const queryClient = new QueryClient({
   defaultOptions: { mutations: { retry: false } },
@@ -16,6 +16,10 @@ function App() {
         {
           path: '/',
           element: <StartPage />,
+        },
+        {
+          path: '/register',
+          element: <RegistrationPage />,
         },
       ],
     },

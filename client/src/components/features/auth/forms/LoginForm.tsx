@@ -6,7 +6,7 @@ import { useLogin } from '@/hooks/auth/useLogin';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import type { TAuthBody } from '^/types/auth';
 import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { joinStr } from '@/lib/utils';
 import { InputErrorWrapper } from '@/components/common/inputs/InputErrorWrapper';
 import { PasswordInput } from '@/components/common/inputs/PasswordInput';
@@ -15,6 +15,8 @@ import { getErrorFromAxiosError } from '^/helpers/response/getErrorFromAxiosErro
 import { getErrorFromResponse } from '^/helpers/response/getResponse';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { authLoginSchema } from '^/schemas/auth/auth-login.schema';
+import { Link } from 'react-router';
+import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
 
 type LogInErrors = Partial<{
   email: string;
@@ -35,16 +37,16 @@ export const LoginForm = () => {
   const { mutateAsync, isPending } = useLogin();
   const [errors, setErrors] = useState<LogInErrors>({});
 
-  useEffect(() => {
-    console.log(formErrors);
-  }, [formErrors]);
+  const { closeHidden, closeRef } = useCloseDialog();
 
   const onSubmit: SubmitHandler<TAuthBody> = async (data) => {
     setErrors({});
     try {
       await mutateAsync(data);
 
-      setDialogType(undefined);
+      closeRef.current?.click();
+
+      setTimeout(() => setDialogType(undefined), 500);
     } catch (axiosErr) {
       const err = getErrorFromAxiosError(axiosErr);
 
@@ -70,39 +72,60 @@ export const LoginForm = () => {
   };
 
   return (
-    <form className="flex flex-col space-y-2" onSubmit={handleSubmit(onSubmit)}>
-      <InputErrorWrapper
-        errorMessage={errors.email || formErrors.email?.message}
+    <>
+      <form
+        className="flex flex-col space-y-2"
+        onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="space-y-2">
-          <Label htmlFor="email">{t('fields.email')}</Label>
-          <Input
-            id="email"
-            placeholder={t('fields.email')}
-            {...register('email')}
-          />
+        <InputErrorWrapper
+          errorMessage={errors.email || formErrors.email?.message}
+        >
+          <div className="space-y-2">
+            <Label htmlFor="email">{t('fields.email')}</Label>
+            <Input
+              id="email"
+              placeholder={t('fields.email')}
+              {...register('email')}
+            />
+          </div>
+        </InputErrorWrapper>
+        <InputErrorWrapper
+          errorMessage={errors.password || formErrors.password?.message}
+        >
+          <div className="space-y-2">
+            <Label htmlFor="password">{t('fields.password')}</Label>
+            <PasswordInput
+              id="password"
+              placeholder={t('fields.password')}
+              {...register('password')}
+            />
+          </div>
+        </InputErrorWrapper>
+        <Button
+          className="mt-2 h-10 cursor-pointer font-semibold"
+          type="submit"
+          disabled={!isValid || isPending}
+        >
+          {isPending && <span>Loading</span>}
+          {t('dialogs.login.action')}
+        </Button>
+        <div className="mt-1 flex flex-row justify-between">
+          <span
+            className="text-sm font-medium"
+            onClick={() => closeRef?.current?.click()}
+          >
+            {t('dialogs.login.lowerActions.pwForgot')}
+          </span>
+
+          <Link
+            to={'/register'}
+            className="text-sm font-medium hover:underline"
+          >
+            {t('dialogs.login.lowerActions.noAccount')}
+          </Link>
         </div>
-      </InputErrorWrapper>
-      <InputErrorWrapper
-        errorMessage={errors.password || formErrors.password?.message}
-      >
-        <div className="space-y-2">
-          <Label htmlFor="password">{t('fields.password')}</Label>
-          <PasswordInput
-            id="password"
-            placeholder={t('fields.password')}
-            {...register('password')}
-          />
-        </div>
-      </InputErrorWrapper>
-      <Button
-        className="mt-2 h-10 cursor-pointer font-semibold"
-        type="submit"
-        disabled={!isValid || isPending}
-      >
-        {isPending && <span>Loading</span>}
-        {t('dialogs.login.action')}
-      </Button>
-    </form>
+      </form>
+      {closeHidden}
+    </>
   );
 };
