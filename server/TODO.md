@@ -3,17 +3,18 @@
 ## 28-11-2025
 
 - Finishing Password Reset module
-  - Add the password change by request (if not logged)
-  - Change the password (if logged) and store the request as completed with `LOGGED` source
-  - Handle different error cases
+  - ~~Add the password change by request (if not logged)~~ (done: 19-12-2025)
+  - Change the password (if logged) and store the request as completed with `LOGGED` source (done: 02-01-2026)
+  - ~~Handle different error cases~~ (done: 19-12-2025)
 
 ## 27-11-2025
 
-- Add the proper functionality just to reset the password (reducing interaction with DB data)
+- ~~Add the proper functionality just to reset the password (reducing interaction with DB data)~~
   - After that try to turn it into the full working action request
-- Separate the user in `AuthPayloadDto` from tokens
+- ~~Separate the user in `AuthPayloadDto` from tokens~~ (done: 02-01-2026)
+  - Nah, just decided to rename the decorator for now
 - Implement the verification of the user
-  - For now just to add the `isVerified` column in `users` table
+  ~~- For now just to add the `isVerified` column in `users` table~~ (done: 01-01-2026)
 - ~~Replace `@keyv/redis` package with `@keyv/valkey`~~ (done: 28-11-2025)
 
 ## 26-11-2025

@@ -8,39 +8,46 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { AuthPayload } from '../auth/decorators/user.decorator';
-import { UserPayloadDto } from '../auth/dto';
 import { AccessTokenGuard } from '../auth/guards/access-token.guard';
-import { RequestSource } from './enums/request-source.enum';
 import { PasswordResetService } from './password-reset.service';
-import { PasswordResetDto } from './dto/password-reset.dto';
+import { ParseEmailPipe } from '../../common/pipes/parse-email.pipe';
+import { CurrentUser } from '../auth/decorators/user.decorator';
+import { UserPayloadDto } from '../auth/dto';
+import { ParseStrongPasswordPipe } from '../../common/pipes/parse-strong-password.pipe';
 
 @Controller('auth/password-reset')
 export class PasswordResetController {
   constructor(private service: PasswordResetService) {}
 
   @Post('request')
-  @UseGuards(AccessTokenGuard)
-  async createResetRequest(@AuthPayload() user: UserPayloadDto) {
-    await this.service.createPasswordResetRequest(
-      user.id,
-      RequestSource.BY_EMAIL,
-    );
+  async createResetRequest(@Body('email', ParseEmailPipe) email: string) {
+    await this.service.createPasswordResetRequest(email);
 
     return { message: 'Password reset request created successfully' };
   }
 
-  @Patch(':id')
+  @Patch('logged')
   @UseGuards(AccessTokenGuard)
+  async changePasswordLogged(
+    @Body('password', ParseStrongPasswordPipe) password: string,
+    @CurrentUser() user: UserPayloadDto,
+  ) {
+    await this.service.changePasswordLogged({
+      password,
+      userId: user.id,
+    });
+
+    return { message: 'Password was changed successfully' };
+  }
+
+  @Patch(':id')
   async changePassword(
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() body: PasswordResetDto,
-    @AuthPayload() payload: UserPayloadDto,
+    @Body('password', ParseStrongPasswordPipe) password: string,
   ) {
     await this.service.changePassword({
       id,
-      userId: payload.id,
-      password: body.password,
+      password,
     });
 
     return { message: 'Password was changed successfully' };

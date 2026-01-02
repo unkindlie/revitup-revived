@@ -10,7 +10,7 @@ import {
 
 import { AuthService } from 'features/auth/auth.service';
 import { Roles } from 'features/auth/decorators/roles.decorator';
-import { AuthPayload } from 'features/auth/decorators/user.decorator';
+import { CurrentUser } from 'features/auth/decorators/user.decorator';
 import {
   AuthResponseDto,
   AuthRoleChangeDto,
@@ -39,7 +39,7 @@ export class AuthController {
   @Post('login')
   @UseGuards(AlreadyAuthedGuard, LocalAuthGuard)
   @UseInterceptors(RefreshCookieInterceptor)
-  login(@AuthPayload() payload: AuthResponseDto) {
+  login(@CurrentUser() payload: AuthResponseDto) {
     return payload;
   }
 
@@ -53,13 +53,13 @@ export class AuthController {
   @Get('refresh')
   @UseGuards(RefreshTokenGuard)
   @UseInterceptors(RefreshCookieInterceptor)
-  refresh(@AuthPayload() payload: AuthResponseDto) {
+  refresh(@CurrentUser() payload: AuthResponseDto) {
     return payload;
   }
 
   @Get('verify')
   @UseGuards(AccessTokenGuard)
-  verifyUser(@AuthPayload() payload: UserPayloadDto) {
+  verifyUser(@CurrentUser() payload: UserPayloadDto) {
     return payload;
   }
 

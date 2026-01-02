@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -9,7 +9,6 @@ import {
 import { RequestSource } from './enums/request-source.enum';
 import { PasswordResetRequestEntity } from './password-reset-request.entity';
 import { RequestInaccessibilityReason } from './enums/request-not-available-reason.enum';
-import { PasswordAvailabilityCheckDto } from './dto/password-reset.dto';
 
 @Injectable()
 export class PasswordResetRepository {
@@ -18,13 +17,26 @@ export class PasswordResetRepository {
     private repo: Repository<PasswordResetRequestEntity>,
   ) {}
 
+  async findRequestById(id: string) {
+    const resetReq = await this.repo.findOne({
+      where: { id },
+      relations: { user: true },
+    });
+    if (!resetReq)
+      throw new NotFoundException("This reset request doesn't exist");
+
+    return resetReq;
+  }
+
   async createResetRequest(
     userId: number,
     source: RequestSource,
-  ): Promise<void> {
+  ): Promise<string> {
     const entity = this.repo.create({ source, user: { id: userId } });
 
-    await this.repo.insert(entity);
+    const result = await this.repo.insert(entity);
+
+    return result.identifiers[0].id as string;
   }
 
   async markRequestAsSuccess(id: string): Promise<void> {
@@ -33,7 +45,7 @@ export class PasswordResetRepository {
     });
   }
 
-  async checkIfRequestAvailableForUsage(input: PasswordAvailabilityCheckDto) {
+  async checkIfRequestAvailableForUsage(id: string) {
     let reason: RequestInaccessibilityReason | null = null;
 
     const resetEntity = await this.repo.findOne({
@@ -42,7 +54,7 @@ export class PasswordResetRepository {
         completedAt: true,
         user: { id: true },
       },
-      where: { id: input.id },
+      where: { id },
       relations: {
         user: true,
       },
@@ -53,9 +65,6 @@ export class PasswordResetRepository {
 
     if (resetEntity && resetEntity.completedAt !== null)
       reason = RequestInaccessibilityReason.ALREADY_USED;
-
-    if (resetEntity && resetEntity.user.id !== input.userId)
-      reason = RequestInaccessibilityReason.DOESNT_BELONG_TO_USER;
 
     return {
       code: reason,

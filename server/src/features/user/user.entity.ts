@@ -43,6 +43,12 @@ export class UserEntity {
   })
   roles: UserRole[];
 
+  @Column({
+    name: 'is_verified',
+    default: false,
+  })
+  isVerified: boolean;
+
   @CreateDateColumn({
     name: CREATED_AT_COLUMN_NAME,
   })

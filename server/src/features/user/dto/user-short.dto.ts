@@ -13,5 +13,8 @@ export class UserShortDto {
   role: UserRole;
 
   @Expose()
+  isVerified: boolean;
+
+  @Expose()
   createdAt: Date;
 }

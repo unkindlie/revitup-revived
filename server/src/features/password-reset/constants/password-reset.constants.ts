@@ -10,6 +10,6 @@ export const PasswordResetInaccessibilityExplanation: Record<
     'This reset request does not exist',
   [RequestInaccessibilityReason.ALREADY_USED]:
     'This reset request was already used, please create another',
-  [RequestInaccessibilityReason.DOESNT_BELONG_TO_USER]:
-    'This reset request does not belong to you',
+  // [RequestInaccessibilityReason.DOESNT_BELONG_TO_USER]:
+  //   'This reset request does not belong to you',
 };
