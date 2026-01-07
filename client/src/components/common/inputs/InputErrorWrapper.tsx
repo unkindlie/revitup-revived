@@ -1,5 +1,6 @@
 import { useEffect, useState, type PropsWithChildren } from 'react';
 import { cn } from '@/lib/utils';
+import { Typography } from '@/components/common/typography/Typography';
 
 type Props = PropsWithChildren & {
   errorMessage?: string;
@@ -20,9 +21,11 @@ export const InputErrorWrapper = ({
   return (
     <div className="flex flex-col gap-1">
       {children}
-      <span
+      <Typography
+        destructive
+        variant="sm"
         className={cn(
-          'text-destructive block origin-top overflow-hidden text-sm font-medium transition-all duration-300 ease-in-out',
+          'block origin-top overflow-hidden font-medium transition-all duration-300 ease-in-out',
           errorMessage
             ? 'max-h-24 translate-y-0 opacity-100'
             : 'pointer-events-none max-h-0 -translate-y-1 opacity-0',
@@ -30,7 +33,7 @@ export const InputErrorWrapper = ({
         )}
       >
         {errorMessage ?? lastMsg}
-      </span>
+      </Typography>
     </div>
   );
 };

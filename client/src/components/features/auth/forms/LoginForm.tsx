@@ -17,6 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { authLoginSchema } from '^/schemas/auth/auth-login.schema';
 import { Link } from 'react-router';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
+import { DialogClose } from '@/components/ui/dialog';
 
 type LogInErrors = Partial<{
   email: string;
@@ -117,12 +118,14 @@ export const LoginForm = () => {
             {t('dialogs.login.lowerActions.pwForgot')}
           </span>
 
-          <Link
-            to={'/register'}
-            className="text-sm font-medium hover:underline"
-          >
-            {t('dialogs.login.lowerActions.noAccount')}
-          </Link>
+          <DialogClose asChild>
+            <Link
+              to={'/register'}
+              className="text-sm font-medium hover:underline"
+            >
+              {t('dialogs.login.lowerActions.noAccount')}
+            </Link>
+          </DialogClose>
         </div>
       </form>
       {closeHidden}

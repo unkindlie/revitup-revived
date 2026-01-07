@@ -2,6 +2,7 @@ import { useUserStore } from '@/stores/user.store';
 import { useShallow } from 'zustand/react/shallow';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
+import { Typography } from '@/components/common/typography/Typography';
 
 export const StartPage = () => {
   const { user, loadingFlag } = useUserStore(
@@ -24,8 +25,9 @@ export const StartPage = () => {
       <Button className="size-fit" onClick={cb}>
         Click
       </Button>
-      {!user && isLoading && <span>Loading</span>}
-      {user && <span>{JSON.stringify(user, null, 2)}</span>}
+      {!user && isLoading && <Typography>Loading</Typography>}
+      {user && <Typography>{JSON.stringify(user, null, 2)}</Typography>}
+      <Typography variant="sm">Hello</Typography>
     </div>
   );
 };
