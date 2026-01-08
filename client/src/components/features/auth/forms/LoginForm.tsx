@@ -18,6 +18,7 @@ import { authLoginSchema } from '^/schemas/auth/auth-login.schema';
 import { Link } from 'react-router';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
 import { DialogClose } from '@/components/ui/dialog';
+import { Spinner } from '@/components/common/spinner/Spinner';
 
 type LogInErrors = Partial<{
   email: string;
@@ -107,13 +108,12 @@ export const LoginForm = () => {
           type="submit"
           disabled={!isValid || isPending}
         >
-          {isPending && <span>Loading</span>}
-          {t('dialogs.login.action')}
+          {isPending ? <Spinner /> : t('dialogs.login.action')}
         </Button>
         <div className="mt-1 flex flex-row justify-between">
           <span
             className="text-sm font-medium"
-            onClick={() => closeRef?.current?.click()}
+            onClick={() => setDialogType('forgotPw')}
           >
             {t('dialogs.login.lowerActions.pwForgot')}
           </span>

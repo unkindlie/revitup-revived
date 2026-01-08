@@ -11,6 +11,7 @@ import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
 import { useCheckLogged } from '@/hooks/auth/useCheckLogged';
 import { HeaderLoggedDropdown } from '@/components/container/header/dropdowns/HeaderLoggedDropdown';
 import { HeaderDefaultDropdown } from '@/components/container/header/dropdowns/HeaderDefaultDropdown';
+import { ForgotPasswordDialog } from '../../features/auth/dialogs/ForgotPassword';
 
 export const HeaderDropdown = () => {
   const { dialogType } = useDropdownDialogContext();
@@ -31,6 +32,7 @@ export const HeaderDropdown = () => {
         </DropdownMenuContent>
       </DropdownMenu>
       {dialogType === 'login' && <LoginDialog />}
+      {dialogType === 'forgotPw' && <ForgotPasswordDialog />}
     </Dialog>
   );
 };

@@ -5,7 +5,7 @@ import {
   type PropsWithChildren,
 } from 'react';
 
-type DialogType = 'login' | 'register';
+type DialogType = 'login' | 'register' | 'forgotPw';
 
 type DropdownDialogContextProps = {
   dialogType?: DialogType | undefined;
