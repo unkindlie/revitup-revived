@@ -27,7 +27,7 @@ export const StartPage = () => {
       </Button>
       {!user && isLoading && <Typography>Loading</Typography>}
       {user && <Typography>{JSON.stringify(user, null, 2)}</Typography>}
-      <Typography variant="sm">Hello</Typography>
+      <Typography variant="lg" paragraph>hello</Typography>
     </div>
   );
 };

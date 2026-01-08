@@ -2,8 +2,8 @@
 
 ## 03-01-26
 
-- Add an error boundary
-- Create the typography components for the text
+- ~~Add an error boundary~~ (done: 07-01-26)
+- ~~Create the typography components for the text~~ (done: 07-01-26)
 - Create an auth provider with redirect from auth pages
 
 ## 02-01-26

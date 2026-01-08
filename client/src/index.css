@@ -57,7 +57,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  --header: oklch(57.03% 0.233 29.1);
+  --light-active: oklch(57.03% 0.233 29.1);
 }
 
 @theme inline {
@@ -97,7 +97,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --color-header: var(--header);
+  --color-light-active: var(--light-active);
 
   --font-inter: 'Inter Tight', sans-serif;
   --font-planet-kosmos: 'Planet Kosmos', sans-serif;

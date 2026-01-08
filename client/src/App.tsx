@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@/providers/AuthProvider';
 import { RegistrationPage, StartPage } from '@/pages';
+import { ErrorBoundary } from './pages/NotFoundErrorBoundary';
 
 const queryClient = new QueryClient({
   defaultOptions: { mutations: { retry: false } },
@@ -11,15 +12,16 @@ const queryClient = new QueryClient({
 function App() {
   const router = createBrowserRouter([
     {
-      element: <Container />,
+      Component: Container,
+      ErrorBoundary: ErrorBoundary,
       children: [
         {
           path: '/',
-          element: <StartPage />,
+          Component: StartPage,
         },
         {
           path: '/register',
-          element: <RegistrationPage />,
+          Component: RegistrationPage,
         },
       ],
     },
