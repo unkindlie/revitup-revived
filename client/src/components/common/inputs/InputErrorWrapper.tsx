@@ -1,6 +1,7 @@
 import { useEffect, useState, type PropsWithChildren } from 'react';
 import { cn } from '@/lib/utils';
 import { Typography } from '@/components/common/typography/Typography';
+import { useTranslation } from 'react-i18next';
 
 type Props = PropsWithChildren & {
   errorMessage?: string;
@@ -13,6 +14,7 @@ export const InputErrorWrapper = ({
   errorClassname,
 }: Props) => {
   const [lastMsg, setLastMsg] = useState(errorMessage);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (errorMessage !== undefined) setLastMsg(errorMessage);
@@ -32,7 +34,7 @@ export const InputErrorWrapper = ({
           errorClassname,
         )}
       >
-        {errorMessage ?? lastMsg}
+        {t(errorMessage ?? 'common.fallback') ?? lastMsg}
       </Typography>
     </div>
   );

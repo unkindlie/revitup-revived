@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import type { JSX, PropsWithChildren } from 'react';
+import type { ComponentPropsWithRef, JSX } from 'react';
 
 const Variants = {
   sm: 'text-sm',
@@ -44,6 +44,11 @@ const elements: Record<Variant, string> = {
   '6xl': 'h1',
 };
 
+type SelectedElements = Pick<
+  JSX.IntrinsicElements,
+  'span' | 'p' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+>;
+
 export const Typography = ({
   className,
   variant = 'base',
@@ -53,6 +58,7 @@ export const Typography = ({
   destructive = false,
   paragraph = false,
   children,
+  ...props
 }: {
   className?: string;
   variant?: Variant;
@@ -61,22 +67,23 @@ export const Typography = ({
   italic?: boolean;
   destructive?: boolean;
   paragraph?: boolean;
-} & PropsWithChildren) => {
+} & ComponentPropsWithRef<'div'>) => {
   const variantProp = Variants[variant];
   const fontProp = Fonts[font];
   const weightProp = Weights[weight];
 
   const Component = (
     paragraph ? 'p' : elements[variant]
-  ) as keyof JSX.IntrinsicElements;
+  ) as keyof SelectedElements;
 
   return (
     <Component
       className={cn(className, variantProp, fontProp, weightProp, {
         italic: italic,
-        'text-light-active': destructive,
+        'text-red-500': destructive,
       })}
       children={children}
+      {...props}
     />
   );
 };

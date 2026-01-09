@@ -3,11 +3,11 @@ import * as yup from 'yup';
 export const authLoginSchema = yup.object({
   email: yup
     .string()
-    .required('E-mail is required')
-    .email('E-mail is not valid'),
+    .required('dialogs.common.errorFields.email.required')
+    .email('dialogs.common.errorFields.email.not_valid'),
   password: yup
     .string()
-    .required('Password is required')
-    .min(8, 'Password is too short')
-    .max(50, 'Password is too long'),
+    .required('dialogs.common.errorFields.password.required')
+    .min(8, 'dialogs.common.errorFields.password.too_short')
+    .max(50, 'dialogs.common.errorFields.password.too_long'),
 });

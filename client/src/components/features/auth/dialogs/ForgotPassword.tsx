@@ -13,8 +13,10 @@ export const ForgotPasswordDialog = () => {
   return (
     <DialogContent aria-describedby={undefined}>
       <DialogHeader>
-        <DialogTitle>Forgot the password?</DialogTitle>
-        <DialogDescription>IDK</DialogDescription>
+        <DialogTitle>{t('dialogs.forgotPw.title')}</DialogTitle>
+        <DialogDescription>
+          {t('dialogs.forgotPw.description')}
+        </DialogDescription>
       </DialogHeader>
       <LoginForm />
     </DialogContent>

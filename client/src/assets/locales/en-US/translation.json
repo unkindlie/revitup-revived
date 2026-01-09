@@ -1,4 +1,7 @@
 {
+  "common": {
+    "fallback": "Fallback"
+  },
   "header": {
     "dropdown": {
       "default": { "login": "Login", "register": "Register" },
@@ -19,6 +22,19 @@
     "password": "Password"
   },
   "dialogs": {
+    "common": {
+      "errorFields": {
+        "email": {
+          "required": "E-mail is required",
+          "not_valid": "E-mail is not valid"
+        },
+        "password": {
+          "required": "Password is required",
+          "too_short": "Password is too short",
+          "too_long": "Password is too long"
+        }
+      }
+    },
     "login": {
       "title": "Login",
       "description": "Enter the info below to log into your account",
@@ -35,6 +51,11 @@
         "pwForgot": "Forgot the password?",
         "noAccount": "I don't have an account"
       }
+    },
+    "forgotPw": {
+      "title": "Forgot your password?",
+      "description": "Enter your email to receive a password reset letter",
+      "action": "Request the reset"
     }
   }
 }

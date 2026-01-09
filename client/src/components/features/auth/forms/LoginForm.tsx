@@ -1,14 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useTranslation } from 'react-i18next';
 import { useLogin } from '@/hooks/auth/useLogin';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import type { TAuthBody } from '^/types/auth';
 import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
 import { useState } from 'react';
-import { joinStr } from '@/lib/utils';
-import { InputErrorWrapper } from '@/components/common/inputs/InputErrorWrapper';
 import { PasswordInput } from '@/components/common/inputs/PasswordInput';
 import { getFieldErrors } from '^/helpers/response/getFieldErrors';
 import { getErrorFromAxiosError } from '^/helpers/response/getErrorFromAxiosError';
@@ -19,6 +16,8 @@ import { Link } from 'react-router';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
 import { DialogClose } from '@/components/ui/dialog';
 import { Spinner } from '@/components/common/spinner/Spinner';
+import { Typography } from '@/components/common/typography/Typography';
+import { FormField } from '@/components/common/form/FormField';
 
 type LogInErrors = Partial<{
   email: string;
@@ -43,6 +42,7 @@ export const LoginForm = () => {
 
   const onSubmit: SubmitHandler<TAuthBody> = async (data) => {
     setErrors({});
+
     try {
       await mutateAsync(data);
 
@@ -55,21 +55,14 @@ export const LoginForm = () => {
       const errData = getErrorFromResponse(err);
       const fields = getFieldErrors<keyof LogInErrors>(errData);
 
-      if (fields?.email) {
-        setErrors({
-          email: t(
-            joinStr('.', 'dialogs.login.errorFields.email', fields.email),
-          ),
-        });
-      }
-
-      if (errData.fields?.password) {
-        setErrors({
-          password: t(
-            joinStr('.', 'dialogs.login.errorFields.password', fields.password),
-          ),
-        });
-      }
+      setErrors({
+        email: fields?.email
+          ? `dialogs.login.errorFields.email.${fields.email}`
+          : undefined,
+        password: errData.fields?.password
+          ? `dialogs.login.errorFields.password.${errData.fields.password}`
+          : undefined,
+      });
     }
   };
 
@@ -79,30 +72,28 @@ export const LoginForm = () => {
         className="flex flex-col space-y-2"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <InputErrorWrapper
+        <FormField
+          id="email"
+          label={t('fields.email')}
           errorMessage={errors.email || formErrors.email?.message}
         >
-          <div className="space-y-2">
-            <Label htmlFor="email">{t('fields.email')}</Label>
-            <Input
-              id="email"
-              placeholder={t('fields.email')}
-              {...register('email')}
-            />
-          </div>
-        </InputErrorWrapper>
-        <InputErrorWrapper
+          <Input
+            id="email"
+            placeholder={t('fields.email')}
+            {...register('email')}
+          />
+        </FormField>
+        <FormField
+          id="password"
+          label={t('fields.password')}
           errorMessage={errors.password || formErrors.password?.message}
         >
-          <div className="space-y-2">
-            <Label htmlFor="password">{t('fields.password')}</Label>
-            <PasswordInput
-              id="password"
-              placeholder={t('fields.password')}
-              {...register('password')}
-            />
-          </div>
-        </InputErrorWrapper>
+          <PasswordInput
+            id="password"
+            placeholder={t('fields.password')}
+            {...register('password')}
+          />
+        </FormField>
         <Button
           className="mt-2 h-10 cursor-pointer font-semibold"
           type="submit"
@@ -111,12 +102,14 @@ export const LoginForm = () => {
           {isPending ? <Spinner /> : t('dialogs.login.action')}
         </Button>
         <div className="mt-1 flex flex-row justify-between">
-          <span
-            className="text-sm font-medium"
+          <Typography
+            variant="sm"
+            weight="medium"
+            className="cursor-pointer select-none hover:underline"
             onClick={() => setDialogType('forgotPw')}
           >
             {t('dialogs.login.lowerActions.pwForgot')}
-          </span>
+          </Typography>
 
           <DialogClose asChild>
             <Link

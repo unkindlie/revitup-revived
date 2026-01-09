@@ -3,7 +3,6 @@ import { useShallow } from 'zustand/react/shallow';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Typography } from '@/components/common/typography/Typography';
-import { Spinner } from '../components/common/spinner/Spinner';
 
 export const StartPage = () => {
   const { user, loadingFlag } = useUserStore(
@@ -28,10 +27,7 @@ export const StartPage = () => {
       </Button>
       {!user && isLoading && <Typography>Loading</Typography>}
       {user && <Typography>{JSON.stringify(user, null, 2)}</Typography>}
-      <Typography variant="lg" paragraph>
-        hello
-      </Typography>
-      <Spinner size="md" />
+      <Typography>hello</Typography>
     </div>
   );
 };
