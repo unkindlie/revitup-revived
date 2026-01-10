@@ -7,10 +7,11 @@ import { getDataFromResponse } from '^/helpers/response/getResponse';
 import { useShallow } from 'zustand/react/shallow';
 
 export const useLogin = () => {
-  const { setUser, setLoadingFlag } = useUserStore(
+  const { setUser, setLoadingFlag, setIsLogged } = useUserStore(
     useShallow((state) => ({
       setUser: state.setUser,
-      setLoadingFlag: state.setLoadingFlag,
+      setLoadingFlag: state.setLoadingInfo,
+      setIsLogged: state.setIsLogged,
     })),
   );
 
@@ -23,6 +24,7 @@ export const useLogin = () => {
       if (data) {
         localStorage.setItem(ACCESS_TOKEN, data.tokens.accessToken);
         setUser(data.user);
+        setIsLogged(true);
       }
     },
     onSettled: () =>

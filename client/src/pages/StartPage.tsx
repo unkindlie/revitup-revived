@@ -8,7 +8,7 @@ export const StartPage = () => {
   const { user, loadingFlag } = useUserStore(
     useShallow((state) => ({
       user: state.user,
-      loadingFlag: state.loadingFlag,
+      loadingFlag: state.loadingInfo,
     })),
   );
 

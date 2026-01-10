@@ -6,10 +6,11 @@ import { useShallow } from 'zustand/react/shallow';
 import { getDataFromResponse } from '^/helpers/response/getResponse';
 
 export const useRefresh = () => {
-  const { setUser, setLoadingFlag } = useUserStore(
+  const { setUser, setLoadingFlag, setIsLogged } = useUserStore(
     useShallow((state) => ({
       setUser: state.setUser,
-      setLoadingFlag: state.setLoadingFlag,
+      setLoadingFlag: state.setLoadingInfo,
+      setIsLogged: state.setIsLogged,
     })),
   );
 
@@ -23,6 +24,7 @@ export const useRefresh = () => {
       if (data) {
         localStorage.setItem(ACCESS_TOKEN, data.tokens.accessToken);
         setUser(data.user);
+        setIsLogged(true);
       }
     },
     // onError: () => localStorage.removeItem(ACCESS_TOKEN),

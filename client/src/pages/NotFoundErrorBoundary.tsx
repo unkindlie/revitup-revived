@@ -1,26 +1,34 @@
-import Logo from '@/assets/REVITUP_logo.svg?react';
 import { Typography } from '@/components/common/typography/Typography';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router';
+import { useNavigate, useRouteError } from 'react-router';
+import { LongLogo, SquaredLogo } from '@/components/common/logos';
 
-// TODO: add E logo
+type RouteError = {
+  status: number;
+  statusText: string;
+  data: string;
+  internal: boolean;
+};
+
 export const ErrorBoundary = () => {
   const navigate = useNavigate();
+  const routeError = useRouteError() as RouteError;
 
   return (
     <div className="flex h-svh w-full flex-1 flex-col items-center justify-center gap-y-1">
       <div className="flex items-center gap-x-5">
         <div className="flex flex-col items-center">
           <Typography variant="6xl" weight="bold" destructive>
-            404
+            {routeError.status}
           </Typography>
           <Typography variant="2xl" weight="medium" destructive>
             Page not found
           </Typography>
         </div>
-        <div className="hidden flex-row gap-x-5 md:flex">
-          <div className="bg-light-active h-20 w-px" />
-          <Logo className="fill-light-active h-auto w-56" title="Logo" />
+        <div className="flex flex-row items-center gap-x-5">
+          <div className="bg-light-active h-24 w-px" />
+          <SquaredLogo className="fill-light-active w-24 md:hidden" />
+          <LongLogo className="fill-light-active hidden w-56 md:block" />
         </div>
       </div>
       <Button

@@ -16,6 +16,10 @@ import { getFieldErrors } from '^/helpers/response/getFieldErrors';
 import { TranslationNamespaces } from '@/lib/translation';
 import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
 
+type FormBody = {
+  email: string;
+};
+
 export const ForgotPasswordForm = () => {
   const { t } = useTranslation(TranslationNamespaces.Auth);
   const { closeHidden, closeRef } = useCloseDialog();
@@ -23,7 +27,7 @@ export const ForgotPasswordForm = () => {
     register,
     handleSubmit,
     formState: { isValid, errors: formErrors },
-  } = useForm<{ email: string }>({
+  } = useForm<FormBody>({
     resolver: yupResolver(authPwResetRequestSchema),
     mode: 'onChange',
   });
@@ -31,7 +35,7 @@ export const ForgotPasswordForm = () => {
 
   const [error, setError] = useState<string>();
 
-  const onSubmit: SubmitHandler<{ email: string }> = async ({ email }) => {
+  const onSubmit: SubmitHandler<FormBody> = async ({ email }) => {
     setError(undefined);
 
     try {
@@ -46,7 +50,7 @@ export const ForgotPasswordForm = () => {
       const err = getErrorFromAxiosError(axiosError);
       const errData = getErrorFromResponse(err);
 
-      const fields = getFieldErrors<'email'>(errData);
+      const fields = getFieldErrors<keyof FormBody>(errData);
 
       if (fields.email === 'user_not_exist') {
         setError(t(`dialogs.login.errorFields.email.${fields.email}`));

@@ -79,8 +79,8 @@ export const Typography = ({
   return (
     <Component
       className={cn(className, variantProp, fontProp, weightProp, {
-        italic: italic,
-        'text-red-500': destructive,
+        italic,
+        'text-destructive': destructive,
       })}
       children={children}
       {...props}
