@@ -1,8 +1,22 @@
-import axios from 'axios';
-import { ACCESS_TOKEN } from '^/constants/auth.constants';
+import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 import AuthService from '@/api/services/auth.service';
+import { ACCESS_TOKEN } from '../../utils/constants/auth.constants';
+
+// ...existing code...
+
+type RetryableRequest = AxiosRequestConfig & { _retry?: boolean };
 
 let isRefreshing = false;
+let refreshSubscribers: Array<(token: string | null) => void> = [];
+
+const subscribeTokenRefresh = (cb: (token: string | null) => void) => {
+  refreshSubscribers.push(cb);
+};
+
+const onRefreshed = (token: string | null) => {
+  refreshSubscribers.forEach((cb) => cb(token));
+  refreshSubscribers = [];
+};
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URI,
@@ -11,33 +25,46 @@ export const api = axios.create({
 
 api.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem(ACCESS_TOKEN);
-
-  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
-
+  // fixed: headers is an object, not has setAuthorization()
+  if (accessToken) {
+    config.headers.hasAuthorization(`Bearer ${accessToken}`)
+  }
   return config;
 });
 
 api.interceptors.response.use(
-  (config) => config,
-  async (err) => {
-    const originalRequest = err.config;
+  (res) => res,
+  async (err: AxiosError) => {
+    const originalRequest: RetryableRequest | undefined = err?.config;
+
+    // guard: don't attempt to refresh if the failing request is the refresh endpoint itself
+    const reqUrl = originalRequest?.url ?? '';
+    if (reqUrl.includes('/auth/refresh') || reqUrl.includes('refresh')) {
+      return Promise.reject(err);
+    }
+
     if (
-      err.response &&
-      err.response.status === 401 &&
+      err?.response?.status === 401 &&
       originalRequest &&
       !originalRequest._retry
     ) {
       if (isRefreshing) {
-        // Wait until the token is refreshed
-        return new Promise((resolve) => {
-          const interval = setInterval(() => {
-            const accessToken = localStorage.getItem(ACCESS_TOKEN);
-            if (!isRefreshing && accessToken) {
-              clearInterval(interval);
-              originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-              resolve(api.request(originalRequest));
+        // queue the request until refresh finishes
+        return new Promise((resolve, reject) => {
+          subscribeTokenRefresh((token) => {
+            if (!token) {
+              reject(err);
+              return;
             }
-          }, 100);
+            const retryReq = {
+              ...originalRequest,
+              headers: {
+                ...originalRequest.headers,
+                Authorization: `Bearer ${token}`,
+              },
+            };
+            resolve(api.request(retryReq));
+          });
         });
       }
 
@@ -45,25 +72,40 @@ api.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const {
-          tokens: { accessToken },
-        } = await AuthService.refresh().then((result) => result.response.data!);
+        const refreshResult = await AuthService.refresh();
+        const accessToken =
+          refreshResult?.response?.data?.tokens?.accessToken ?? null;
+
+        if (!accessToken) {
+          throw new Error('No access token returned from refresh');
+        }
+
         localStorage.setItem(ACCESS_TOKEN, accessToken);
+        onRefreshed(accessToken);
 
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
-        return api.request(originalRequest);
+        const retryReq = {
+          ...originalRequest,
+          headers: {
+            ...originalRequest.headers,
+            Authorization: `Bearer ${accessToken}`,
+          },
+        };
+
+        return api.request(retryReq);
       } catch (e) {
-        console.error('Error while refreshing tokens', e);
-
+        onRefreshed(null);
         localStorage.removeItem(ACCESS_TOKEN);
-        await AuthService.logout();
-
+        try {
+          await AuthService.logout();
+        } catch {
+          /* this should be ignored */
+        }
         return Promise.reject(e);
       } finally {
         isRefreshing = false;
       }
     }
 
-    throw err;
+    return Promise.reject(err);
   },
 );

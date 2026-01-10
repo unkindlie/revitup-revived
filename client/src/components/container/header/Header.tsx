@@ -12,7 +12,7 @@ export const Header = () => {
     <header className="bg-light-active sticky top-0 flex h-16 w-full items-center justify-between px-8">
       <div className="flex flex-row items-center gap-6">
         <HeaderLogo />
-        <div className="flex gap-6">
+        <div className="md:flex gap-6 hidden">
           <HeaderLink to="/" title={t('header.sections.news')} />
           <HeaderLink to="/events" title={t('header.sections.events')}  />
         </div>
