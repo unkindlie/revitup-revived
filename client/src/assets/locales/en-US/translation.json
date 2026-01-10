@@ -26,7 +26,8 @@
       "errorFields": {
         "email": {
           "required": "E-mail is required",
-          "not_valid": "E-mail is not valid"
+          "not_valid": "E-mail is not valid",
+          "user_not_exist": "Such user does not exist"
         },
         "password": {
           "required": "Password is required",
@@ -55,7 +56,12 @@
     "forgotPw": {
       "title": "Forgot your password?",
       "description": "Enter your email to receive a password reset letter",
-      "action": "Request the reset"
+      "action": "Request the reset",
+      "errorFields": {
+        "email": {
+          "req_limit_exhausted": "You have used your request limit; please try later"
+        }
+      }
     }
   }
 }

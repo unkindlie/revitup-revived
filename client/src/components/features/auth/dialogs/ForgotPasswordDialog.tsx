@@ -4,8 +4,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { LoginForm } from '@/components/features/auth/forms/LoginForm';
 import { useTranslation } from 'react-i18next';
+import { ForgotPasswordForm } from '@/components/features/auth/forms/ForgotPasswordForm';
 
 export const ForgotPasswordDialog = () => {
   const { t } = useTranslation();
@@ -18,7 +18,7 @@ export const ForgotPasswordDialog = () => {
           {t('dialogs.forgotPw.description')}
         </DialogDescription>
       </DialogHeader>
-      <LoginForm />
+      <ForgotPasswordForm />
     </DialogContent>
   );
 };

@@ -101,7 +101,7 @@ export const LoginForm = () => {
         >
           {isPending ? <Spinner /> : t('dialogs.login.action')}
         </Button>
-        <div className="mt-1 flex flex-row justify-between">
+        <div className="mt-1 flex justify-between">
           <Typography
             variant="sm"
             weight="medium"

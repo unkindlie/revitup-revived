@@ -22,6 +22,14 @@ class AuthService {
 
     return data;
   }
+
+  static async requestPasswordReset(email: string) {
+    const { data } = await api.post(BackendRoutes.AuthChangePassword, {
+      email,
+    });
+
+    return data;
+  }
 }
 
 export default AuthService;

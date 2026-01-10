@@ -34,7 +34,7 @@ export const InputErrorWrapper = ({
           errorClassname,
         )}
       >
-        {t(errorMessage ?? 'common.fallback') ?? lastMsg}
+        {t(errorMessage!) ?? lastMsg}
       </Typography>
     </div>
   );

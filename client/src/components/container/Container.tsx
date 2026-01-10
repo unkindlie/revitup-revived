@@ -10,6 +10,6 @@ export const Container = () => (
       <Outlet />
     </div>
     <Footer />
-    <Toaster richColors />
+    <Toaster richColors toastOptions={{ className: 'font-inter',  }} />
   </main>
 );

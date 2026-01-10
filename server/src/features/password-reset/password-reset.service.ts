@@ -28,9 +28,10 @@ export class PasswordResetService {
     const would = await this.repo.checkIfPossibleToCreateNewRequest(user.id);
 
     if (!would)
-      throw new ForbiddenException(
-        'You have used your request limit; please try later',
-      );
+      throw new ForbiddenException({
+        message: 'You have used your request limit; please try later',
+        fields: { email: 'req_limit_exhausted' },
+      });
 
     await this.repo.createResetRequest(user.id, RequestSource.BY_EMAIL);
   }

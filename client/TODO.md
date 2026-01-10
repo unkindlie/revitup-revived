@@ -10,4 +10,4 @@
 
 - Create the separate registration page (kinda beautiful)
   - Add the registration form
-- Create the password reset request modal
+- ~~Create the password reset request modal~~ (done: 10-01-26)
