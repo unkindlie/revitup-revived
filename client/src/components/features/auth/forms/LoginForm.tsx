@@ -57,6 +57,7 @@ export const LoginForm = () => {
       const errData = getErrorFromResponse(err);
       const fields = getFieldErrors<keyof LogInErrors>(errData);
 
+      // TODO: add a check for often used passwords
       setErrors({
         email: fields?.email
           ? t(`dialogs.login.errorFields.email.${fields.email}`)

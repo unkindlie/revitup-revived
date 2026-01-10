@@ -1,2 +1,2 @@
 export { StartPage } from './StartPage';
-export { RegistrationPage } from './RegistrationPage';
+export { RegistrationPage } from './auth/RegistrationPage';

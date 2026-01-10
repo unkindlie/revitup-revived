@@ -1,9 +1,13 @@
 import { api } from '@/api';
 import type { TResponse } from '^/types/response/response.type';
-import type { TAuthBody, TAuthResponse } from '^/types/auth';
+import type { TAuthBody, TAuthRegister, TAuthResponse } from '^/types/auth';
 import { BackendRoutes } from '@/lib/routing/backend';
 
 class AuthService {
+  // * General auth routes
+  static async register(body: TAuthRegister) {
+    await api.post(BackendRoutes.AuthLogout, body);
+  }
   static async login(body: TAuthBody): Promise<TResponse<TAuthResponse>> {
     const { data } = await api.post<TResponse<TAuthResponse>>(
       BackendRoutes.AuthLogin,
@@ -15,6 +19,7 @@ class AuthService {
   static async logout(): Promise<void> {
     await api.post(BackendRoutes.AuthLogout);
   }
+
   static async refresh(): Promise<TResponse<TAuthResponse>> {
     const { data } = await api.get<TResponse<TAuthResponse>>(
       BackendRoutes.AuthRefresh,
@@ -23,6 +28,7 @@ class AuthService {
     return data;
   }
 
+  // * Password reset routes
   static async requestPasswordReset(email: string) {
     const { data } = await api.post(BackendRoutes.AuthChangePassword, {
       email,
