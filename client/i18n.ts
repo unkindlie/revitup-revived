@@ -1,7 +1,9 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { TranslationNamespaces } from '@/lib/translation';
 
-import translationEn from '@/assets/locales/en-US/translation.json';
+import commonEn from '@/assets/locales/en-US/common.json';
+import authEn from '@/assets/locales/en-US/auth.json';
 
 i18n.use(initReactI18next).init({
   fallbackLng: 'en-US',
@@ -9,6 +11,9 @@ i18n.use(initReactI18next).init({
     escapeValue: false,
   },
   resources: {
-    'en-US': { translation: translationEn },
+    'en-US': {
+      [TranslationNamespaces.Common]: commonEn,
+      [TranslationNamespaces.Auth]: authEn,
+    },
   },
 });

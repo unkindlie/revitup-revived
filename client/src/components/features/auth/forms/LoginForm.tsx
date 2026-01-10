@@ -18,6 +18,8 @@ import { DialogClose } from '@/components/ui/dialog';
 import { Spinner } from '@/components/common/spinner/Spinner';
 import { Typography } from '@/components/common/typography/Typography';
 import { FormField } from '@/components/common/form/FormField';
+import { TranslationNamespaces } from '@/lib/translation';
+import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
 
 type LogInErrors = Partial<{
   email: string;
@@ -26,7 +28,7 @@ type LogInErrors = Partial<{
 
 export const LoginForm = () => {
   const { setDialogType } = useDropdownDialogContext();
-  const { t } = useTranslation();
+  const { t } = useTranslation(TranslationNamespaces.Auth);
   const {
     register,
     handleSubmit,
@@ -57,10 +59,10 @@ export const LoginForm = () => {
 
       setErrors({
         email: fields?.email
-          ? `dialogs.login.errorFields.email.${fields.email}`
+          ? t(`dialogs.login.errorFields.email.${fields.email}`)
           : undefined,
         password: errData.fields?.password
-          ? `dialogs.login.errorFields.password.${errData.fields.password}`
+          ? t(`dialogs.login.errorFields.password.${errData.fields.password}`)
           : undefined,
       });
     }
@@ -72,28 +74,34 @@ export const LoginForm = () => {
         className="flex flex-col space-y-2"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <FormField
-          id="email"
-          label={t('fields.email')}
-          errorMessage={errors.email || formErrors.email?.message}
-        >
-          <Input
+        <TranslationNamespaceProvider namespace={'auth'}>
+          <FormField
             id="email"
-            placeholder={t('fields.email')}
-            {...register('email')}
-          />
-        </FormField>
-        <FormField
-          id="password"
-          label={t('fields.password')}
-          errorMessage={errors.password || formErrors.password?.message}
-        >
-          <PasswordInput
+            label={t('fields.email', { ns: TranslationNamespaces.Common })}
+            errorMessage={errors.email || formErrors.email?.message}
+          >
+            <Input
+              id="email"
+              placeholder={t('fields.email', {
+                ns: TranslationNamespaces.Common,
+              })}
+              {...register('email')}
+            />
+          </FormField>
+          <FormField
             id="password"
-            placeholder={t('fields.password')}
-            {...register('password')}
-          />
-        </FormField>
+            label={t('fields.password', { ns: TranslationNamespaces.Common })}
+            errorMessage={errors.password || formErrors.password?.message}
+          >
+            <PasswordInput
+              id="password"
+              placeholder={t('fields.password', {
+                ns: TranslationNamespaces.Common,
+              })}
+              {...register('password')}
+            />
+          </FormField>
+        </TranslationNamespaceProvider>
         <Button
           className="mt-2 h-10 cursor-pointer font-semibold"
           type="submit"

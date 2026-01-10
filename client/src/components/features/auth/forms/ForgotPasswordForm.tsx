@@ -13,9 +13,11 @@ import { toast } from 'sonner';
 import { getErrorFromAxiosError } from '^/helpers/response/getErrorFromAxiosError';
 import { getErrorFromResponse } from '^/helpers/response/getResponse';
 import { getFieldErrors } from '^/helpers/response/getFieldErrors';
+import { TranslationNamespaces } from '@/lib/translation';
+import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
 
 export const ForgotPasswordForm = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(TranslationNamespaces.Auth);
   const { closeHidden, closeRef } = useCloseDialog();
   const {
     register,
@@ -35,8 +37,8 @@ export const ForgotPasswordForm = () => {
     try {
       await mutateAsync({ email });
 
-      toast.success('Request created successfully', {
-        description: `Check your e-mail (${email}) for the reset letter`,
+      toast.success(t('dialogs.forgotPw.success.name'), {
+        description: t('dialogs.forgotPw.success.description', { email }),
       });
 
       closeRef.current?.click();
@@ -47,9 +49,9 @@ export const ForgotPasswordForm = () => {
       const fields = getFieldErrors<'email'>(errData);
 
       if (fields.email === 'user_not_exist') {
-        setError(`dialogs.login.errorFields.email.${fields.email}`);
+        setError(t(`dialogs.login.errorFields.email.${fields.email}`));
       } else {
-        setError(`dialogs.forgotPw.errorFields.email.${fields.email}`);
+        setError(t(`dialogs.forgotPw.errorFields.email.${fields.email}`));
       }
     }
   };
@@ -60,17 +62,21 @@ export const ForgotPasswordForm = () => {
         className="flex flex-col space-y-2"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <FormField
-          id="email"
-          label={t('fields.email')}
-          errorMessage={error || formErrors.email?.message}
-        >
-          <Input
+        <TranslationNamespaceProvider namespace={'auth'}>
+          <FormField
             id="email"
-            placeholder={t('fields.email')}
-            {...register('email')}
-          />
-        </FormField>
+            label={t('fields.email', { ns: TranslationNamespaces.Common })}
+            errorMessage={error || formErrors.email?.message}
+          >
+            <Input
+              id="email"
+              placeholder={t('fields.email', {
+                ns: TranslationNamespaces.Common,
+              })}
+              {...register('email')}
+            />
+          </FormField>
+        </TranslationNamespaceProvider>
         <Button
           className="mt-2 h-10 cursor-pointer font-semibold"
           type="submit"

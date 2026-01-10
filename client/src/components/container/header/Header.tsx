@@ -3,9 +3,10 @@ import { HeaderLogo } from '@/components/container/header/HeaderLogo';
 import { HeaderDropdown } from '@/components/container/header/HeaderDropdown';
 import { useTranslation } from 'react-i18next';
 import { DropdownDialogProvider } from '@/providers/DropdownDialogProvider';
+import { TranslationNamespaces } from '@/lib/translation';
 
 export const Header = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(TranslationNamespaces.Common);
 
   return (
     <header className="bg-light-active sticky top-0 flex h-16 w-full items-center justify-between px-8">

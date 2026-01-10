@@ -1,0 +1,24 @@
+{
+  "common": {
+    "fallback": "Fallback"
+  },
+  "header": {
+    "dropdown": {
+      "default": { "login": "Login", "register": "Register" },
+      "logged": {
+        "logout": "Log out"
+      }
+    },
+    "sections": {
+      "news": "News",
+      "events": "Events"
+    }
+  },
+  "footer": {
+    "authorship": "created by"
+  },
+  "fields": {
+    "email": "E-mail",
+    "password": "Password"
+  }
+}

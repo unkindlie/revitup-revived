@@ -6,9 +6,10 @@ import {
 } from '@/components/ui/dialog';
 import { LoginForm } from '@/components/features/auth/forms/LoginForm';
 import { useTranslation } from 'react-i18next';
+import { TranslationNamespaces } from '@/lib/translation';
 
 export const LoginDialog = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation(TranslationNamespaces.Auth);
 
   return (
     <DialogContent aria-describedby={undefined}>
