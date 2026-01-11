@@ -5,5 +5,5 @@ import AuthService from '@/api/services/auth.service';
 export const useRegister = () =>
   useMutation({
     mutationKey: ['register'],
-    mutationFn: ({ ...rest }: TAuthRegister) => AuthService.login(rest),
+    mutationFn: ({ ...rest }: TAuthRegister) => AuthService.register(rest),
   });

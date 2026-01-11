@@ -6,7 +6,7 @@ import { BackendRoutes } from '@/lib/routing/backend';
 class AuthService {
   // * General auth routes
   static async register(body: TAuthRegister) {
-    await api.post(BackendRoutes.AuthLogout, body);
+    await api.post(BackendRoutes.AuthRegister, body);
   }
   static async login(body: TAuthBody): Promise<TResponse<TAuthResponse>> {
     const { data } = await api.post<TResponse<TAuthResponse>>(
