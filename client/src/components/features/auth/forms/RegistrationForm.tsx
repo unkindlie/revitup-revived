@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router';
 import { getErrorFromAxiosError } from '^/helpers/response/getErrorFromAxiosError';
 import { getErrorFromResponse } from '^/helpers/response/getResponse';
 import { getFieldErrors } from '^/helpers/response/getFieldErrors';
+import { GoogleLoginButton } from '../GoogleLoginButton';
 
 type RegistrationErrors = Partial<TAuthRegister>;
 
@@ -114,13 +115,16 @@ export const RegistrationForm = () => {
           />
         </FormField>
       </TranslationNamespaceProvider>
-      <Button
-        className="text-light-active hover:bg-light-active mt-2 w-full cursor-pointer rounded-sm bg-white font-semibold shadow-none hover:text-white"
-        type="submit"
-        disabled={!isValid || isPending}
-      >
-        {isPending ? <Spinner /> : t('registration.actions.join')}
-      </Button>
+      <div className="mt-2 flex flex-col gap-y-2">
+        <Button
+          className="text-light-active hover:bg-light-active w-full cursor-pointer rounded-sm bg-white font-semibold shadow-none hover:text-white"
+          type="submit"
+          disabled={!isValid || isPending}
+        >
+          {isPending ? <Spinner /> : t('registration.actions.join')}
+        </Button>
+        <GoogleLoginButton />
+      </div>
     </form>
   );
 };

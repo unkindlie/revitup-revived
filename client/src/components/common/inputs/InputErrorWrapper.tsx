@@ -26,6 +26,7 @@ export const InputErrorWrapper = ({
     <div className="flex flex-col gap-1">
       {children}
       <Typography
+        destructive
         variant="sm"
         className={cn(
           'block origin-top overflow-hidden font-medium transition-all duration-300 ease-in-out',

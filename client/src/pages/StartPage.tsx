@@ -3,6 +3,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Typography } from '@/components/common/typography/Typography';
+import { SonnerLoader } from '../components/common/spinner/Spinner';
 
 export const StartPage = () => {
   const { user, loadingFlag } = useUserStore(
@@ -13,7 +14,7 @@ export const StartPage = () => {
   );
 
   const cb = () => {
-    toast.error('idkbruv', {
+    toast.loading('idkbruv', {
       description: 'wow',
     });
   };
@@ -28,6 +29,9 @@ export const StartPage = () => {
       {!user && isLoading && <Typography>Loading</Typography>}
       {user && <Typography>{JSON.stringify(user, null, 2)}</Typography>}
       <Typography>hello</Typography>
+      <div className='max-h-10'>
+        <SonnerLoader  visible />
+      </div>
     </div>
   );
 };

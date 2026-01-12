@@ -20,6 +20,7 @@ import { Typography } from '@/components/common/typography/Typography';
 import { FormField } from '@/components/common/form/FormField';
 import { TranslationNamespaces } from '@/lib/translation';
 import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
+import { GoogleLoginButton } from '../GoogleLoginButton';
 
 type LogInErrors = Partial<{
   email: string;
@@ -103,13 +104,16 @@ export const LoginForm = () => {
             />
           </FormField>
         </TranslationNamespaceProvider>
-        <Button
-          className="mt-2 h-10 cursor-pointer font-semibold"
-          type="submit"
-          disabled={!isValid || isPending}
-        >
-          {isPending ? <Spinner /> : t('dialogs.login.action')}
-        </Button>
+        <div className='flex flex-col gap-y-2'>
+          <Button
+            className="h-10 cursor-pointer font-semibold"
+            type="submit"
+            disabled={!isValid || isPending}
+          >
+            {isPending ? <Spinner /> : t('dialogs.login.action')}
+          </Button>
+          <GoogleLoginButton />
+        </div>
         <div className="mt-1 flex justify-between">
           <Typography
             variant="sm"

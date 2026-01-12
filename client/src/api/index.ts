@@ -2,8 +2,6 @@ import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 import AuthService from '@/api/services/auth.service';
 import { ACCESS_TOKEN } from '../../utils/constants/auth.constants';
 
-// ...existing code...
-
 type RetryableRequest = AxiosRequestConfig & { _retry?: boolean };
 
 let isRefreshing = false;

@@ -2,7 +2,7 @@
 
 ## 10-01-26
 
-- Implement a Google OAuth2 login/registration
+- ~~Implement a Google OAuth2 login/registration~~ (done: 12-01-26)
 - Add a simple user profile page
   - Implement user picture change
 - Add the tooltip to error boundary for the sake of mentioning about visual centering

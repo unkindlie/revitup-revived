@@ -4,6 +4,7 @@ import {
   Get,
   Patch,
   Post,
+  Res,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -24,10 +25,22 @@ import { LogoutInterceptor } from 'features/auth/interceptors/logout.interceptor
 import { RefreshCookieInterceptor } from 'features/auth/interceptors/refresh-cookie.interceptor';
 import { UserCreateDto } from 'features/user/dto';
 import { UserRole } from 'features/user/enums/user-role.enum';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { Response } from 'express';
+import { CookieHelper } from './helpers/cookie.helper';
+import {
+  REFRESH_TOKEN_LIFE_IN_MS,
+  REFRESH_TOKEN_NAME,
+} from './constants/auth.constants';
+import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private service: AuthService) {}
+  constructor(
+    private service: AuthService,
+    private tokenService: RefreshTokenService,
+    private cookieHelper: CookieHelper,
+  ) {}
 
   @Post('register')
   async register(@Body() body: UserCreateDto) {
@@ -79,5 +92,34 @@ export class AuthController {
   @UseGuards(AccessTokenGuard)
   roleCheckup() {
     return { message: 'Roles work' };
+  }
+
+  @Get('google/login')
+  @UseGuards(GoogleAuthGuard)
+  googleLogin() {}
+
+  @Get('google/callback')
+  @UseGuards(GoogleAuthGuard)
+  async googleCallback(
+    @CurrentUser() user: UserPayloadDto,
+    @Res() res: Response,
+  ) {
+    const tokens = await this.service.generateTokens(user);
+
+    // TODO: handle user availability check
+    await this.tokenService.createTokenEntry(tokens.refreshToken);
+
+    this.cookieHelper.setCookie({
+      key: REFRESH_TOKEN_NAME,
+      value: tokens.refreshToken,
+      options: {
+        maxAge: REFRESH_TOKEN_LIFE_IN_MS,
+      },
+      res,
+    });
+    res.redirect(
+      process.env.FRONTEND_URL +
+        `/google-auth?token=${encodeURIComponent(tokens.accessToken)}`,
+    );
   }
 }

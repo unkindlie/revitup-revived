@@ -1,5 +1,11 @@
 # Server TODOs
 
+## 12-01-2026
+
+- Add check for user availability on Google OAuth
+- Fix backend bugs:
+  - 401 "Payload is not valid" on logout
+
 ## 28-11-2025
 
 - Finishing Password Reset module

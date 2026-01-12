@@ -12,13 +12,16 @@ import { LocalStrategy } from 'features/auth/strategies/local.strategy';
 import { RefreshTokenStrategy } from 'features/auth/strategies/refresh-token.strategy';
 import { RefreshTokenModule } from 'features/refresh-token/refresh-token.module';
 import { UserModule } from 'features/user/user.module';
-import { PasswordHelper } from './helpers/password.helper';
+import { PasswordHelper } from 'features/auth/helpers/password.helper';
+import googleOauthConfig from 'features/auth/config/google-oauth.config';
+import { GoogleStrategy } from './strategies/google.strategy';
 
 @Module({
   imports: [
     UserModule,
     RefreshTokenModule,
     ConfigModule.forFeature(authConfig),
+    ConfigModule.forFeature(googleOauthConfig),
     JwtModule.register({}),
   ],
   controllers: [AuthController],
@@ -27,6 +30,7 @@ import { PasswordHelper } from './helpers/password.helper';
     LocalStrategy,
     AccessTokenStrategy,
     RefreshTokenStrategy,
+    GoogleStrategy,
     CookieHelper,
     TokenHelper,
     PasswordHelper,

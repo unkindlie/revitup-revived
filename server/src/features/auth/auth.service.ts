@@ -105,8 +105,23 @@ export class AuthService {
       roles: input.roles,
     });
   }
+  async createGoogleUser(googleUser: UserCreateDto) {
+    let user: UserCreateDto;
 
-  private async generateTokens(payload: UserPayloadDto): Promise<TokensDto> {
+    try {
+      user = await this.userSerivce.getUserByEmail(googleUser.email);
+    } catch {
+      await this.register(googleUser);
+
+      user = await this.userSerivce.getUserByEmail(googleUser.email);
+    }
+
+    return plainToInstance(UserPayloadDto, user, {
+      excludeExtraneousValues: true,
+    });
+  }
+
+  async generateTokens(payload: UserPayloadDto): Promise<TokensDto> {
     const plain = instanceToPlain(payload);
 
     const accessToken = await this.tokenHelper.signPayload(plain, 'access');
