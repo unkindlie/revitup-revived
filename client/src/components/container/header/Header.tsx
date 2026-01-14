@@ -1,0 +1,25 @@
+import { HeaderLink } from '@/components/container/header/HeaderLink';
+import { HeaderLogo } from '@/components/container/header/HeaderLogo';
+import { HeaderDropdown } from '@/components/container/header/HeaderDropdown';
+import { useTranslation } from 'react-i18next';
+import { DropdownDialogProvider } from '@/providers/DropdownDialogProvider';
+import { TranslationNamespaces } from '@/lib/translation';
+
+export const Header = () => {
+  const { t } = useTranslation(TranslationNamespaces.Common);
+
+  return (
+    <header className="bg-light-active sticky top-0 flex h-16 w-full items-center justify-between px-8">
+      <div className="flex flex-row items-center gap-6">
+        <HeaderLogo />
+        <div className="md:flex gap-6 hidden">
+          <HeaderLink to="/" title={t('header.sections.news')} />
+          <HeaderLink to="/events" title={t('header.sections.events')}  />
+        </div>
+      </div>
+      <DropdownDialogProvider initialValue={undefined}>
+        <HeaderDropdown />
+      </DropdownDialogProvider>
+    </header>
+  );
+};

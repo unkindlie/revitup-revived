@@ -1,0 +1,23 @@
+{
+  "name": "revitup-revived",
+  "version": "1.0.0",
+  "description": "Remaster of the [first version](https://github.com/unkindlie/RevItUp)",
+  "scripts": {
+    "dev": "npm run server-dev & npm run client-dev",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server-dev": "cd server; npm run start:dev",
+    "client-dev": "cd client; npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unkindlie/revitup-revived.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/unkindlie/revitup-revived/issues"
+  },
+  "homepage": "https://github.com/unkindlie/revitup-revived#readme"
+}
