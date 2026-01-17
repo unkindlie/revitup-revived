@@ -13,7 +13,7 @@ export class ArticleController {
 
   // TODO: swap UUID with article link
   @Get(':id')
-  async findArticleById(@Param(ParseUUIDPipe) id: string) {
+  async findArticleById(@Param('id', ParseUUIDPipe) id: string) {
     return await this.service.findArticleById(id);
   }
 }
