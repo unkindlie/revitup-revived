@@ -8,5 +8,24 @@ export const BackendRoutes = {
 
   // User routes
   Users: '/users',
+
+  // Article routes
+  ArticleDetailed: 'articles/:id',
 } as const;
 
+type RoutesKeys = keyof typeof BackendRoutes;
+type Params = Record<string, string | number>;
+
+export function backendPath<K extends RoutesKeys>(
+  page: K,
+  params?: Params,
+): string {
+  let route = BackendRoutes[page] as string;
+
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      route = route.replace(`:${key}`, encodeURIComponent(String(value)));
+    });
+  }
+  return route;
+}

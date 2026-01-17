@@ -15,7 +15,7 @@ export const StartPage = () => {
       <div className='max-w-1/2'>
         <Article article={newestArticle} size="lg" />
       </div>
-      <div className="grid w-2/5 grid-cols-2 gap-x-3">
+      <div className="grid w-2/5 grid-cols-2 gap-x-3 gap-y-2">
         {articles.slice(1).map((it) => (
           <Article key={it.id} article={it} size='md' />
         ))}

@@ -9,6 +9,14 @@ export class ArticleRepository {
 
   async findArticles(): Promise<Article[]> {
     return await this.repo.find({
+      select: {
+        id: true,
+        title: true,
+        imageUrl: true,
+        previewText: true,
+        createdAt: true,
+        updatedAt: true,
+      },
       order: {
         createdAt: 'DESC',
       },
