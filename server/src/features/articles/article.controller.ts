@@ -1,5 +1,14 @@
-import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
 import { ArticleService } from './article.service';
+import { ArticleCreateDto } from './dto/article-create.dto';
 
 @Controller('articles')
 export class ArticleController {
@@ -15,5 +24,19 @@ export class ArticleController {
   @Get(':id')
   async findArticleById(@Param('id', ParseUUIDPipe) id: string) {
     return await this.service.findArticleById(id);
+  }
+
+  @Post()
+  async createArticle(@Body() article: ArticleCreateDto) {
+    await this.service.createArticle(article);
+
+    return { message: 'Article was created successfully' };
+  }
+
+  @Delete('soft/:id')
+  async softDelete(@Param('id', ParseUUIDPipe) id: string) {
+    await this.service.softDeleteArticle(id);
+
+    return { message: 'Article was soft-deleted successfully' };
   }
 }

@@ -10,7 +10,9 @@ export const BackendRoutes = {
   Users: '/users',
 
   // Article routes
+  ArticleBase: 'articles',
   ArticleDetailed: 'articles/:id',
+  ArticleSoftDelete: 'articles/soft/:id',
 } as const;
 
 type RoutesKeys = keyof typeof BackendRoutes;

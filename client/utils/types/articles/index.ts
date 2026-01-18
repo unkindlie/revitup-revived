@@ -10,3 +10,10 @@ export type ArticleShort = {
 export type ArticleDetailed = ArticleShort & {
   text: string | null;
 };
+
+export type ArticleCreate = {
+  title: string;
+  previewText?: string;
+  text?: string;
+  imageUrl: string;
+};

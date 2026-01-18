@@ -1,7 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from './article.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Repository } from 'typeorm';
+import { ArticleCreateDto } from './dto/article-create.dto';
 
 @Injectable()
 export class ArticleRepository {
@@ -17,18 +18,48 @@ export class ArticleRepository {
         createdAt: true,
         updatedAt: true,
       },
+      where: {
+        deletedAt: IsNull(),
+      },
       order: {
         createdAt: 'DESC',
       },
     });
   }
-  // TODO: add "not available" if soft deleted
+
   async findArticleById(id: string): Promise<Article> {
     const entity = await this.repo.findOne({
-      where: { id },
+      where: { id, deletedAt: IsNull() },
     });
-    if (!entity) throw new NotFoundException('This article does not exist');
+    if (!entity) {
+      const isSoftDeleted = await this.repo.exists({
+        where: {
+          id,
+        },
+        withDeleted: true,
+      });
+
+      throw new NotFoundException(
+        isSoftDeleted
+          ? 'This article is currently unavailable, please check later'
+          : 'Such article does not exist',
+      );
+    }
 
     return entity;
+  }
+
+  async createArticle(article: ArticleCreateDto): Promise<void> {
+    await this.repo.insert(article);
+  }
+
+  async softDeleteArticle(id: string): Promise<void> {
+    const exists = await this.repo.existsBy({ id, deletedAt: IsNull() });
+    if (!exists)
+      throw new NotFoundException(
+        'This article is already soft-deleted or may be removed from the portal',
+      );
+
+    await this.repo.softDelete(id);
   }
 }

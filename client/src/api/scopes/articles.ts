@@ -1,5 +1,9 @@
 import type { TResponse } from '^/types/response/response.type';
-import type { ArticleDetailed, ArticleShort } from '^/types/articles';
+import type {
+  ArticleCreate,
+  ArticleDetailed,
+  ArticleShort,
+} from '^/types/articles';
 import { kyApi } from '../ky';
 import { backendPath } from '@/lib/routing/backend';
 
@@ -19,4 +23,18 @@ export async function getArticleById(
   );
 
   return await article.json();
+}
+
+export async function createArticle(article: ArticleCreate): Promise<void> {
+  await kyApi.post(backendPath('ArticleBase'), {
+    json: article,
+  });
+}
+
+export async function softDeleteArticle(id: string): Promise<void> {
+  await kyApi.delete(
+    backendPath('ArticleSoftDelete', {
+      id,
+    }),
+  );
 }
