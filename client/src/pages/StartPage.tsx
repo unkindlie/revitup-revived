@@ -1,36 +1,24 @@
-import { useUserStore } from '@/stores/user.store';
-import { useShallow } from 'zustand/react/shallow';
-import { Button } from '@/components/ui/button';
-import { toast } from 'sonner';
-import { Typography } from '@/components/common/typography/Typography';
-import { SonnerLoader } from '../components/common/spinner/Spinner';
+import { useGetArticles } from '@/hooks/articles/useGetArticles';
+import { useResponse } from '@/hooks/data-handling/useResponse';
+import { Article } from '@/components/features/articles/Article';
 
 export const StartPage = () => {
-  const { user, loadingFlag } = useUserStore(
-    useShallow((state) => ({
-      user: state.user,
-      loadingFlag: state.loadingInfo,
-    })),
-  );
+  const { isFetched, data: articlesResponse } = useGetArticles();
+  const { data: articles } = useResponse(articlesResponse);
 
-  const cb = () => {
-    toast.loading('idkbruv', {
-      description: 'wow',
-    });
-  };
+  if (!isFetched || !articles) return null;
 
-  const { isLoading } = loadingFlag;
+  const newestArticle = articles[0];
 
   return (
-    <div className="flex flex-col">
-      <Button className="size-fit" onClick={cb}>
-        Click
-      </Button>
-      {!user && isLoading && <Typography>Loading</Typography>}
-      {user && <Typography>{JSON.stringify(user, null, 2)}</Typography>}
-      <Typography>hello</Typography>
-      <div className='max-h-10'>
-        <SonnerLoader  visible />
+    <div className="flex justify-between">
+      <div className='max-w-1/2'>
+        <Article article={newestArticle} size="lg" />
+      </div>
+      <div className="grid w-2/5 grid-cols-2 gap-x-3 gap-y-2">
+        {articles.slice(1).map((it) => (
+          <Article key={it.id} article={it} size='md' />
+        ))}
       </div>
     </div>
   );

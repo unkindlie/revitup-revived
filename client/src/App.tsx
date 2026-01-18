@@ -2,9 +2,14 @@ import { Container } from '@/components/container/Container';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from '@/providers/AuthProvider';
-import { RegistrationPage, StartPage } from '@/pages';
+import {
+  ArticleDetailedPage,
+  ArticlesIndexPage,
+  RegistrationPage,
+  GoogleAuthRedirectPage,
+  StartPage,
+} from '@/pages';
 import { ErrorBoundary } from './pages/NotFoundErrorBoundary';
-import { GoogleAuthRedirectPage } from './pages/auth/GoogleAuthRedirectPage';
 
 const queryClient = new QueryClient({
   defaultOptions: { mutations: { retry: false } },
@@ -27,7 +32,17 @@ function App() {
         {
           path: '/google-auth',
           Component: GoogleAuthRedirectPage,
-        }
+        },
+        {
+          path: '/articles',
+          children: [
+            { index: true, Component: ArticlesIndexPage },
+            {
+              path: ':id',
+              Component: ArticleDetailedPage,
+            },
+          ],
+        },
       ],
     },
   ]);
