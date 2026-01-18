@@ -6,6 +6,7 @@ import { Typography } from '@/components/common/typography/Typography';
 import { useDeleteArticle } from '@/hooks/articles/useDeleteArticle';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/common/spinner/Spinner';
+import { ArticleUpdateForm } from '../../components/features/articles/ArticleUpdateForm';
 
 export const ArticleDetailedPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,7 +16,7 @@ export const ArticleDetailedPage = () => {
 
   const { data: article } = useResponse(articleRes);
 
-  if (!isFetched || !article) return null;
+  if (!isFetched || !article || !id) return null;
 
   return (
     <div className="flex flex-col">
@@ -25,9 +26,12 @@ export const ArticleDetailedPage = () => {
       <Typography className="mt-2 w-1/2" variant="md">
         {article.text}
       </Typography>
-      <Button className='w-28' onClick={() => deleteArticle()}>
-        {deletionPending ? <Spinner /> : 'Delete article'}
-      </Button>
+      <div className="flex flex-row space-x-2">
+        <ArticleUpdateForm articleId={id} />
+        <Button className="w-28" onClick={() => deleteArticle()}>
+          {deletionPending ? <Spinner /> : 'Delete article'}
+        </Button>
+      </div>
     </div>
   );
 };

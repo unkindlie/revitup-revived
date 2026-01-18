@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from './article.entity';
-import { IsNull, Repository } from 'typeorm';
+import { FindOptionsWhere, IsNull, Repository } from 'typeorm';
 import { ArticleCreateDto } from './dto/article-create.dto';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import { ARTICLES_SELECT_OBJ } from './article.constants';
 
 @Injectable()
 export class ArticleRepository {
@@ -10,14 +12,7 @@ export class ArticleRepository {
 
   async findArticles(): Promise<Article[]> {
     return await this.repo.find({
-      select: {
-        id: true,
-        title: true,
-        imageUrl: true,
-        previewText: true,
-        createdAt: true,
-        updatedAt: true,
-      },
+      select: ARTICLES_SELECT_OBJ,
       where: {
         deletedAt: IsNull(),
       },
@@ -26,16 +21,13 @@ export class ArticleRepository {
       },
     });
   }
-
   async findArticleById(id: string): Promise<Article> {
     const entity = await this.repo.findOne({
       where: { id, deletedAt: IsNull() },
     });
     if (!entity) {
       const isSoftDeleted = await this.repo.exists({
-        where: {
-          id,
-        },
+        where: { id },
         withDeleted: true,
       });
 
@@ -48,11 +40,15 @@ export class ArticleRepository {
 
     return entity;
   }
-
   async createArticle(article: ArticleCreateDto): Promise<void> {
     await this.repo.insert(article);
   }
-
+  async updateArticle(
+    id: string,
+    partial: QueryDeepPartialEntity<Article>,
+  ): Promise<void> {
+    await this.repo.update(id, partial);
+  }
   async softDeleteArticle(id: string): Promise<void> {
     const exists = await this.repo.existsBy({ id, deletedAt: IsNull() });
     if (!exists)
@@ -61,5 +57,8 @@ export class ArticleRepository {
       );
 
     await this.repo.softDelete(id);
+  }
+  async existsBy(options: FindOptionsWhere<Article>) {
+    return await this.repo.existsBy(options);
   }
 }

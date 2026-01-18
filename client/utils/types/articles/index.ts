@@ -17,3 +17,5 @@ export type ArticleCreate = {
   text?: string;
   imageUrl: string;
 };
+
+export type ArticleEdit = Partial<ArticleCreate>;

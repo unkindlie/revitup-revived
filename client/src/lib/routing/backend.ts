@@ -12,6 +12,7 @@ export const BackendRoutes = {
   // Article routes
   ArticleBase: 'articles',
   ArticleDetailed: 'articles/:id',
+  ArticleUpdate: 'articles/update/:id',
   ArticleSoftDelete: 'articles/soft/:id',
 } as const;
 

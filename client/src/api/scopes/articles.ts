@@ -3,6 +3,7 @@ import type {
   ArticleCreate,
   ArticleDetailed,
   ArticleShort,
+  ArticleEdit,
 } from '^/types/articles';
 import { kyApi } from '../ky';
 import { backendPath } from '@/lib/routing/backend';
@@ -29,6 +30,20 @@ export async function createArticle(article: ArticleCreate): Promise<void> {
   await kyApi.post(backendPath('ArticleBase'), {
     json: article,
   });
+}
+
+export async function updateArticle(
+  id: string,
+  partialArticle: ArticleEdit,
+): Promise<void> {
+  await kyApi.patch(
+    backendPath('ArticleUpdate', {
+      id,
+    }),
+    {
+      json: partialArticle,
+    },
+  );
 }
 
 export async function softDeleteArticle(id: string): Promise<void> {
