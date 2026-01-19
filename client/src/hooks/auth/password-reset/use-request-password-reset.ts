@@ -1,9 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
-import AuthService from '@/api/services/auth.service';
+import { requestPasswordReset } from '@/api/scopes/auth';
 
 export const usePasswordResetRequest = () =>
   useMutation({
     mutationKey: ['pw-reset-request'],
-    mutationFn: ({ email }: { email: string }) =>
-      AuthService.requestPasswordReset(email),
+    mutationFn: ({ email }: { email: string }) => requestPasswordReset(email),
   });

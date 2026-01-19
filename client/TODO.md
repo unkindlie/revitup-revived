@@ -7,9 +7,9 @@
   - Implement user picture change
 - Add the tooltip to error boundary for the sake of mentioning about visual centering
 - Fix the code structure
-  - Add the enum-like structure for routing (backend and front-end)
-  - Move from service classes to separate functions (?)
-  - Move from Axios to Ky
+  - ~~Add the enum-like structure for routing~~ (backend and front-end) (done: 17-01-26)
+  - ~~Move from service classes to separate functions~~ (done: 19-01-26)
+  - ~~Move from Axios to Ky~~ (done: 19-01-26)
   - Replace the spinner with one from the loading toast
 - Add titles to pages
 

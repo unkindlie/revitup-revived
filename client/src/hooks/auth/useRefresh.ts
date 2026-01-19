@@ -1,9 +1,9 @@
 import { useUserStore } from '@/stores/user.store';
 import { useMutation } from '@tanstack/react-query';
-import AuthService from '@/api/services/auth.service';
 import { ACCESS_TOKEN } from '^/constants/auth.constants';
 import { useShallow } from 'zustand/react/shallow';
 import { getDataFromResponse } from '^/helpers/response/getResponse';
+import { refresh } from '@/api/scopes/auth';
 
 export const useRefresh = () => {
   const { setUser, setLoadingFlag, setIsLogged } = useUserStore(
@@ -16,7 +16,7 @@ export const useRefresh = () => {
 
   return useMutation({
     mutationKey: ['refresh'],
-    mutationFn: () => AuthService.refresh(),
+    mutationFn: () => refresh(),
     onMutate: () => setLoadingFlag({ isLoading: true }),
     onSuccess: (res) => {
       const data = getDataFromResponse(res);

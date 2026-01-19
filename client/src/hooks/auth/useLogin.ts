@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import type { TAuthBody } from '^/types/auth';
-import AuthService from '@/api/services/auth.service';
+import { login } from '@/api/scopes/auth';
 import { useUserStore } from '@/stores/user.store';
 import { ACCESS_TOKEN } from '^/constants/auth.constants';
 import { getDataFromResponse } from '^/helpers/response/getResponse';
@@ -17,7 +17,7 @@ export const useLogin = () => {
 
   return useMutation({
     mutationKey: ['login'],
-    mutationFn: ({ ...rest }: TAuthBody) => AuthService.login(rest),
+    mutationFn: ({ ...rest }: TAuthBody) => login(rest),
     onSuccess: (res) => {
       const data = getDataFromResponse(res);
 
