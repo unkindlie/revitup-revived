@@ -1,9 +1,9 @@
 import { useParams } from 'react-router';
-import { useGetArticleById } from '@/hooks/articles/useGetArticleById';
-import { useResponse } from '@/hooks/data-handling/useResponse';
+import { useGetArticleById } from '@/hooks/features/articles/useGetArticleById';
+import { useResponse } from '@/hooks/useResponse';
 import { Article } from '@/components/features/articles/Article';
 import { Typography } from '@/components/common/typography/Typography';
-import { useDeleteArticle } from '@/hooks/articles/useDeleteArticle';
+import { useDeleteArticle } from '@/hooks/features/articles/useDeleteArticle';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/common/spinner/Spinner';
 import { ArticleUpdateForm } from '@/components/features/articles/ArticleUpdateForm';

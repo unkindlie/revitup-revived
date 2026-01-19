@@ -3,7 +3,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { authRegistrationSchema } from '^/schemas/auth/auth-register.schema';
-import { useRegister } from '@/hooks/auth/useRegister';
+import { useRegister } from '@/hooks/features/auth/useRegister';
 import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
 import { FormField } from '@/components/common/form/FormField';
 import { useState } from 'react';

@@ -1,5 +1,5 @@
-import { useGetArticles } from '@/hooks/articles/useGetArticles';
-import { useResponse } from '@/hooks/data-handling/useResponse';
+import { useGetArticles } from '@/hooks/features/articles/useGetArticles';
+import { useResponse } from '@/hooks/useResponse';
 import { Article } from '@/components/features/articles/Article';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 

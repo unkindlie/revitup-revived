@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useTranslation } from 'react-i18next';
-import { useLogin } from '@/hooks/auth/useLogin';
+import { useLogin } from '@/hooks/features/auth/useLogin';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import type { TAuthBody } from '^/types/auth';
 import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
