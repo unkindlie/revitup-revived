@@ -1,10 +1,15 @@
 import { useGetArticles } from '@/hooks/articles/useGetArticles';
 import { useResponse } from '@/hooks/data-handling/useResponse';
 import { Article } from '@/components/features/articles/Article';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const StartPage = () => {
   const { isFetched, data: articlesResponse } = useGetArticles();
   const { data: articles } = useResponse(articlesResponse);
+
+  useDocumentTitle('Your place of Motorsport', {
+    appNamed: true,
+  });
 
   if (!isFetched || !articles) return null;
 
@@ -12,12 +17,12 @@ export const StartPage = () => {
 
   return (
     <div className="flex justify-between">
-      <div className='max-w-1/2'>
+      <div className="max-w-1/2">
         <Article article={newestArticle} size="lg" />
       </div>
       <div className="grid w-2/5 grid-cols-2 gap-x-3 gap-y-2">
         {articles.slice(1).map((it) => (
-          <Article key={it.id} article={it} size='md' />
+          <Article key={it.id} article={it} size="md" />
         ))}
       </div>
     </div>

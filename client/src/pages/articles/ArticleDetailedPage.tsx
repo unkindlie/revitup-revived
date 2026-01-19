@@ -6,7 +6,8 @@ import { Typography } from '@/components/common/typography/Typography';
 import { useDeleteArticle } from '@/hooks/articles/useDeleteArticle';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/common/spinner/Spinner';
-import { ArticleUpdateForm } from '../../components/features/articles/ArticleUpdateForm';
+import { ArticleUpdateForm } from '@/components/features/articles/ArticleUpdateForm';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 export const ArticleDetailedPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -15,6 +16,10 @@ export const ArticleDetailedPage = () => {
     useDeleteArticle(id!);
 
   const { data: article } = useResponse(articleRes);
+
+  useDocumentTitle(`${article ? article.title : 'Article loading...'}`, {
+    appNamed: true,
+  });
 
   if (!isFetched || !article || !id) return null;
 
