@@ -4,11 +4,16 @@ import { Typography } from '@/components/common/typography/Typography';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { RegistrationForm } from '@/components/features/auth/forms/RegistrationForm';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 
 // TODO: add arrows with images for nouns in "Become" part (on md+ layouts)
 export const RegistrationPage = () => {
   const { t } = useTranslation(['auth']);
   const [inForm, setInForm] = useState(false);
+
+  useDocumentTitle('Registration', {
+    appNamed: true,
+  });
 
   const section = !inForm ? 'become' : 'join';
   const buttonCls =

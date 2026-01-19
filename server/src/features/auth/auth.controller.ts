@@ -8,6 +8,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { Response } from 'express';
 
 import { AuthService } from 'features/auth/auth.service';
 import { Roles } from 'features/auth/decorators/roles.decorator';
@@ -25,14 +26,13 @@ import { LogoutInterceptor } from 'features/auth/interceptors/logout.interceptor
 import { RefreshCookieInterceptor } from 'features/auth/interceptors/refresh-cookie.interceptor';
 import { UserCreateDto } from 'features/user/dto';
 import { UserRole } from 'features/user/enums/user-role.enum';
-import { GoogleAuthGuard } from './guards/google-auth.guard';
-import { Response } from 'express';
-import { CookieHelper } from './helpers/cookie.helper';
+import { GoogleAuthGuard } from 'features/auth/guards/google-auth.guard';
+import { CookieHelper } from 'features/auth/helpers/cookie.helper';
 import {
   REFRESH_TOKEN_LIFE_IN_MS,
   REFRESH_TOKEN_NAME,
-} from './constants/auth.constants';
-import { RefreshTokenService } from '../refresh-token/refresh-token.service';
+} from 'features/auth/constants/auth.constants';
+import { RefreshTokenService } from 'features/refresh-token/refresh-token.service';
 
 @Controller('auth')
 export class AuthController {
@@ -57,7 +57,6 @@ export class AuthController {
   }
 
   @Post('logout')
-  @UseGuards(AccessTokenGuard)
   @UseInterceptors(LogoutInterceptor)
   logout() {
     return { message: 'Successfully logged out' };

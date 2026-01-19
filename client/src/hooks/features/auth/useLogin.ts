@@ -1,11 +1,12 @@
-import { useUserStore } from '@/stores/user.store';
 import { useMutation } from '@tanstack/react-query';
-import AuthService from '@/api/services/auth.service';
+import type { TAuthBody } from '^/types/auth';
+import { login } from '@/api/scopes/auth';
+import { useUserStore } from '@/stores/user.store';
 import { ACCESS_TOKEN } from '^/constants/auth.constants';
-import { useShallow } from 'zustand/react/shallow';
 import { getDataFromResponse } from '^/helpers/response/getResponse';
+import { useShallow } from 'zustand/react/shallow';
 
-export const useRefresh = () => {
+export const useLogin = () => {
   const { setUser, setLoadingFlag, setIsLogged } = useUserStore(
     useShallow((state) => ({
       setUser: state.setUser,
@@ -15,9 +16,8 @@ export const useRefresh = () => {
   );
 
   return useMutation({
-    mutationKey: ['refresh'],
-    mutationFn: () => AuthService.refresh(),
-    onMutate: () => setLoadingFlag({ isLoading: true }),
+    mutationKey: ['login'],
+    mutationFn: ({ ...rest }: TAuthBody) => login(rest),
     onSuccess: (res) => {
       const data = getDataFromResponse(res);
 
@@ -27,7 +27,6 @@ export const useRefresh = () => {
         setIsLogged(true);
       }
     },
-    // onError: () => localStorage.removeItem(ACCESS_TOKEN),
     onSettled: () =>
       setLoadingFlag({ isFinishedLoading: true, isLoading: false }),
   });

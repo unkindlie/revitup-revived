@@ -171,7 +171,6 @@
 }
 
 .sonner-loading-wrapper {
-  --size: 50px;
   height: var(--size);
   width: var(--size);
   position: relative;
@@ -195,7 +194,7 @@
 .sonner-loading-bar {
   animation: sonner-spin 1.2s linear infinite;
   background: var(--gray11);
-  border-radius: 6px;
+  border-radius: 10px;
   height: 8%;
   left: -10%;
   position: absolute;

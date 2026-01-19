@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { usePasswordResetRequest } from '@/hooks/auth/password-reset/use-request-password-reset';
+import { usePasswordResetRequest } from '@/hooks/features/auth/password-reset/use-request-password-reset';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { authPwResetRequestSchema } from '^/schemas/auth/auth-pw-reset-request.schema';
@@ -86,7 +86,7 @@ export const ForgotPasswordForm = () => {
           type="submit"
           disabled={!isValid || isPending}
         >
-          {isPending ? <Spinner /> : t('dialogs.forgotPw.action')}
+          {isPending ? <Spinner size="sm" /> : t('dialogs.forgotPw.action')}
         </Button>
       </form>
       {closeHidden}

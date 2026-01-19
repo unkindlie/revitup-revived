@@ -3,7 +3,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { authRegistrationSchema } from '^/schemas/auth/auth-register.schema';
-import { useRegister } from '@/hooks/auth/useRegister';
+import { useRegister } from '@/hooks/features/auth/useRegister';
 import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
 import { FormField } from '@/components/common/form/FormField';
 import { useState } from 'react';
@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router';
 import { getErrorFromAxiosError } from '^/helpers/response/getErrorFromAxiosError';
 import { getErrorFromResponse } from '^/helpers/response/getResponse';
 import { getFieldErrors } from '^/helpers/response/getFieldErrors';
-import { GoogleLoginButton } from '../GoogleLoginButton';
+import { ExternalAuthButton } from '@/components/features/auth/ui/ExternalAuthButton';
 
 type RegistrationErrors = Partial<TAuthRegister>;
 
@@ -121,9 +121,9 @@ export const RegistrationForm = () => {
           type="submit"
           disabled={!isValid || isPending}
         >
-          {isPending ? <Spinner /> : t('registration.actions.join')}
+          {isPending ? <Spinner size="sm" /> : t('registration.actions.join')}
         </Button>
-        <GoogleLoginButton />
+        <ExternalAuthButton provider="google" />
       </div>
     </form>
   );

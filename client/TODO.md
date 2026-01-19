@@ -5,13 +5,13 @@
 - ~~Implement a Google OAuth2 login/registration~~ (done: 12-01-26)
 - Add a simple user profile page
   - Implement user picture change
-- Add the tooltip to error boundary for the sake of mentioning about visual centering
+- ~~Add the tooltip to error boundary for the sake of mentioning about visual centering~~ (done: 19-01-26)
 - Fix the code structure
-  - Add the enum-like structure for routing (backend and front-end)
-  - Move from service classes to separate functions (?)
-  - Move from Axios to Ky
-  - Replace the spinner with one from the loading toast
-- Add titles to pages
+  - ~~Add the enum-like structure for routing~~ (backend and front-end) (done: 17-01-26)
+  - ~~Move from service classes to separate functions~~ (done: 19-01-26)
+  - ~~Move from Axios to Ky~~ (done: 19-01-26)
+  - ~~Replace the spinner with one from the loading toast~~ (done: 19-01-26)
+- ~~Add titles to pages~~ (done: 19-01-26)
 
 ## 03-01-26
 

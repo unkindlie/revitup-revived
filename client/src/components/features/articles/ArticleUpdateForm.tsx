@@ -11,8 +11,8 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useEditArticle } from '@/hooks/articles/useUpdateArticle';
-import { useGetArticleById } from '@/hooks/articles/useGetArticleById';
+import { useEditArticle } from '@/hooks/features/articles/useUpdateArticle';
+import { useGetArticleById } from '@/hooks/features/articles/useGetArticleById';
 import type { ArticleEdit } from '^/types/articles';
 import { FormField } from '@/components/common/form/FormField';
 import { Spinner } from '@/components/common/spinner/Spinner';
@@ -20,7 +20,7 @@ import { DialogClose } from '@/components/ui/dialog';
 import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
 import { useEffect, useRef } from 'react';
-import { useResponse } from '@/hooks/data-handling/useResponse';
+import { useResponse } from '@/hooks/useResponse';
 
 type ArticleUpdateFormProps = {
   articleId: string;
@@ -155,7 +155,7 @@ export const ArticleUpdateForm = ({ articleId }: ArticleUpdateFormProps) => {
                 disabled={!isValid || !isDirty || isPending}
                 className="flex-1"
               >
-                {isPending ? <Spinner /> : 'Update'}
+                {isPending ? <Spinner size='sm' /> : 'Update'}
               </Button>
               <DialogClose asChild>
                 <Button type="button" variant="outline">

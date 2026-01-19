@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useCreateArticle } from '@/hooks/articles/useCreateArticle';
+import { useCreateArticle } from '@/hooks/features/articles/useCreateArticle';
 import type { ArticleCreate } from '^/types/articles';
 import { FormField } from '@/components/common/form/FormField';
 import { Spinner } from '@/components/common/spinner/Spinner';
@@ -112,7 +112,7 @@ export const ArticleCreateForm = () => {
                 disabled={!isValid || isPending}
                 className="flex-1"
               >
-                {isPending ? <Spinner /> : 'Create'}
+                {isPending ? <Spinner size='sm' /> : 'Create'}
               </Button>
               <DialogClose asChild>
                 <Button type="button" variant="outline">

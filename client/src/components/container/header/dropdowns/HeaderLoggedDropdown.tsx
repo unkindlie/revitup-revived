@@ -1,6 +1,6 @@
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { useTranslation } from 'react-i18next';
-import { useLogout } from '@/hooks/auth/useLogout';
+import { useLogout } from '@/hooks/features/auth/useLogout';
 import { TranslationNamespaces } from '@/lib/translation';
 
 export const HeaderLoggedDropdown = () => {
