@@ -4,7 +4,7 @@
 
 - Add check for user availability on Google OAuth
 - Fix backend bugs:
-  - 401 "Payload is not valid" on logout
+  - ~~401 "Payload is not valid" on logout~~ (done: 19-01-26)
 
 ## 28-11-2025
 

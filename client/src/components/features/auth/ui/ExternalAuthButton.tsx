@@ -28,7 +28,7 @@ export const ExternalAuthButton = ({
   const { title, route, imgSrc } = authData[provider];
 
   const handleAuth = () => {
-    window.location.href = import.meta.env.VITE_BACKEND_URI + route;
+    window.location.href = import.meta.env.VITE_BACKEND_URI + '/' + route;
   };
 
   return (

@@ -8,8 +8,6 @@ import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
 import { useState } from 'react';
 import { PasswordInput } from '@/components/common/inputs/PasswordInput';
 import { getFieldErrors } from '^/helpers/response/getFieldErrors';
-import { getErrorFromAxiosError } from '^/helpers/response/getErrorFromAxiosError';
-import { getErrorFromResponse } from '^/helpers/response/getResponse';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { authLoginSchema } from '^/schemas/auth/auth-login.schema';
 import { Link } from 'react-router';
@@ -21,6 +19,8 @@ import { FormField } from '@/components/common/form/FormField';
 import { TranslationNamespaces } from '@/lib/translation';
 import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
 import { ExternalAuthButton } from '@/components/features/auth/ui/ExternalAuthButton';
+import { getResponse } from '@/hooks/useResponse';
+import type { TResponse } from '^/types/response/response.type';
 
 type LogInErrors = Partial<{
   email: string;
@@ -53,20 +53,21 @@ export const LoginForm = () => {
 
       setTimeout(() => setDialogType(undefined), 500);
     } catch (axiosErr) {
-      const err = getErrorFromAxiosError(axiosErr);
+      const { error } = getResponse(axiosErr as TResponse);
 
-      const errData = getErrorFromResponse(err);
-      const fields = getFieldErrors<keyof LogInErrors>(errData);
+      const fields = getFieldErrors<keyof LogInErrors>(error!);
 
-      // TODO: add a check for often used passwords
-      setErrors({
-        email: fields?.email
-          ? t(`dialogs.login.errorFields.email.${fields.email}`)
-          : undefined,
-        password: errData.fields?.password
-          ? t(`dialogs.login.errorFields.password.${errData.fields.password}`)
-          : undefined,
-      });
+      if (fields) {
+        // TODO: add a check for often used passwords
+        setErrors({
+          email: fields?.email
+            ? t(`dialogs.login.errorFields.email.${fields.email}`)
+            : undefined,
+          password: fields?.password
+            ? t(`dialogs.login.errorFields.password.${fields.password}`)
+            : undefined,
+        });
+      }
     }
   };
 
