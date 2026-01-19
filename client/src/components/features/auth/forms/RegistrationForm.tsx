@@ -121,7 +121,7 @@ export const RegistrationForm = () => {
           type="submit"
           disabled={!isValid || isPending}
         >
-          {isPending ? <Spinner /> : t('registration.actions.join')}
+          {isPending ? <Spinner size="sm" /> : t('registration.actions.join')}
         </Button>
         <GoogleLoginButton />
       </div>

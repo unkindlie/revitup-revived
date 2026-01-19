@@ -34,7 +34,7 @@ export const ArticleDetailedPage = () => {
       <div className="flex flex-row space-x-2">
         <ArticleUpdateForm articleId={id} />
         <Button className="w-28" onClick={() => deleteArticle()}>
-          {deletionPending ? <Spinner /> : 'Delete article'}
+          {deletionPending ? <Spinner size="sm" /> : 'Delete article'}
         </Button>
       </div>
     </div>

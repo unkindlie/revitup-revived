@@ -10,7 +10,7 @@
   - ~~Add the enum-like structure for routing~~ (backend and front-end) (done: 17-01-26)
   - ~~Move from service classes to separate functions~~ (done: 19-01-26)
   - ~~Move from Axios to Ky~~ (done: 19-01-26)
-  - Replace the spinner with one from the loading toast
+  - ~~Replace the spinner with one from the loading toast~~ (done: 19-01-26)
 - ~~Add titles to pages~~ (done: 19-01-26)
 
 ## 03-01-26

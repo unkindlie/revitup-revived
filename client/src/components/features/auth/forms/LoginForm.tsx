@@ -104,13 +104,13 @@ export const LoginForm = () => {
             />
           </FormField>
         </TranslationNamespaceProvider>
-        <div className='flex flex-col gap-y-2'>
+        <div className="flex flex-col gap-y-2">
           <Button
             className="h-10 cursor-pointer font-semibold"
             type="submit"
             disabled={!isValid || isPending}
           >
-            {isPending ? <Spinner /> : t('dialogs.login.action')}
+            {isPending ? <Spinner size="sm" /> : t('dialogs.login.action')}
           </Button>
           <GoogleLoginButton />
         </div>

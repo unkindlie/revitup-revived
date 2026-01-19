@@ -86,7 +86,7 @@ export const ForgotPasswordForm = () => {
           type="submit"
           disabled={!isValid || isPending}
         >
-          {isPending ? <Spinner /> : t('dialogs.forgotPw.action')}
+          {isPending ? <Spinner size="sm" /> : t('dialogs.forgotPw.action')}
         </Button>
       </form>
       {closeHidden}

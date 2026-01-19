@@ -112,7 +112,7 @@ export const ArticleCreateForm = () => {
                 disabled={!isValid || isPending}
                 className="flex-1"
               >
-                {isPending ? <Spinner /> : 'Create'}
+                {isPending ? <Spinner size='sm' /> : 'Create'}
               </Button>
               <DialogClose asChild>
                 <Button type="button" variant="outline">

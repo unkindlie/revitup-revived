@@ -155,7 +155,7 @@ export const ArticleUpdateForm = ({ articleId }: ArticleUpdateFormProps) => {
                 disabled={!isValid || !isDirty || isPending}
                 className="flex-1"
               >
-                {isPending ? <Spinner /> : 'Update'}
+                {isPending ? <Spinner size='sm' /> : 'Update'}
               </Button>
               <DialogClose asChild>
                 <Button type="button" variant="outline">
