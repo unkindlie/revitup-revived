@@ -20,7 +20,7 @@ import { Typography } from '@/components/common/typography/Typography';
 import { FormField } from '@/components/common/form/FormField';
 import { TranslationNamespaces } from '@/lib/translation';
 import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
-import { GoogleLoginButton } from '../GoogleLoginButton';
+import { ExternalAuthButton } from '@/components/features/auth/ui/ExternalAuthButton';
 
 type LogInErrors = Partial<{
   email: string;
@@ -112,7 +112,7 @@ export const LoginForm = () => {
           >
             {isPending ? <Spinner size="sm" /> : t('dialogs.login.action')}
           </Button>
-          <GoogleLoginButton />
+          <ExternalAuthButton provider="google" />
         </div>
         <div className="mt-1 flex justify-between">
           <Typography

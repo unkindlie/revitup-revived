@@ -5,6 +5,7 @@ export const BackendRoutes = {
   AuthRefresh: '/auth/refresh',
   AuthRegister: '/auth/register',
   AuthChangePassword: '/auth/password-reset/request',
+  AuthGoogleLogin: '/auth/google/login',
 
   // User routes
   Users: '/users',

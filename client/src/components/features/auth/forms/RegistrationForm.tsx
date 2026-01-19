@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router';
 import { getErrorFromAxiosError } from '^/helpers/response/getErrorFromAxiosError';
 import { getErrorFromResponse } from '^/helpers/response/getResponse';
 import { getFieldErrors } from '^/helpers/response/getFieldErrors';
-import { GoogleLoginButton } from '../GoogleLoginButton';
+import { ExternalAuthButton } from '@/components/features/auth/ui/ExternalAuthButton';
 
 type RegistrationErrors = Partial<TAuthRegister>;
 
@@ -123,7 +123,7 @@ export const RegistrationForm = () => {
         >
           {isPending ? <Spinner size="sm" /> : t('registration.actions.join')}
         </Button>
-        <GoogleLoginButton />
+        <ExternalAuthButton provider="google" />
       </div>
     </form>
   );
