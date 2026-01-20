@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 import {
   Body,
@@ -9,12 +10,15 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-import { FileUploadDto } from '../../common/firebase/dto/file-upload.dto';
-import { FirebaseStorageService } from '../../common/firebase/firebase-storage.service';
+import { FirebaseStorageService } from 'common/firebase/firebase-storage.service';
+import { ImageService } from '../images/image.service';
 
 @Controller('check')
 export class CheckController {
-  constructor(private service: FirebaseStorageService) {}
+  constructor(
+    private service: FirebaseStorageService,
+    private imageService: ImageService,
+  ) {}
 
   @Post('img')
   async getUrl(@Body('pathname') filePath: string) {
@@ -29,10 +33,9 @@ export class CheckController {
     @UploadedFile() file: Express.Multer.File,
     @Body('pathname') pathname: string,
   ) {
-    console.log(pathname);
-    await this.service.uploadFile(new FileUploadDto(file, pathname));
+    const url = await this.imageService.uploadImage(file, pathname);
 
-    return { message: 'Good' };
+    return { url };
   }
 
   @Post('remove')
@@ -50,5 +53,13 @@ export class CheckController {
     await new Promise((resolve) => setTimeout(resolve, 3000));
 
     return { hello: 'world' };
+  }
+
+  @Post('img-info')
+  @UseInterceptors(FileInterceptor('image'))
+  getFileInfo(@UploadedFile() file: Express.Multer.File) {
+    const { buffer, ...rest } = file;
+
+    return { ...rest };
   }
 }
