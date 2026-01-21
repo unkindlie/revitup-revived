@@ -19,13 +19,13 @@ export class ImageService {
       join(pathname, '/', image.originalname),
     );
 
-    await this.repo.createImageEntry({
+    const id = await this.repo.createImageEntry({
       fileName: originalname,
       fileType: mimetype,
       bytesSize: size,
       url,
     });
 
-    return url;
+    return { id, url };
   }
 }

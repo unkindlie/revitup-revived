@@ -8,7 +8,11 @@ import {
   Param,
   ParseIntPipe,
   Patch,
+  Post,
   Query,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { ExposingSerialization } from 'common/decorators/exposing-serialization.decorator';
@@ -17,10 +21,18 @@ import { ValidatedArray } from 'common/types/validated-array.type';
 
 import { UserShortDto, UserUpdateDto } from 'features/user/dto';
 import { UserService } from 'features/user/user.service';
+import { UserImageService } from '../user-images/user-image.service';
+import { AccessTokenGuard } from '../auth/guards/access-token.guard';
+import { CurrentUser } from '../auth/decorators/user.decorator';
+import { UserPayloadDto } from '../auth/dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 export class UserController {
-  constructor(private service: UserService) {}
+  constructor(
+    private service: UserService,
+    private userImageService: UserImageService,
+  ) {}
 
   @Get()
   @ExposingSerialization(ValidatedArray({ users: UserShortDto }))
@@ -34,6 +46,24 @@ export class UserController {
   @ExposingSerialization(UserShortDto)
   async getUserById(@Param('id', ParseIntPipe) id: number) {
     return await this.service.getUserById(id);
+  }
+
+  // TODO: add caching
+  @Get('pfp/:id')
+  async getUserImageById(@Param('id', ParseIntPipe) id: number) {
+    return await this.userImageService.getLatestUserImage(id);
+  }
+
+  @Post('upload-pfp')
+  @UseGuards(AccessTokenGuard)
+  @UseInterceptors(FileInterceptor('image'))
+  async uploadUserImage(
+    @CurrentUser() user: UserPayloadDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    await this.userImageService.uploadUserImage(file, user.id);
+
+    return { message: 'User profile image uploaded' };
   }
 
   @Patch('update-profile')

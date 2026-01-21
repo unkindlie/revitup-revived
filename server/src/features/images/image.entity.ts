@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { CREATED_AT_COLUMN_NAME } from 'common/constants/database.constants';
 
-@Index(['fileName', 'url'])
+@Index('idx_file_name_url', ['fileName', 'url'])
 @Entity('images')
 export class Image {
   @PrimaryGeneratedColumn('uuid')
