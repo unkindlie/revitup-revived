@@ -10,10 +10,13 @@ export class UserShortDto {
   username: string;
 
   @Expose()
-  role: UserRole;
+  roles: UserRole[];
 
   @Expose()
   isVerified: boolean;
+
+  @Expose()
+  profileImg: string | null;
 
   @Expose()
   createdAt: Date;
