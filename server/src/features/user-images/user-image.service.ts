@@ -9,6 +9,10 @@ export class UserImageService {
     private imageService: ImageService,
   ) {}
 
+  async getUserImages(userId: number) {
+    return await this.repo.getUserImages(userId);
+  }
+
   async getLatestUserImage(userId: number): Promise<string | null> {
     return await this.repo.getLatestUserImage(userId);
   }

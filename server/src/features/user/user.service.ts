@@ -3,19 +3,35 @@ import { Injectable } from '@nestjs/common';
 import { UserCreateDto, UserUpdateDto } from 'features/user/dto';
 import { UserEntity } from 'features/user/user.entity';
 import { UserRepository } from 'features/user/user.repository';
+import { UserImageService } from '../user-images/user-image.service';
 
 @Injectable()
 export class UserService {
-  constructor(private repository: UserRepository) {}
+  constructor(
+    private repository: UserRepository,
+    private userImageSerivce: UserImageService,
+  ) {}
 
   async getUsers(): Promise<[UserEntity[], number]> {
     return await this.repository.getUsers();
   }
-  async getUserById(id: number): Promise<UserEntity> {
-    return await this.repository.getUserByCondition({ id });
+  async getUserById(id: number) {
+    const user = await this.repository.getUserByCondition({ id });
+    const profileImg = await this.userImageSerivce.getLatestUserImage(id);
+
+    return {
+      ...user,
+      profileImg,
+    };
   }
-  async getUserByEmail(email: string): Promise<UserEntity> {
-    return await this.repository.getUserByCondition({ email });
+  async getUserByEmail(email: string) {
+    const user = await this.repository.getUserByCondition({ email });
+    const profileImg = await this.userImageSerivce.getLatestUserImage(user.id);
+
+    return {
+      ...user,
+      profileImg,
+    };
   }
 
   async createUser(input: UserCreateDto): Promise<void> {

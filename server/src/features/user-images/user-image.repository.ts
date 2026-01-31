@@ -26,6 +26,28 @@ export class UserImageRepository {
     return userImage?.image.url ?? null;
   }
 
+  async getUserImages(userId: number) {
+    return (
+      await this.repo.find({
+        select: {
+          image: {
+            id: true,
+            url: true,
+            createdAt: true,
+          },
+          userId: false,
+        },
+        where: {
+          user: { id: userId },
+        },
+        order: {
+          createdAt: 'DESC',
+        },
+        relations: ['image'],
+      })
+    ).map((i) => i.image);
+  }
+
   async insertUserImage(userId: number, imageId: string): Promise<void> {
     await this.repo.insert({
       image: { id: imageId },

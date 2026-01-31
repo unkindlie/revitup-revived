@@ -14,6 +14,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 import { ExposingSerialization } from 'common/decorators/exposing-serialization.decorator';
 import { PaginatedQuery } from 'common/types/pagination.type';
@@ -25,7 +26,6 @@ import { UserImageService } from '../user-images/user-image.service';
 import { AccessTokenGuard } from '../auth/guards/access-token.guard';
 import { CurrentUser } from '../auth/decorators/user.decorator';
 import { UserPayloadDto } from '../auth/dto';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 export class UserController {
@@ -46,6 +46,11 @@ export class UserController {
   @ExposingSerialization(UserShortDto)
   async getUserById(@Param('id', ParseIntPipe) id: number) {
     return await this.service.getUserById(id);
+  }
+
+  @Post('profile-images')
+  async getUserImages(@Body('id', ParseIntPipe) id: number) {
+    return await this.userImageService.getUserImages(id);
   }
 
   // TODO: add caching
