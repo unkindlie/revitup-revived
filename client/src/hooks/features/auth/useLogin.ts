@@ -5,6 +5,7 @@ import { useUserStore } from '@/stores/user.store';
 import { ACCESS_TOKEN } from '^/constants/auth.constants';
 import { getDataFromResponse } from '^/helpers/response/getResponse';
 import { useShallow } from 'zustand/react/shallow';
+import { toast } from 'sonner';
 
 export const useLogin = () => {
   const { setUser, setLoadingFlag, setIsLogged } = useUserStore(
@@ -26,6 +27,8 @@ export const useLogin = () => {
         setUser(data.user);
         setIsLogged(true);
       }
+
+      toast.success('Login successful');
     },
     onSettled: () =>
       setLoadingFlag({ isFinishedLoading: true, isLoading: false }),

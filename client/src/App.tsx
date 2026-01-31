@@ -8,6 +8,7 @@ import {
   RegistrationPage,
   GoogleAuthRedirectPage,
   StartPage,
+  MePage,
 } from '@/pages';
 import { ErrorBoundary } from './pages/NotFoundErrorBoundary';
 
@@ -42,6 +43,10 @@ function App() {
               Component: ArticleDetailedPage,
             },
           ],
+        },
+        {
+          path: '/me',
+          children: [{ index: true, Component: MePage }],
         },
       ],
     },
