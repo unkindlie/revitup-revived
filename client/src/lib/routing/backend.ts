@@ -10,6 +10,7 @@ export const BackendRoutes = {
   // User routes
   Users: 'users',
   UserById: 'users/:id',
+  UserProfileImagesById: 'users/profile-images',
 
   // Article routes
   ArticleBase: 'articles',

@@ -1,9 +1,15 @@
 # Client TODOs
 
+## 31-01-26
+
+- Add a Threads page
+  - Add a page for the thread
+- Fix most of the mobile layout
+
 ## 10-01-26
 
 - ~~Implement a Google OAuth2 login/registration~~ (done: 12-01-26)
-- Add a simple user profile page
+- ~~Add a simple user profile page~~ (done: 31-01-26)
   - Implement user picture change
 - ~~Add the tooltip to error boundary for the sake of mentioning about visual centering~~ (done: 19-01-26)
 - Fix the code structure

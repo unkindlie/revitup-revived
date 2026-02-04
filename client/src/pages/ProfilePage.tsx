@@ -1,6 +1,9 @@
 import { Typography } from '@/components/common/typography/Typography';
 import { useGetUserById } from '../hooks/features/users/useGetUserById';
 import { useResponse } from '../hooks/useResponse';
+import {
+  ProfileImageGallery,
+} from '../components/common/images/ProfileImage';
 
 type ProfilePageProps = {
   id: number;
@@ -14,7 +17,10 @@ export const ProfilePage = ({ id }: ProfilePageProps) => {
 
   return (
     <div className="flex size-fit items-center gap-x-4">
-      <img className='size-24 rounded-sm' src={user.profileImg ?? ''} />
+      <ProfileImageGallery
+        src={user.profileImg ?? ''}
+        user={{ id: user.id, username: user.username }}
+      />
       <div className="flex flex-col gap-y-0.5">
         <Typography variant="3xl" weight="semibold">
           {user.username}
