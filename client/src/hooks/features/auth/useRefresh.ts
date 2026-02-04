@@ -27,7 +27,7 @@ export const useRefresh = () => {
         setIsLogged(true);
       }
     },
-    onError: () => localStorage.removeItem(ACCESS_TOKEN),
+    // onError: () => localStorage.removeItem(ACCESS_TOKEN),
     onSettled: () =>
       setLoadingFlag({ isFinishedLoading: true, isLoading: false }),
   });

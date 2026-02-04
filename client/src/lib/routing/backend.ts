@@ -8,7 +8,9 @@ export const BackendRoutes = {
   AuthGoogleLogin: 'auth/google/login',
 
   // User routes
-  Users: '/users',
+  Users: 'users',
+  UserById: 'users/:id',
+  UserProfileImagesById: 'users/profile-images',
 
   // Article routes
   ArticleBase: 'articles',

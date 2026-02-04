@@ -7,3 +7,5 @@ export { GoogleAuthRedirectPage } from './auth/GoogleAuthRedirectPage';
 // Article pages
 export { ArticlesIndexPage } from './articles/ArticlesIndexPage';
 export { ArticleDetailedPage } from './articles/ArticleDetailedPage';
+
+export { MePage } from './me/MePage';
