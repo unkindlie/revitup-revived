@@ -1,9 +1,7 @@
 import { Typography } from '@/components/common/typography/Typography';
-import { useGetUserById } from '../hooks/features/users/useGetUserById';
-import { useResponse } from '../hooks/useResponse';
-import {
-  ProfileImageGallery,
-} from '../components/common/images/ProfileImage';
+import { useGetUserById } from '@/hooks/features/users/useGetUserById';
+import { useResponse } from '@/hooks/useResponse';
+import { ProfileImageGallery } from '@/components/common/images/ProfileImage';
 
 type ProfilePageProps = {
   id: number;

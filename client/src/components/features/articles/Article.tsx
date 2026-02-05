@@ -2,7 +2,7 @@ import type { ArticleShort } from '^/types/articles';
 import { Typography } from '@/components/common/typography/Typography';
 import { cn } from '@/lib/utils';
 import { Link } from 'react-router';
-import { path } from '@/lib/routing/client';
+import { Pages, path } from '@/lib/routing/client';
 
 type Sizes = 'sm' | 'md' | 'lg';
 
@@ -14,7 +14,7 @@ type ArticleProps = {
 export const Article = ({ article, size = 'sm' }: ArticleProps) => {
   return (
     <Link
-      to={path('ArticleDetailed', { id: article.id })}
+      to={path(Pages.ArticleDetailed, { id: article.id })}
       className="flex flex-col gap-y-2"
     >
       <img

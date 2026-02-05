@@ -12,7 +12,7 @@ export const BoundaryCenteringPopover = () => {
       <PopoverTrigger className="absolute top-5 right-5 cursor-pointer rounded-lg bg-white p-2.5 shadow-lg md:right-8">
         <MessageSquareWarning className="text-light-active" size={28} />
       </PopoverTrigger>
-      <PopoverContent>
+      <PopoverContent className="mr-5">
         <Typography variant="sm">
           Yeah, I know that looking at the content, it feels not properly
           centered. Go cry about it somewhere

@@ -9,7 +9,7 @@ export const Header = () => {
   const { t } = useTranslation(TranslationNamespaces.Common);
 
   return (
-    <header className="bg-light-active sticky top-0 flex h-16 w-full items-center justify-between px-8">
+    <header className="bg-light-active sticky top-0 flex h-16 w-full items-center justify-between px-7">
       <div className="flex flex-row items-center gap-6">
         <HeaderLogo />
         <div className="hidden gap-6 md:flex">

@@ -1,23 +1,21 @@
 import { cn } from '@/lib/utils';
 import { Typography } from '@/components/common/typography/Typography';
-import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '../../ui/dialog';
+} from '@/components/ui/dialog';
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from '../../ui/carousel';
-import { useUserProfileImages } from '../../../hooks/features/users/useGetUserProfileImagesById';
-import { useResponse } from '../../../hooks/useResponse';
+} from '@/components/ui/carousel';
+import { useUserProfileImages } from '@/hooks/features/users/useGetUserProfileImagesById';
+import { useResponse } from '@/hooks/useResponse';
 
 type ProfileImageProps = {
   src: string;
@@ -64,38 +62,36 @@ export const ProfileImageGallery = ({
   user: { id, username },
 }: ProfileImageGalleryProps) => {
   const { data: imageRes, isLoading } = useUserProfileImages(id);
-  const { data: images = [] } = useResponse(imageRes)
+  const { data: images = [] } = useResponse(imageRes);
 
   return (
     <Dialog>
       <DialogTrigger>
         <ProfileImage src={src} imageCount={imageCount} />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>{username}' Profile Images</DialogTitle>
         </DialogHeader>
-        <DialogDescription>
-          {!isLoading && !images ? (
-            <Typography>Loading</Typography>
-          ) : (
-            <Carousel>
-              <CarouselContent>
-                {images?.map((it) => (
-                  <CarouselItem>
-                    <img 
-                      src={it.url} 
-                      alt={`${username}'s profile`}
-                      className="w-full rounded-sm"
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 z-10" />
-              <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 z-10" />
-            </Carousel>
-          )}
-        </DialogDescription>
+        {isLoading || !images ? (
+          <Typography>Loading</Typography>
+        ) : (
+          <Carousel>
+            <CarouselContent>
+              {images.map((it) => (
+                <CarouselItem key={it.id}>
+                  <img
+                    src={it.url}
+                    alt={`${username}'s profile`}
+                    className="w-full rounded-sm"
+                  />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="absolute top-1/2 left-2 z-10 -translate-y-1/2" />
+            <CarouselNext className="absolute top-1/2 right-2 z-10 -translate-y-1/2" />
+          </Carousel>
+        )}
       </DialogContent>
     </Dialog>
   );
