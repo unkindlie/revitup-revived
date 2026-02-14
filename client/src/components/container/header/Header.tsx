@@ -4,6 +4,7 @@ import { HeaderDropdown } from '@/components/container/header/HeaderDropdown';
 import { useTranslation } from 'react-i18next';
 import { DropdownDialogProvider } from '@/providers/DropdownDialogProvider';
 import { TranslationNamespaces } from '@/lib/translation';
+import { HeaderSheet } from './HeaderSheet';
 
 export const Header = () => {
   const { t } = useTranslation(TranslationNamespaces.Common);
@@ -18,7 +19,12 @@ export const Header = () => {
         </div>
       </div>
       <DropdownDialogProvider initialValue={undefined}>
-        <HeaderDropdown />
+        <div className="hidden md:block">
+          <HeaderDropdown />
+        </div>
+        <div className="md:hidden">
+          <HeaderSheet />
+        </div>
       </DropdownDialogProvider>
     </header>
   );
