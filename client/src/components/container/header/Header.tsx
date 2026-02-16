@@ -4,12 +4,13 @@ import { HeaderDropdown } from '@/components/container/header/HeaderDropdown';
 import { useTranslation } from 'react-i18next';
 import { DropdownDialogProvider } from '@/providers/DropdownDialogProvider';
 import { TranslationNamespaces } from '@/lib/translation';
+import { HeaderSheet } from './HeaderSheet';
 
 export const Header = () => {
   const { t } = useTranslation(TranslationNamespaces.Common);
 
   return (
-    <header className="bg-light-active sticky top-0 flex h-16 w-full items-center justify-between px-8">
+    <header className="bg-light-active sticky top-0 flex h-16 w-full items-center justify-between px-7">
       <div className="flex flex-row items-center gap-6">
         <HeaderLogo />
         <div className="hidden gap-6 md:flex">
@@ -18,7 +19,12 @@ export const Header = () => {
         </div>
       </div>
       <DropdownDialogProvider initialValue={undefined}>
-        <HeaderDropdown />
+        <div className="hidden md:block">
+          <HeaderDropdown />
+        </div>
+        <div className="md:hidden">
+          <HeaderSheet />
+        </div>
       </DropdownDialogProvider>
     </header>
   );
