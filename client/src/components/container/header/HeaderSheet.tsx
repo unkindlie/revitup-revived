@@ -25,7 +25,7 @@ export const HeaderSheet = () => {
           size={'xl'}
         />
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent showCloseButton={false}>
         <SheetHeader className="ml-1">
           <div className="flex flex-row gap-x-2.5">
             <img

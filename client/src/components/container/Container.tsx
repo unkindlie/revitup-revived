@@ -6,7 +6,7 @@ import { Toaster } from 'sonner';
 export const Container = () => (
   <main className="flex min-h-screen flex-col">
     <Header />
-    <div className="mx-7 my-4 flex min-h-0 flex-1 md:mx-10">
+    <div className="mx-7 my-4 flex min-h-0 flex-1 lg:mx-10">
       <Outlet />
     </div>
     <Footer />
