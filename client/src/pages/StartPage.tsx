@@ -2,8 +2,6 @@ import { useGetArticles } from '@/hooks/features/articles/useGetArticles';
 import { useResponse } from '@/hooks/useResponse';
 import { Article } from '@/components/features/articles/Article';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
-import { Spinner } from '../components/common/spinner/Spinner';
-import { Button } from '../components/ui/button';
 
 export const StartPage = () => {
   const { isFetched, data: articlesResponse } = useGetArticles();
@@ -18,15 +16,11 @@ export const StartPage = () => {
   const newestArticle = articles[0];
 
   return (
-    <div className="flex justify-between">
-      <div className="max-w-1/2">
+    <div className="flex flex-col gap-y-2 md:flex-row md:justify-between">
+      <div className="md:max-w-1/2">
         <Article article={newestArticle} size="lg" />
-        <Spinner size="sm" />
-        <Button className='h-20'>
-          <Spinner size="md" />
-        </Button>
       </div>
-      <div className="grid w-2/5 grid-cols-2 gap-x-3 gap-y-2">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-2 md:w-2/5">
         {articles.slice(1).map((it) => (
           <Article key={it.id} article={it} size="md" />
         ))}

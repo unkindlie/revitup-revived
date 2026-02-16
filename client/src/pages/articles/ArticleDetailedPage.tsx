@@ -39,7 +39,7 @@ export const ArticleDetailedPage = () => {
       </div>
       <SeparatorLine className="mx-4 mt-2 sm:mr-28 sm:ml-0 lg:hidden" />
       <div className="flex flex-col gap-y-2">
-        <Typography className="mt-2 w-1/2" variant="md">
+        <Typography className="mt-2" variant="md">
           {article.text}
         </Typography>
         <div className="flex flex-row space-x-2">

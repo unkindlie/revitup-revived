@@ -11,6 +11,7 @@ import { Typography } from '@/components/common/typography/Typography';
 import { useUserStore } from '@/stores/user.store';
 
 import googleGLogo from '@/assets/logos/google_g_icon.png';
+import revitupLogo from '@/assets/REVITUP_squared_logo.svg';
 
 // TODO: add the in-animation with Framer Motion
 export const HeaderSheet = () => {
@@ -27,10 +28,11 @@ export const HeaderSheet = () => {
       </SheetTrigger>
       <SheetContent showCloseButton={false}>
         <SheetHeader className="ml-1">
+          <Typography className="text-right" weight='medium'>Sign in</Typography>
           <div className="flex flex-row gap-x-2.5">
             <img
-              className="size-14 rounded-lg bg-red-300"
-              src={user ? googleGLogo : undefined}
+              className="size-14 rounded-lg"
+              src={user ? googleGLogo : revitupLogo}
             />
             <div className="-mt-0.5 flex flex-col justify-center">
               <Typography variant="xl" weight="semibold">
