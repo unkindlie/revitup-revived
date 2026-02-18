@@ -73,14 +73,12 @@ export class AuthService {
   }
   async refresh(
     payload: UserPayloadDto,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     oldRefreshToken: string,
   ): Promise<AuthResponseDto> {
-    // TODO: fix the bug after the base threads
-    // const tokenExistsInDb =
-    //   await this.tokenService.isTokenAvailable(oldRefreshToken);
-    // if (!tokenExistsInDb)
-    //   throw new ForbiddenException('Refresh token was not found');
+    const tokenExistsInDb =
+      await this.tokenService.isTokenAvailable(oldRefreshToken);
+    if (!tokenExistsInDb)
+      throw new ForbiddenException('Refresh token was not found');
 
     const user = await this.userSerivce.getUserByEmail(payload.email);
     const newPayload = plainToInstance(UserPayloadDto, user, {
@@ -88,10 +86,10 @@ export class AuthService {
     });
 
     const tokens = await this.generateTokens(newPayload);
-    // await this.tokenService.updateTokenEntry({
-    //   oldToken: oldRefreshToken,
-    //   newToken: tokens.refreshToken,
-    // });
+    await this.tokenService.updateTokenEntry({
+      oldToken: oldRefreshToken,
+      newToken: tokens.refreshToken,
+    });
 
     return {
       user: newPayload,

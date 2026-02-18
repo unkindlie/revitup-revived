@@ -4,6 +4,7 @@ import { ACCESS_TOKEN } from '^/constants/auth.constants';
 import { useShallow } from 'zustand/react/shallow';
 import { getDataFromResponse } from '^/helpers/response/getResponse';
 import { refresh } from '@/api/scopes/auth';
+import { toast } from 'sonner';
 
 export const useRefresh = () => {
   const { setUser, setLoadingFlag, setIsLogged } = useUserStore(
@@ -27,7 +28,21 @@ export const useRefresh = () => {
         setIsLogged(true);
       }
     },
-    // onError: () => localStorage.removeItem(ACCESS_TOKEN),
+    onError: () => {
+      const isDevEnv = process.env.NODE_ENV === 'development';
+
+      if (isDevEnv) {
+        localStorage.removeItem(ACCESS_TOKEN);
+        setUser(null);
+        setIsLogged(false);
+      }
+
+      toast.error('Authentication error', {
+        description: isDevEnv
+          ? 'Check the logs or try to unwrap the StrictMode'
+          : 'Please try to log into the app again',
+      });
+    },
     onSettled: () =>
       setLoadingFlag({ isFinishedLoading: true, isLoading: false }),
   });
