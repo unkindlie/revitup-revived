@@ -8,4 +8,7 @@ export { GoogleAuthRedirectPage } from './auth/GoogleAuthRedirectPage';
 export { ArticlesIndexPage } from './articles/ArticlesIndexPage';
 export { ArticleDetailedPage } from './articles/ArticleDetailedPage';
 
+// Threads pages
+export { ThreadsIndexPage } from './threads/ThreadsIndexPage'
+
 export { MePage } from './me/MePage';

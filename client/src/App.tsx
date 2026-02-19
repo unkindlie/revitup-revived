@@ -1,7 +1,8 @@
-import { Container } from '@/components/container/Container';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from '@/providers/AuthProvider';
+
+import { Container } from '@/components/container/Container';
+import { Pages } from '@/lib/routing/client';
 import {
   ArticleDetailedPage,
   ArticlesIndexPage,
@@ -9,8 +10,10 @@ import {
   GoogleAuthRedirectPage,
   StartPage,
   MePage,
+  ThreadsIndexPage,
 } from '@/pages';
-import { ErrorBoundary } from './pages/NotFoundErrorBoundary';
+import { ErrorBoundary } from '@/pages/NotFoundErrorBoundary';
+import { AuthProvider } from '@/providers/AuthProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: { mutations: { retry: false } },
@@ -43,6 +46,10 @@ function App() {
               Component: ArticleDetailedPage,
             },
           ],
+        },
+        {
+          path: Pages.ThreadsIndex,
+          children: [{ index: true, Component: ThreadsIndexPage }],
         },
         {
           path: '/me',
