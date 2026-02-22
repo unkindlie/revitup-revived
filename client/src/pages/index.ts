@@ -9,6 +9,7 @@ export { ArticlesIndexPage } from './articles/ArticlesIndexPage';
 export { ArticleDetailedPage } from './articles/ArticleDetailedPage';
 
 // Threads pages
-export { ThreadsIndexPage } from './threads/ThreadsIndexPage'
+export { ThreadsIndexPage } from './threads/ThreadsIndexPage';
+export { ThreadDetailedPage } from './threads/ThreadDetailedPage';
 
 export { MePage } from './me/MePage';

@@ -1,0 +1,17 @@
+{
+  "index": {
+    "noThreads": {
+      "title": "No threads available :(",
+      "message": "When any thread will be created, you will see it. Or you can create one"
+    }
+  },
+  "detailed": {
+    "noThread": {
+      "title": "404 Not Found :(",
+      "message": "Looks like such thread does not exist, or it was removed"
+    },
+    "info": {
+      "author": "Thread by: {{author}}"
+    }
+  }
+}

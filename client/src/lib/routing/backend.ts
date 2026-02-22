@@ -17,6 +17,10 @@ export const BackendRoutes = {
   ArticleDetailed: 'articles/:id',
   ArticleUpdate: 'articles/update/:id',
   ArticleSoftDelete: 'articles/soft/:id',
+
+  // Thread routes
+  ThreadBase: 'threads',
+  ThreadDetailed: 'threads/:id'
 } as const;
 
 type RoutesKeys = keyof typeof BackendRoutes;

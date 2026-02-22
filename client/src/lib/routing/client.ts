@@ -7,6 +7,7 @@ export const Pages = {
   EventsIndex: '/events',
 
   ThreadsIndex: '/threads',
+  ThreadDetailed: '/threads/:id',
 
   Profile: '/me',
 } as const;

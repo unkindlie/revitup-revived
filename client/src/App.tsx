@@ -1,3 +1,5 @@
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -11,9 +13,12 @@ import {
   StartPage,
   MePage,
   ThreadsIndexPage,
+  ThreadDetailedPage,
 } from '@/pages';
 import { ErrorBoundary } from '@/pages/NotFoundErrorBoundary';
 import { AuthProvider } from '@/providers/AuthProvider';
+
+TimeAgo.addLocale(en);
 
 const queryClient = new QueryClient({
   defaultOptions: { mutations: { retry: false } },
@@ -49,7 +54,13 @@ function App() {
         },
         {
           path: Pages.ThreadsIndex,
-          children: [{ index: true, Component: ThreadsIndexPage }],
+          children: [
+            { index: true, Component: ThreadsIndexPage },
+            {
+              path: ':id',
+              Component: ThreadDetailedPage,
+            },
+          ],
         },
         {
           path: '/me',

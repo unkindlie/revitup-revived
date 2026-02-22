@@ -4,6 +4,7 @@ import { TranslationNamespaces } from '@/lib/translation';
 
 import commonEn from '@/assets/locales/en-US/common.json';
 import authEn from '@/assets/locales/en-US/auth.json';
+import threadsEn from '@/assets/locales/en-US/threads.json';
 
 i18n.use(initReactI18next).init({
   fallbackLng: 'en-US',
@@ -14,6 +15,7 @@ i18n.use(initReactI18next).init({
     'en-US': {
       [TranslationNamespaces.Common]: commonEn,
       [TranslationNamespaces.Auth]: authEn,
+      [TranslationNamespaces.Threads]: threadsEn,
     },
   },
 });
