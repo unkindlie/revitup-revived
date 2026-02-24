@@ -47,7 +47,13 @@ export const ThreadDetailedPage = () => {
         </Typography>
       </div>
       <SeparatorLine className="mx-4" />
-      <Typography variant="lg">{description}</Typography>
+      <div className="flex flex-col gap-y-2">
+        {description.split(`\n\n`).map((p, i) => (
+          <Typography key={i} variant="md">
+            {p}
+          </Typography>
+        ))}
+      </div>
     </div>
   );
 };

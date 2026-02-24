@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { Container } from '@/components/container/Container';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { Pages } from '@/lib/routing/client';
 import {
   ArticleDetailedPage,
@@ -82,7 +83,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <TooltipProvider>
+          <RouterProvider router={router} />
+        </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

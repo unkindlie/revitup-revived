@@ -20,7 +20,7 @@ export class ThreadService {
     return thread;
   }
 
-  async createThread(input: ThreadCreateDto): Promise<void> {
-    await this.repo.createThread(input);
+  async createThread(input: ThreadCreateDto, authorId: number): Promise<void> {
+    await this.repo.createThread(input, authorId);
   }
 }

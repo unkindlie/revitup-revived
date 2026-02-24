@@ -5,6 +5,10 @@
       "title": "No threads available :(",
       "message": "When any thread will be created, you will see it. Or you can create one"
     },
+    "createButton": {
+      "title": "Add a thread",
+      "disabledTooltip": "Please log into the account to create the thread"
+    },
     "createForm": {
       "fields": {
         "title": "Title",
