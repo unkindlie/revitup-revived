@@ -11,3 +11,5 @@ export type TThreadShort = {
 export type TThreadDetailed = TThreadShort & {
   description: string;
 };
+
+export type TThreadCreate = Pick<TThreadDetailed, 'title' | 'description'>;

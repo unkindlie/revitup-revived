@@ -14,6 +14,7 @@ import {
   MePage,
   ThreadsIndexPage,
   ThreadDetailedPage,
+  UserProfilePage,
 } from '@/pages';
 import { ErrorBoundary } from '@/pages/NotFoundErrorBoundary';
 import { AuthProvider } from '@/providers/AuthProvider';
@@ -63,6 +64,14 @@ function App() {
           ],
         },
         {
+          path: Pages.Users,
+          children: [
+            { index: true, Component: null },
+            { path: ':id', Component: UserProfilePage },
+          ],
+        },
+        {
+          // Will be extended later as a profile dashboard
           path: '/me',
           children: [{ index: true, Component: MePage }],
         },

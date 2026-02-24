@@ -1,8 +1,9 @@
 import { plainToInstance } from 'class-transformer';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { ThreadRepository } from './thread.repository';
-import { ThreadShortDto } from './types/thread-short.dto';
+import { ThreadRepository } from 'features/threads/thread.repository';
+import { ThreadShortDto } from 'features/threads/types/thread-short.dto';
+import { ThreadCreateDto } from 'features/threads/types/thread-create.dto';
 
 @Injectable()
 export class ThreadService {
@@ -17,5 +18,9 @@ export class ThreadService {
     if (!thread) throw new NotFoundException("Such article doesn't exist");
 
     return thread;
+  }
+
+  async createThread(input: ThreadCreateDto): Promise<void> {
+    await this.repo.createThread(input);
   }
 }

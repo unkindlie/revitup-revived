@@ -12,4 +12,7 @@ export { ArticleDetailedPage } from './articles/ArticleDetailedPage';
 export { ThreadsIndexPage } from './threads/ThreadsIndexPage';
 export { ThreadDetailedPage } from './threads/ThreadDetailedPage';
 
+// User pages
+export { UserProfilePage } from './users/profile';
+
 export { MePage } from './me/MePage';

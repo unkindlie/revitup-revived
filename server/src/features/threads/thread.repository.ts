@@ -7,6 +7,7 @@ import {
   THREAD_DETAILED_SELECT_OBJ,
   THREADS_SELECT_OBJ,
 } from 'features/threads/constants/thread.contants';
+import { ThreadCreateDto } from 'features/threads/types/thread-create.dto';
 
 @Injectable()
 export class ThreadRepository {
@@ -32,5 +33,9 @@ export class ThreadRepository {
       where: { id },
       cache: 30000,
     });
+  }
+
+  async createThread(input: ThreadCreateDto): Promise<void> {
+    await this.threadRepo.insert(input);
   }
 }
