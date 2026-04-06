@@ -1,3 +1,5 @@
+import type { IconName } from 'lucide-react/dynamic';
+
 export type TThreadShort = {
   id: number;
   title: string;
@@ -13,3 +15,10 @@ export type TThreadDetailed = TThreadShort & {
 };
 
 export type TThreadCreate = Pick<TThreadDetailed, 'title' | 'description'>;
+
+export type TThreadCategory = {
+  id: string;
+  title: string;
+  color: string;
+  icon: IconName;
+};

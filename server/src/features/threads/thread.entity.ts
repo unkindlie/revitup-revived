@@ -31,4 +31,9 @@ export class Thread {
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'author_id' })
   author: UserEntity;
+
+  @Column({
+    type: 'text',
+  })
+  category: string;
 }

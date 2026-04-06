@@ -46,13 +46,15 @@ export const ThreadCreateButton = ({
       <Tooltip>
         <TooltipTrigger
           asChild
-          className="absolute top-11/12 right-0 bottom-0 w-fit lg:top-0 lg:bottom-full"
+          className="absolute top-11/12 right-0 bottom-0 w-fit transition-all lg:top-0"
         >
-          <FloatingActionButton icon="add" {...props}>
-            <Typography className="hidden lg:block" weight="medium">
-              {t('index.createButton.title')}
-            </Typography>
-          </FloatingActionButton>
+          <span className="inline-flex w-fit">
+            <FloatingActionButton icon="add" {...props} disabled>
+              <Typography className="hidden lg:block" weight="medium">
+                {t('index.createButton.title')}
+              </Typography>
+            </FloatingActionButton>
+          </span>
         </TooltipTrigger>
         <TooltipContent>
           <Typography variant="sm">

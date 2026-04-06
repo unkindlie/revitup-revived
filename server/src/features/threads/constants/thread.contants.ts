@@ -6,6 +6,7 @@ export const THREADS_SELECT_OBJ = {
     id: true,
     username: true,
   },
+  category: true,
 };
 
 export const THREAD_DETAILED_SELECT_OBJ = {
@@ -17,4 +18,5 @@ export const THREAD_DETAILED_SELECT_OBJ = {
     id: true,
     username: true,
   },
+  category: true,
 };

@@ -26,6 +26,17 @@ export class ThreadRepository {
     });
   }
 
+  async getThreadsByCategory(category: string): Promise<Thread[]> {
+    return await this.threadRepo.find({
+      select: THREADS_SELECT_OBJ,
+      where: { category },
+      order: {
+        createdAt: 'DESC',
+      },
+      relations: ['author'],
+    });
+  }
+
   async getThreadById(id: number): Promise<Thread | null> {
     return await this.threadRepo.findOne({
       select: THREAD_DETAILED_SELECT_OBJ,

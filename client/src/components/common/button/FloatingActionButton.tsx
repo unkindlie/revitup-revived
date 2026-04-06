@@ -1,23 +1,14 @@
-import type {
-  ComponentProps,
-  ForwardRefExoticComponent,
-  RefAttributes,
-} from 'react';
+import { DynamicIcon, type IconName } from 'lucide-react/dynamic';
+import type { ComponentProps } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Bell, Plus, type LucideProps } from 'lucide-react';
 
 type IconUnion = 'add' | 'notify';
 
-const Icons: Record<
-  IconUnion,
-  ForwardRefExoticComponent<
-    Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
-  >
-> = {
-  add: Plus,
-  notify: Bell,
+const Icons: Record<IconUnion, IconName> = {
+  add: 'plus',
+  notify: 'bell',
 } as const;
 
 export const FloatingActionButton = ({
@@ -26,9 +17,9 @@ export const FloatingActionButton = ({
   icon,
   ...props
 }: ComponentProps<'button'> & {
-  icon?: keyof typeof Icons;
+  icon?: IconUnion;
 }) => {
-  const IconElement = Icons[icon!];
+  const iconName = Icons[icon!];
 
   return (
     <Button
@@ -38,7 +29,7 @@ export const FloatingActionButton = ({
       )}
       {...props}
     >
-      {icon && <IconElement />}
+      {icon && <DynamicIcon name={iconName} />}
       {children}
     </Button>
   );

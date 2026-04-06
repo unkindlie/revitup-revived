@@ -62,6 +62,7 @@ function App() {
               path: ':id',
               Component: ThreadDetailedPage,
             },
+            { path: 'category/:id' },
           ],
         },
         {
