@@ -20,7 +20,10 @@ export const BackendRoutes = {
 
   // Thread routes
   ThreadBase: 'threads',
-  ThreadDetailed: 'threads/:id'
+  ThreadDetailed: 'threads/:id',
+
+  // Thread category routes
+  ThreadCategoryBase: 'thread-categories',
 } as const;
 
 type RoutesKeys = keyof typeof BackendRoutes;

@@ -5,7 +5,7 @@ import { Typography } from '@/components/common/typography/Typography';
 import type { TThreadCategory } from '^/types/threads';
 
 export const ThreadCategoryBlock = ({
-  title,
+  name,
   color,
   icon,
 }: TThreadCategory) => {
@@ -18,7 +18,7 @@ export const ThreadCategoryBlock = ({
     >
       <DynamicIcon name={icon} color="white" size={20} />
       <Typography className="text-white" variant="xl" weight="medium">
-        {title}
+        {name}
       </Typography>
     </div>
   );
