@@ -18,4 +18,6 @@ export type TThreadDetailed = TThreadShort & {
   description: string;
 };
 
-export type TThreadCreate = Pick<TThreadDetailed, 'title' | 'description'>;
+export type TThreadCreate = Pick<TThreadDetailed, 'title' | 'description'> & {
+  categoryId: number;
+};

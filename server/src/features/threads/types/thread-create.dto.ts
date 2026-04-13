@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsString, Length, MaxLength } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  Length,
+  MaxLength,
+} from 'class-validator';
 
 export class ThreadCreateDto {
   @IsString()
@@ -9,4 +15,7 @@ export class ThreadCreateDto {
   @IsNotEmpty()
   @MaxLength(5000)
   description: string;
+
+  @IsNumber()
+  categoryId: number;
 }

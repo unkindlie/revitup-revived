@@ -15,7 +15,6 @@ export const Pages = {
 } as const;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-type PagesKeys = keyof typeof Pages;
 type Params = Record<string, string | number>;
 
 export const NAV_ROUTES = [

@@ -59,6 +59,11 @@ export class ThreadRepository {
   }
 
   async createThread(input: ThreadCreateDto, authorId: number): Promise<void> {
-    await this.repo.insert({ ...input, author: { id: authorId } });
+    const { categoryId, ...rest } = input;
+    await this.repo.insert({
+      ...rest,
+      author: { id: authorId },
+      category: { id: categoryId },
+    });
   }
 }

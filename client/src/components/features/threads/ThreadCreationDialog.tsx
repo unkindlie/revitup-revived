@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import type { ComponentProps } from 'react';
+import { type ComponentProps } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -17,6 +17,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Tooltip,
   TooltipContent,
@@ -24,6 +25,7 @@ import {
 } from '@/components/ui/tooltip';
 import { FormField } from '@/components/common/form/FormField';
 import { Spinner } from '@/components/common/spinner/Spinner';
+import { ThreadCategoriesSelect } from '@/components/features/threads/categories/ThreadCategorySelect';
 import { useCreateThread } from '@/hooks/features/threads/useCreateThread';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -82,6 +84,7 @@ export const ThreadCreationDialog = () => {
     register,
     handleSubmit,
     formState: { isValid, errors: formErrors },
+    setValue,
   } = useForm({
     resolver: yupResolver(threadCreateSchema),
     mode: 'onChange',
@@ -138,11 +141,22 @@ export const ThreadCreationDialog = () => {
               label="Description"
               errorMessage={formErrors.description?.message}
             >
-              <textarea
+              <Textarea
                 id="description"
                 placeholder="Thread description"
                 className="w-full rounded-lg border p-2"
                 {...register('description')}
+              />
+            </FormField>
+
+            <FormField
+              id="categoryId"
+              label="Category"
+              errorMessage={formErrors.categoryId?.message}
+            >
+              <ThreadCategoriesSelect
+                onValueChange={(value) => setValue('categoryId', Number(value))}
+                {...register('categoryId')}
               />
             </FormField>
 

@@ -3,14 +3,14 @@ import { Link } from 'react-router';
 
 import { Typography } from '@/components/common/typography/Typography';
 
-import type { TThreadCategory } from '^/types/thread-categories';
+import type { TThreadCategoryShort } from '^/types/thread-categories';
 
 export const ThreadCategoryBlock = ({
   name,
   color,
   icon,
   shortCode,
-}: TThreadCategory) => {
+}: TThreadCategoryShort) => {
   return (
     <Link
       className="flex w-full flex-col items-center gap-x-2 rounded-sm p-3 md:flex-row"
