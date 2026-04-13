@@ -3,9 +3,16 @@ import { Link } from 'react-router';
 
 import { Typography } from '@/components/common/typography/Typography';
 import { Pages, path } from '@/lib/routing/client';
+import { cn } from '@/lib/utils';
 import type { TThreadShort } from '^/types/threads';
 
-export const ThreadItem = ({ id, title, createdAt, author }: TThreadShort) => {
+export const ThreadItem = ({
+  id,
+  title,
+  createdAt,
+  author,
+  category,
+}: TThreadShort) => {
   const ago = new TimeAgo('en');
   const { id: userId, username } = author;
 
@@ -21,7 +28,12 @@ export const ThreadItem = ({ id, title, createdAt, author }: TThreadShort) => {
         </Typography>
       </Link>
       <div className="flex justify-between">
-        <Typography>Category</Typography>
+        <Link
+          className={cn('flex gap-x-1', !category && 'pointer-events-none')}
+          to={`/threads/by-category/${category?.shortCode}`}
+        >
+          <Typography>{category?.name ?? 'No category'}</Typography>
+        </Link>
         <div className="flex gap-x-1">
           <Link to={`/users/${userId}`}>
             <Typography>{username}</Typography>

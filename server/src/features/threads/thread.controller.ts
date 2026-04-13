@@ -9,10 +9,10 @@ import {
 } from '@nestjs/common';
 
 import { UserPayloadDto } from 'features/auth/dto';
+import { CurrentUser } from 'features/auth/decorators/user.decorator';
 import { AccessTokenGuard } from 'features/auth/guards/access-token.guard';
 import { ThreadService } from 'features/threads/thread.service';
 import { ThreadCreateDto } from 'features/threads/types/thread-create.dto';
-import { CurrentUser } from '../auth/decorators/user.decorator';
 
 @Controller('threads')
 export class ThreadController {
@@ -20,12 +20,17 @@ export class ThreadController {
 
   @Get()
   async getThreads() {
-    return await this.service.getThreads();
+    return this.service.getThreads();
+  }
+
+  @Get('by-category/:code')
+  async getThreadsByCategory(@Param('code') code: string) {
+    return this.service.getThreadsByCategoryCode(code);
   }
 
   @Get(':id')
   async getThreadById(@Param('id', ParseIntPipe) id: number) {
-    return await this.service.getThreadById(id);
+    return this.service.getThreadById(id);
   }
 
   @Post()

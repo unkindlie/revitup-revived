@@ -5,15 +5,18 @@ export class ThreadCategory {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'thread_category_name', length: 50 })
+  @Column({ length: 50 })
   name: string;
 
-  @Column({ name: 'thread_category_description', length: 250 })
+  @Column({ length: 250 })
   description: string;
 
-  @Column({ name: 'thread_category_color', length: 10 })
+  @Column({ length: 10 })
   color: string;
 
-  @Column({ name: 'thread_category_icon', length: 25 })
+  @Column({ length: 25 })
   icon: string;
+
+  @Column({ name: 'short_code', length: 25 })
+  shortCode: string;
 }

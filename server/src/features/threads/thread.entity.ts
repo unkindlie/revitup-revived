@@ -9,6 +9,7 @@ import {
 
 import { CREATED_AT_COLUMN_NAME } from 'common/constants/database.constants';
 import { UserEntity } from 'features/user/user.entity';
+import { ThreadCategory } from 'features/thread-categories/thread-category.entity';
 
 @Entity('threads')
 export class Thread {
@@ -32,8 +33,7 @@ export class Thread {
   @JoinColumn({ name: 'author_id' })
   author: UserEntity;
 
-  @Column({
-    type: 'text',
-  })
-  category: string;
+  @ManyToOne(() => ThreadCategory)
+  @JoinColumn({ name: 'category_id' })
+  category: ThreadCategory;
 }

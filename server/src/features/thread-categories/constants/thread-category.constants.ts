@@ -3,4 +3,5 @@ export const THREAD_CATEGORIES_SELECT_MANY_OBJ = {
   name: true,
   color: true,
   icon: true,
+  shortCode: true,
 };

@@ -4,6 +4,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { ThreadRepository } from 'features/threads/thread.repository';
 import { ThreadShortDto } from 'features/threads/types/thread-short.dto';
 import { ThreadCreateDto } from 'features/threads/types/thread-create.dto';
+import { ThreadsFromCategoryDto } from './types/threads-from-category.dto';
 
 @Injectable()
 export class ThreadService {
@@ -11,6 +12,12 @@ export class ThreadService {
 
   async getThreads(): Promise<ThreadShortDto[]> {
     return plainToInstance(ThreadShortDto, await this.repo.getThreads());
+  }
+
+  async getThreadsByCategoryCode(
+    code: string,
+  ): Promise<ThreadsFromCategoryDto> {
+    return this.repo.getThreadsByCategory(code);
   }
 
   async getThreadById(id: number) {

@@ -1,14 +1,14 @@
+import { SeparatorLine } from '@/components/common/separator/SeparatorLine';
 import { Typography } from '@/components/common/typography/Typography';
+import { ThreadCategoryBlock } from '@/components/features/threads/categories/ThreadCategoryBlock.tsx';
 import { ThreadsContent } from '@/components/features/threads/index/ThreadsContent';
 import { ThreadCreationDialog } from '@/components/features/threads/ThreadCreationDialog';
 import { useThreads } from '@/hooks/features/threads/useThreads';
+import { useThreadCategories } from '@/hooks/features/threads/categories/useThreadCategories.ts';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useResponse } from '@/hooks/useResponse';
 import { useTranslation } from '@/hooks/useTranslation';
 import { TranslationNamespaces } from '@/lib/translation';
-import { ThreadCategoryBlock } from '../../components/features/threads/categories/ThreadCategoryBlock.tsx';
-import { SeparatorLine } from '../../components/common/separator/SeparatorLine';
-import { useThreadCategories } from '../../hooks/features/threads/categories/useThreadCategories.ts';
 
 export const ThreadsIndexPage = () => {
   const { data: threadsRes, isLoading } = useThreads();

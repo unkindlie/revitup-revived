@@ -1,4 +1,4 @@
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
 import TimeAgo from 'javascript-time-ago';
 
 import { SeparatorLine } from '@/components/common/separator/SeparatorLine';
@@ -28,12 +28,22 @@ export const ThreadDetailedPage = () => {
 
   if (!thread) return <ThreadNotFound />;
 
-  const { title, description, createdAt, author } = thread;
+  const { title, description, createdAt, author, category } = thread;
 
   return (
     <div className="flex flex-col gap-y-2 md:w-[720px]">
       <div>
-        <Typography variant="lg">Category</Typography>
+        {category && (
+          <div className='space-x-1'>
+            <Link to={`/threads`}>
+              <Typography variant="lg">Threads</Typography>
+            </Link>
+            <Typography>/</Typography>
+            <Link to={`/threads/by-category/${category.shortCode}`}>
+              <Typography variant="lg">{category.name}</Typography>
+            </Link>
+          </div>
+        )}
         <Typography variant="3xl" weight="semibold">
           {title}
         </Typography>

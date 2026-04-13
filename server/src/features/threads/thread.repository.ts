@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { DataSource, Repository } from 'typeorm';
 
 import { Thread } from 'features/threads/thread.entity';
 import {
@@ -8,45 +8,57 @@ import {
   THREADS_SELECT_OBJ,
 } from 'features/threads/constants/thread.contants';
 import { ThreadCreateDto } from 'features/threads/types/thread-create.dto';
+import { ThreadCategory } from 'features/thread-categories/thread-category.entity';
 
 @Injectable()
 export class ThreadRepository {
   constructor(
-    @InjectRepository(Thread) private threadRepo: Repository<Thread>,
+    @InjectRepository(Thread) private repo: Repository<Thread>,
+    @InjectDataSource() private dataSource: DataSource,
   ) {}
 
   // TODO: add pagination
   async getThreads(): Promise<Thread[]> {
-    return await this.threadRepo.find({
+    return await this.repo.find({
       select: THREADS_SELECT_OBJ,
       order: {
         createdAt: 'DESC',
       },
-      relations: ['author'],
+      relations: ['author', 'category'],
     });
   }
 
-  async getThreadsByCategory(category: string): Promise<Thread[]> {
-    return await this.threadRepo.find({
+  // TODO: optimize the query
+  async getThreadsByCategory(categoryCode: string) {
+    const category = await this.dataSource
+      .createQueryBuilder(ThreadCategory, 'tc')
+      .where('tc.shortCode = :code', { code: categoryCode })
+      .getOne();
+
+    if (!category) throw new NotFoundException('Such category does not exist');
+
+    const threads = await this.repo.find({
       select: THREADS_SELECT_OBJ,
-      where: { category },
+      where: { category: { shortCode: categoryCode } },
       order: {
         createdAt: 'DESC',
       },
-      relations: ['author'],
+      relations: ['author', 'category'],
     });
+
+    return { category, threads };
   }
 
   async getThreadById(id: number): Promise<Thread | null> {
-    return await this.threadRepo.findOne({
+    return await this.repo.findOne({
       select: THREAD_DETAILED_SELECT_OBJ,
-      relations: ['author'],
+      relations: ['author', 'category'],
       where: { id },
       cache: 30000,
     });
   }
 
   async createThread(input: ThreadCreateDto, authorId: number): Promise<void> {
-    await this.threadRepo.insert({ ...input, author: { id: authorId } });
+    await this.repo.insert({ ...input, author: { id: authorId } });
   }
 }

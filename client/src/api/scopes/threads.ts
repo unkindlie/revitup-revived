@@ -6,10 +6,23 @@ import type {
   TThreadDetailed,
   TThreadShort,
 } from '^/types/threads';
+import type { TThreadsWithCategory } from '^/types/thread-categories';
 
 export async function getThreads(): Promise<TResponse<TThreadShort[]>> {
   const res = await api.get<TResponse<TThreadShort[]>>(
     BackendRoutes.ThreadBase,
+  );
+
+  return await res.json();
+}
+
+export async function getThreadsByCategory(
+  categoryCode: string,
+): Promise<TResponse<TThreadsWithCategory>> {
+  const res = await api.get<TResponse<TThreadShort[]>>(
+    backendPath('ThreadBaseByCategory', {
+      code: categoryCode,
+    }),
   );
 
   return await res.json();

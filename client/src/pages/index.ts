@@ -12,6 +12,9 @@ export { ArticleDetailedPage } from './articles/ArticleDetailedPage';
 export { ThreadsIndexPage } from './threads/index';
 export { ThreadDetailedPage } from './threads/detailed';
 
+// Thread category pages
+export { CategoryThreadsPage } from './threads/category-threads';
+
 // User pages
 export { UserProfilePage } from './users/profile';
 

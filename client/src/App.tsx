@@ -16,6 +16,7 @@ import {
   ThreadsIndexPage,
   ThreadDetailedPage,
   UserProfilePage,
+  CategoryThreadsPage,
 } from '@/pages';
 import { ErrorBoundary } from '@/pages/NotFoundErrorBoundary';
 import { AuthProvider } from '@/providers/AuthProvider';
@@ -62,7 +63,7 @@ function App() {
               path: ':id',
               Component: ThreadDetailedPage,
             },
-            { path: 'category/:id' },
+            { path: 'by-category/:code', Component: CategoryThreadsPage },
           ],
         },
         {

@@ -20,6 +20,7 @@ export const BackendRoutes = {
 
   // Thread routes
   ThreadBase: 'threads',
+  ThreadBaseByCategory: 'threads/by-category/:code',
   ThreadDetailed: 'threads/:id',
 
   // Thread category routes

@@ -6,4 +6,10 @@ export class ThreadShortDto {
     id: number;
     username: string;
   };
+  category: {
+    id: number;
+    name: string;
+    color: string;
+    shortCode: string;
+  };
 }

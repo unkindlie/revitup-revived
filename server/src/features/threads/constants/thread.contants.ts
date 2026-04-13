@@ -6,17 +6,15 @@ export const THREADS_SELECT_OBJ = {
     id: true,
     username: true,
   },
-  category: true,
+  category: {
+    id: true,
+    name: true,
+    color: true,
+    shortCode: true,
+  },
 };
 
 export const THREAD_DETAILED_SELECT_OBJ = {
-  id: true,
-  title: true,
+  ...THREADS_SELECT_OBJ,
   description: true,
-  createdAt: true,
-  author: {
-    id: true,
-    username: true,
-  },
-  category: true,
 };

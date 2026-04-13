@@ -12,4 +12,7 @@ export class ThreadCategoryShortDto {
 
   @Expose()
   icon: string;
+
+  @Expose()
+  code: string;
 }
