@@ -10,6 +10,7 @@ export const Pages = {
   ThreadDetailed: '/threads/:id',
 
   Users: '/users',
+  UserProfile: '/users/:id',
 
   Profile: '/me',
 } as const;

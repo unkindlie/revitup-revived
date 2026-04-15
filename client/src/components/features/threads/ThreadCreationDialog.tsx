@@ -79,7 +79,11 @@ export const ThreadCreateButton = ({
   );
 };
 
-export const ThreadCreationDialog = () => {
+export const ThreadCreationDialog = ({
+  defaultCategoryId,
+}: {
+  defaultCategoryId?: string;
+}) => {
   const {
     register,
     handleSubmit,
@@ -155,6 +159,7 @@ export const ThreadCreationDialog = () => {
               errorMessage={formErrors.categoryId?.message}
             >
               <ThreadCategoriesSelect
+                defaultValue={defaultCategoryId}
                 onValueChange={(value) => setValue('categoryId', Number(value))}
                 {...register('categoryId')}
               />

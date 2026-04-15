@@ -28,7 +28,6 @@ export class ThreadRepository {
     });
   }
 
-  // TODO: optimize the query
   async getThreadsByCategory(categoryCode: string) {
     const category = await this.dataSource
       .createQueryBuilder(ThreadCategory, 'tc')

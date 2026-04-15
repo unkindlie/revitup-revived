@@ -2,8 +2,14 @@
   "index": {
     "title": "Threads",
     "noThreads": {
-      "title": "No threads available :(",
-      "message": "When any thread will be created, you will see it. Or you can create one"
+      "default": {
+        "title": "No threads available :(",
+        "message": "When any thread will be created, you will see it. Or you can create one"
+      },
+      "inCategory": {
+        "title": "No threads related to this category available :(",
+        "message": "When any thread in this category will be created, you will see it. Or you can create one"
+      }
     },
     "createButton": {
       "title": "Add a thread",
@@ -12,7 +18,12 @@
     "createForm": {
       "fields": {
         "title": "Title",
-        "description": "Description"
+        "description": "Description",
+        "category": "Category"
+      },
+      "misc": {
+        "chooseCategory": "Choose a thread category",
+        "noCategories": "No thread categories available"
       }
     }
   },

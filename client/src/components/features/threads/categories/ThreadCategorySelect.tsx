@@ -12,6 +12,8 @@ import {
 } from '@/components/ui/select';
 import { useThreadCategories } from '@/hooks/features/threads/categories/useThreadCategories';
 import { useResponse } from '@/hooks/useResponse';
+import { useTranslation } from '@/hooks/useTranslation';
+import { TranslationNamespaces } from '@/lib/translation';
 
 type SelectProps = ComponentProps<typeof SelectPrimitive.Root>;
 
@@ -20,6 +22,7 @@ export const ThreadCategoriesSelect = ({
   defaultValue,
   ...props
 }: SelectProps) => {
+  const { t } = useTranslation([TranslationNamespaces.Threads]);
   const { data: categoriesRes, isLoading } = useThreadCategories();
 
   const { data: categories } = useResponse(categoriesRes);
@@ -27,7 +30,11 @@ export const ThreadCategoriesSelect = ({
   if (isLoading || !categories) return null;
 
   if (!categories.length)
-    return <Typography>No thread categories avialable</Typography>;
+    return (
+      <Typography variant="sm">
+        {t('index.createForm.misc.noCategories')}
+      </Typography>
+    );
 
   return (
     <Select
@@ -36,9 +43,9 @@ export const ThreadCategoriesSelect = ({
       {...props}
     >
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Choose a thread category" />
+        <SelectValue placeholder={t('index.createForm.misc.chooseCategory')} />
       </SelectTrigger>
-      <SelectContent className="w-full">
+      <SelectContent className="w-full" position="popper">
         <SelectGroup>
           {categories.map((cat) => (
             <SelectItem key={cat.id} value={cat.id.toString()}>

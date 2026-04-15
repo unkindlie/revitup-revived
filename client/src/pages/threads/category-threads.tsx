@@ -1,12 +1,13 @@
 import { useParams } from 'react-router';
 
 import { Typography } from '@/components/common/typography/Typography';
+import { NoThreads } from '@/components/features/threads/NoThreads';
 import { ThreadsContent } from '@/components/features/threads/index/ThreadsContent';
 import { ThreadCreationDialog } from '@/components/features/threads/ThreadCreationDialog';
+import { ThreadCategoryIcon } from '@/components/features/threads/categories/ThreadCategoryIcon';
 import { useThreadsByCategory } from '@/hooks/features/threads/useThreadsByCategory';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useResponse } from '@/hooks/useResponse';
-import { ThreadCategoryIcon } from '../../components/features/threads/categories/ThreadCategoryIcon';
 
 export const CategoryThreadsPage = () => {
   const { code } = useParams<{ code: string }>();
@@ -18,7 +19,7 @@ export const CategoryThreadsPage = () => {
     appNamed: true,
   });
 
-  if (!data) return <span>cuh</span>;
+  if (!data) return <NoThreads inCategory />;
 
   const { threads, category } = data;
 
@@ -34,7 +35,7 @@ export const CategoryThreadsPage = () => {
         </div>
       </div>
       <ThreadsContent threads={threads} isLoading={isLoading} />
-      <ThreadCreationDialog />
+      <ThreadCreationDialog defaultCategoryId={String(category.id)} />
     </div>
   );
 };

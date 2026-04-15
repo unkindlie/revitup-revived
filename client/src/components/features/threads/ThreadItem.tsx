@@ -35,7 +35,11 @@ export const ThreadItem = ({
           <Typography>{category?.name ?? 'No category'}</Typography>
         </Link>
         <div className="flex gap-x-1">
-          <Link to={`/users/${userId}`}>
+          <Link
+            to={path(Pages.UserProfile, {
+              id: userId,
+            })}
+          >
             <Typography>{username}</Typography>
           </Link>
           <Typography>|</Typography>
