@@ -1,7 +1,11 @@
-import { Container } from '@/components/container/Container';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 import { createBrowserRouter, RouterProvider } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { AuthProvider } from '@/providers/AuthProvider';
+
+import { Container } from '@/components/container/Container';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { Pages } from '@/lib/routing/client';
 import {
   ArticleDetailedPage,
   ArticlesIndexPage,
@@ -9,8 +13,15 @@ import {
   GoogleAuthRedirectPage,
   StartPage,
   MePage,
+  ThreadsIndexPage,
+  ThreadDetailedPage,
+  UserProfilePage,
+  CategoryThreadsPage,
 } from '@/pages';
-import { ErrorBoundary } from './pages/NotFoundErrorBoundary';
+import { ErrorBoundary } from '@/pages/NotFoundErrorBoundary';
+import { AuthProvider } from '@/providers/AuthProvider';
+
+TimeAgo.addLocale(en);
 
 const queryClient = new QueryClient({
   defaultOptions: { mutations: { retry: false } },
@@ -45,6 +56,25 @@ function App() {
           ],
         },
         {
+          path: Pages.ThreadsIndex,
+          children: [
+            { index: true, Component: ThreadsIndexPage },
+            {
+              path: ':id',
+              Component: ThreadDetailedPage,
+            },
+            { path: 'by-category/:code', Component: CategoryThreadsPage },
+          ],
+        },
+        {
+          path: Pages.Users,
+          children: [
+            { index: true, Component: null },
+            { path: ':id', Component: UserProfilePage },
+          ],
+        },
+        {
+          // Will be extended later as a profile dashboard
           path: '/me',
           children: [{ index: true, Component: MePage }],
         },
@@ -55,7 +85,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <TooltipProvider>
+          <RouterProvider router={router} />
+        </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

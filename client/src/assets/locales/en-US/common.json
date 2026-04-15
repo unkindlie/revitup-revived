@@ -12,7 +12,8 @@
     },
     "sections": {
       "news": "News",
-      "events": "Events"
+      "events": "Events",
+      "threads": "Threads"
     }
   },
   "footer": {

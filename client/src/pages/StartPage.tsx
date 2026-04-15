@@ -1,7 +1,8 @@
-import { useGetArticles } from '@/hooks/features/articles/useGetArticles';
-import { useResponse } from '@/hooks/useResponse';
+import { Typography } from '@/components/common/typography/Typography';
 import { Article } from '@/components/features/articles/Article';
+import { useGetArticles } from '@/hooks/features/articles/useGetArticles';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { useResponse } from '@/hooks/useResponse';
 
 export const StartPage = () => {
   const { isFetched, data: articlesResponse } = useGetArticles();
@@ -12,6 +13,8 @@ export const StartPage = () => {
   });
 
   if (!isFetched || !articles) return null;
+
+  if (!articles.length) return <Typography>No articles</Typography>;
 
   const newestArticle = articles[0];
 

@@ -5,7 +5,9 @@ import { CheckModule } from 'features/check/check.module';
 import { PasswordResetModule } from 'features/password-reset/password-reset.module';
 import { RefreshTokenModule } from 'features/refresh-token/refresh-token.module';
 import { UserModule } from 'features/user/user.module';
-import { ArticleModule } from './articles/article.module';
+import { ArticleModule } from 'features/articles/article.module';
+import { ThreadModule } from 'features/threads/thread.module';
+import { ThreadCategoryModule } from 'features/thread-categories/thread-category.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { ArticleModule } from './articles/article.module';
     RefreshTokenModule,
     PasswordResetModule,
     ArticleModule,
+    ThreadModule,
+    ThreadCategoryModule,
   ],
 })
 export class FeaturesModule {}

@@ -1,0 +1,39 @@
+{
+  "index": {
+    "title": "Threads",
+    "noThreads": {
+      "default": {
+        "title": "No threads available :(",
+        "message": "When any thread will be created, you will see it. Or you can create one"
+      },
+      "inCategory": {
+        "title": "No threads related to this category available :(",
+        "message": "When any thread in this category will be created, you will see it. Or you can create one"
+      }
+    },
+    "createButton": {
+      "title": "Add a thread",
+      "disabledTooltip": "Please log into the account to create the thread"
+    },
+    "createForm": {
+      "fields": {
+        "title": "Title",
+        "description": "Description",
+        "category": "Category"
+      },
+      "misc": {
+        "chooseCategory": "Choose a thread category",
+        "noCategories": "No thread categories available"
+      }
+    }
+  },
+  "detailed": {
+    "noThread": {
+      "title": "404 Not Found :(",
+      "message": "Looks like such thread does not exist, or it was removed"
+    },
+    "info": {
+      "author": "Thread by: {{author}}"
+    }
+  }
+}

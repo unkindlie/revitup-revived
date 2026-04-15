@@ -12,6 +12,7 @@ import { useUserStore } from '@/stores/user.store';
 
 import googleGLogo from '@/assets/logos/google_g_icon.png';
 import revitupLogo from '@/assets/REVITUP_squared_logo.svg';
+import { NAV_ROUTES } from '@/lib/routing/client';
 
 // TODO: add the in-animation with Framer Motion
 export const HeaderSheet = () => {
@@ -28,7 +29,9 @@ export const HeaderSheet = () => {
       </SheetTrigger>
       <SheetContent showCloseButton={false}>
         <SheetHeader className="ml-1">
-          <Typography className="text-right" weight='medium'>Sign in</Typography>
+          <Typography className="text-right" weight="medium">
+            Sign in
+          </Typography>
           <div className="flex flex-row gap-x-2.5">
             <img
               className="size-14 rounded-lg"
@@ -43,12 +46,11 @@ export const HeaderSheet = () => {
           </div>
           <div className="mt-3 h-px w-full bg-black/25" />
           <SheetDescription className="mt-2 flex flex-col gap-y-1.5 text-black">
-            <Typography variant="2xl" weight="medium">
-              News
-            </Typography>
-            <Typography variant="2xl" weight="medium">
-              Events
-            </Typography>
+            {NAV_ROUTES.map(({ id }, i) => (
+              <Typography key={i} variant="2xl" weight="medium">
+                {id}
+              </Typography>
+            ))}
           </SheetDescription>
         </SheetHeader>
       </SheetContent>
