@@ -7,7 +7,7 @@ type HeaderLinkProps = {
 };
 
 export const HeaderLink = ({ title, to }: HeaderLinkProps) => (
-  <Link className="text-primary-foreground font-bold text-lg" to={to}>
+  <Link className="text-white font-bold text-lg" to={to}>
     {title}
   </Link>
 );
