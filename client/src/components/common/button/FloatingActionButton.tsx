@@ -24,12 +24,12 @@ export const FloatingActionButton = ({
   return (
     <Button
       className={cn(
-        'bg-light-active min-h-12 min-w-12 cursor-pointer shadow-2xl',
+        'bg-main min-h-12 min-w-12 cursor-pointer shadow-2xl',
         className,
       )}
       {...props}
     >
-      {icon && <DynamicIcon name={iconName} />}
+      {icon && <DynamicIcon className='text-white' name={iconName} />}
       {children}
     </Button>
   );
