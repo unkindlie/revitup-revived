@@ -17,10 +17,11 @@ import {
   ThreadDetailedPage,
   UserProfilePage,
   CategoryThreadsPage,
+  EventsPage,
 } from '@/pages';
 import { ErrorBoundary } from '@/pages/NotFoundErrorBoundary';
 import { AuthProvider } from '@/providers/AuthProvider';
-import { ThemeProvider } from './providers/ThemeProvider';
+import { ThemeProvider } from '@/providers/ThemeProvider';
 
 TimeAgo.addLocale(en);
 
@@ -47,7 +48,7 @@ function App() {
           Component: GoogleAuthRedirectPage,
         },
         {
-          path: '/articles',
+          path: Pages.ArticlesIndex,
           children: [
             { index: true, Component: ArticlesIndexPage },
             {
@@ -55,6 +56,10 @@ function App() {
               Component: ArticleDetailedPage,
             },
           ],
+        },
+        {
+          path: Pages.EventsIndex,
+          children: [{ index: true, Component: EventsPage }],
         },
         {
           path: Pages.ThreadsIndex,

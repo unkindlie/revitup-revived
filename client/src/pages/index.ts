@@ -4,9 +4,12 @@ export { StartPage } from './StartPage';
 export { RegistrationPage } from './auth/RegistrationPage';
 export { GoogleAuthRedirectPage } from './auth/GoogleAuthRedirectPage';
 
-// Article pages
+// Articles pages
 export { ArticlesIndexPage } from './articles/ArticlesIndexPage';
 export { ArticleDetailedPage } from './articles/ArticleDetailedPage';
+
+// Events pages
+export { EventsPage } from './events/index';
 
 // Threads pages
 export { ThreadsIndexPage } from './threads/index';

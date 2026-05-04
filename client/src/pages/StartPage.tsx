@@ -1,6 +1,6 @@
-import { Typography } from '@/components/common/typography/Typography';
 import { Article } from '@/components/features/articles/Article';
 import { useGetArticles } from '@/hooks/features/articles/useGetArticles';
+import { NoArticlesAvailable } from '@/components/features/main/NoArticlesAvailable';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useResponse } from '@/hooks/useResponse';
 
@@ -14,7 +14,7 @@ export const StartPage = () => {
 
   if (!isFetched || !articles) return null;
 
-  if (!articles.length) return <Typography>No articles</Typography>;
+  if (!articles.length) return <NoArticlesAvailable />;
 
   const newestArticle = articles[0];
 
