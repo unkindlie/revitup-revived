@@ -14,14 +14,17 @@ import { ForgotPasswordDialog } from '@/components/features/auth/dialogs/ForgotP
 import { LoginDialog } from '@/components/features/auth/dialogs/LoginDialog';
 import { Dialog } from '@/components/ui/dialog';
 import { Switch } from '@/components/ui/switch';
+import { useTranslation } from '@/hooks/useTranslation';
 import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
 import { useTheme } from '@/providers/ThemeProvider';
 import { useUserStore } from '@/stores/user.store';
 
 export const HeaderDropdown = () => {
+  const { t } = useTranslation(['common']);
   const { dialogType } = useDropdownDialogContext();
-  const isLogged = useUserStore((state) => state.isLogged);
   const { toggleTheme, theme } = useTheme();
+
+  const isLogged = useUserStore((state) => state.isLogged);
 
   return (
     <Dialog>
@@ -37,7 +40,7 @@ export const HeaderDropdown = () => {
           {isLogged ? <HeaderLoggedDropdown /> : <HeaderDefaultDropdown />}
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            Dark mode
+            {t('header.dropdown.common.darkMode')}
             <Switch
               checked={theme === 'dark'}
               onCheckedChange={toggleTheme}

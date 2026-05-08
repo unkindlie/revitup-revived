@@ -1,5 +1,14 @@
 {
   "index": {
-    "title": "Available events"
+    "title": "Available events",
+    "card": {
+      "noBg": "No background."
+    }
+  },
+  "detailed": {
+    "description": {
+      "title": "Event description",
+      "placeholder": "To be added..."
+    }
   }
 }

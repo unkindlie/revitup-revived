@@ -18,22 +18,21 @@ import {
   UserProfilePage,
   CategoryThreadsPage,
   EventsPage,
+  EventsDetailedPade,
 } from '@/pages';
-import { ErrorBoundary } from '@/pages/NotFoundErrorBoundary';
 import { AuthProvider } from '@/providers/AuthProvider';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 
 TimeAgo.addLocale(en);
 
 const queryClient = new QueryClient({
-  defaultOptions: { mutations: { retry: false } },
+  defaultOptions: { queries: { retry: false }, mutations: { retry: false } },
 });
 
 function App() {
   const router = createBrowserRouter([
     {
       Component: Container,
-      ErrorBoundary: ErrorBoundary,
       children: [
         {
           path: '/',
@@ -59,7 +58,13 @@ function App() {
         },
         {
           path: Pages.EventsIndex,
-          children: [{ index: true, Component: EventsPage }],
+          children: [
+            { index: true, Component: EventsPage },
+            {
+              path: ':id',
+              Component: EventsDetailedPade,
+            },
+          ],
         },
         {
           path: Pages.ThreadsIndex,

@@ -10,6 +10,7 @@ export { ArticleDetailedPage } from './articles/ArticleDetailedPage';
 
 // Events pages
 export { EventsPage } from './events/index';
+export { EventsDetailedPade } from './events/detailed';
 
 // Threads pages
 export { ThreadsIndexPage } from './threads/index';

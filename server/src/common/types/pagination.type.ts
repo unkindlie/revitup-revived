@@ -12,6 +12,8 @@ export class PaginatedQuery {
   // TODO: default take will be in the user's settings
   @Expose()
   @Type(() => Number)
+  @Transform(({ value }) => (value as number) || 10)
+  @IsOptional()
   @IsPositive()
-  take: number;
+  take?: number;
 }

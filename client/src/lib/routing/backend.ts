@@ -18,6 +18,10 @@ export const BackendRoutes = {
   ArticleUpdate: 'articles/update/:id',
   ArticleSoftDelete: 'articles/soft/:id',
 
+  // Event routes
+  EventsBase: 'events',
+  EventDetailed: 'events/:id',
+
   // Thread routes
   ThreadBase: 'threads',
   ThreadBaseByCategory: 'threads/by-category/:code',
@@ -29,10 +33,12 @@ export const BackendRoutes = {
 
 type RoutesKeys = keyof typeof BackendRoutes;
 type Params = Record<string, string | number>;
+type QueryParams = Record<string, string | number | boolean>;
 
 export function backendPath<K extends RoutesKeys>(
   page: K,
   params?: Params,
+  queryParams?: QueryParams,
 ): string {
   let route = BackendRoutes[page] as string;
 
@@ -41,5 +47,12 @@ export function backendPath<K extends RoutesKeys>(
       route = route.replace(`:${key}`, encodeURIComponent(String(value)));
     });
   }
+
+  if (queryParams) {
+    Object.entries(queryParams).forEach(([key, value], i) => {
+      route += `${i === 0 ? '?' : '&'}${key}=${encodeURIComponent(value)}`;
+    });
+  }
+
   return route;
 }

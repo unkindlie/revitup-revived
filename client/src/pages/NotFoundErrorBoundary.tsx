@@ -1,8 +1,8 @@
+import { BoundaryCenteringPopover } from '@/components/common/errors/BoundaryCenteringPopover';
 import { Typography } from '@/components/common/typography/Typography';
 import { Button } from '@/components/ui/button';
 import { useNavigate, useRouteError } from 'react-router';
 import { LongLogo, SquaredLogo } from '@/components/common/logos';
-import { BoundaryCenteringPopover } from '../components/common/error-boundary/BoundaryCenteringPopover';
 
 type RouteError = {
   status: number;
