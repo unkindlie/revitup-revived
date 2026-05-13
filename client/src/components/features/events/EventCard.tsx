@@ -10,15 +10,19 @@ import type { TEventShort } from '^/types/events';
 export const EventCard = (event: TEventShort) => {
   const navigate = useNavigate();
 
-  const { id, title, startDate, endDate } = event;
+  const { id, title, startDate, endDate, imgUrl } = event;
 
   return (
     <div
       className="flex cursor-pointer flex-col gap-y-1 rounded-md border-2 transition-all hover:shadow-lg lg:w-full"
       onClick={() => navigate(path(Pages.EventDetailed, { id }))}
     >
-      <div className="h-24 w-full">
-        <EventNoBackground />
+      <div className="h-24 w-full *:rounded-t-md">
+        {imgUrl ? (
+          <img className="size-full object-cover" src={imgUrl} />
+        ) : (
+          <EventNoBackground />
+        )}
       </div>
       <div className="flex flex-col gap-y-1 px-3 pt-2 pb-3">
         <Link to={path(Pages.EventDetailed, { id })}>

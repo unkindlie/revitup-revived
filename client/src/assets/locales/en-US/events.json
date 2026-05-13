@@ -3,6 +3,34 @@
     "title": "Available events",
     "card": {
       "noBg": "No background."
+    },
+    "createForm": {
+      "title": "Add an event",
+      "description": "Here you can create the new event",
+      "fields": {
+        "title": {
+          "label": "Title",
+          "description": "Event's title"
+        },
+        "description": {
+          "label": "Description",
+          "description": "Event's description"
+        },
+        "location": {
+          "label": "Location",
+          "description": "Event's location (e.g. circuit, stadium)"
+        },
+        "startDate": {
+          "label": "Start date"
+        },
+        "endDate": {
+          "label": "End date"
+        }
+      },
+      "success": {
+        "title": "Event created successfully",
+        "description": "Now you can check it (and subscribe to the event in the future)"
+      }
     }
   },
   "detailed": {

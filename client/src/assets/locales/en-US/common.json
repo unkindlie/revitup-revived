@@ -1,6 +1,15 @@
 {
   "common": {
-    "fallback": "Fallback"
+    "fallback": "Fallback",
+    "actions": {
+      "create": "Create",
+      "cancel": "Cancel"
+    }
+  },
+  "components": {
+    "datePicker": {
+      "placeholder": "Pick a date"
+    }
   },
   "header": {
     "dropdown": {

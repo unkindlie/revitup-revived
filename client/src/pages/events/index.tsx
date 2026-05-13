@@ -4,6 +4,10 @@ import { CenteredSpinner } from '@/components/common/spinner/CenteredSpinner';
 import { Typography } from '@/components/common/typography/Typography';
 import { PaginationControls } from '@/components/common/pagination/PaginationControls';
 import { EventCard } from '@/components/features/events/EventCard';
+import { EventCreationDialog } from '@/components/features/events/EventCreationDialog';
+import { RequireAuth } from '@/hoc/RequireAuth';
+import { RequireRoles } from '@/hoc/RequireRoles';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useResponse } from '@/hooks/useResponse';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useEvents } from '@/hooks/features/events/useEvents';
@@ -17,6 +21,9 @@ export const EventsPage = () => {
   );
 
   const { t } = useTranslation([TranslationNamespaces.Events]);
+
+  useDocumentTitle(t('index.title'), { appNamed: true });
+
   const { data: events } = useResponse(eventsRes);
 
   const { currentPage, totalPages, hasPreviousPage, hasNextPage, goToPage } =
@@ -32,10 +39,16 @@ export const EventsPage = () => {
   };
 
   return (
-    <div className="flex w-full flex-col gap-y-2.5">
-      <Typography variant="3xl" weight="semibold">
-        {t('index.title')}
-      </Typography>
+    <div className="relative flex w-full flex-col gap-y-3">
+      <div className="space-y-1">
+        <Typography variant="3xl" weight="semibold">
+          {t('index.title')}
+        </Typography>
+        <Typography>
+          Lorem ipsum dolor sit amet, consectetur adipiscing.
+        </Typography>
+      </div>
+
       {isFetched && events ? (
         <>
           <div className="flex w-full flex-col gap-y-4 md:grid md:grid-cols-2 md:gap-3 lg:grid-cols-3">
@@ -52,8 +65,15 @@ export const EventsPage = () => {
           />
         </>
       ) : (
-        <CenteredSpinner />
+        <div className="flex h-full">
+          <CenteredSpinner />
+        </div>
       )}
+      <RequireAuth>
+        <RequireRoles roles={['admin']}>
+          <EventCreationDialog />
+        </RequireRoles>
+      </RequireAuth>
     </div>
   );
 };

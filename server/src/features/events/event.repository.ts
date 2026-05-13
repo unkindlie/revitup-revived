@@ -7,6 +7,7 @@ import {
   EVENT_SELECT_MANY_OBJ,
   EVENT_SELECT_ONE_OBJ,
 } from 'features/events/constants/event.constants';
+import { EventCreateDto } from './dto';
 
 @Injectable()
 export class EventRepository {
@@ -31,5 +32,9 @@ export class EventRepository {
       select: EVENT_SELECT_ONE_OBJ,
       where: { id },
     });
+  }
+
+  async createEvent(input: EventCreateDto, imgUrl?: string) {
+    await this.repo.insert({ ...input, imgUrl });
   }
 }

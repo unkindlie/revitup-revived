@@ -28,10 +28,20 @@ export class Event {
   @Column({ type: 'text', nullable: true })
   location: string;
 
-  @Column({ name: 'start_date' })
+  @Column({
+    name: 'start_date',
+    type: 'timestamptz',
+    precision: 0,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   startDate: Date;
 
-  @Column({ name: 'end_date' })
+  @Column({
+    name: 'end_date',
+    type: 'timestamptz',
+    precision: 0,
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   endDate: Date;
 
   @CreateDateColumn({

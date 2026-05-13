@@ -4,7 +4,7 @@ import { api } from '@/api';
 import { backendPath } from '@/lib/routing/backend';
 
 import { ApiError } from '^/errors/api.error';
-import type { TEventDetailed, TEventShort } from '^/types/events';
+import type { TEventCreate, TEventDetailed, TEventShort } from '^/types/events';
 import type {
   TPaginatedResponse,
   TResponse,
@@ -43,4 +43,29 @@ export async function getEventById(id: number) {
 
     throw e;
   }
+}
+
+export async function createEvent(input: TEventCreate): Promise<void> {
+  const body = new FormData();
+
+  Object.entries(input).forEach(([key, val]) => {
+    if (val instanceof FileList) {
+      if (val.length > 0) {
+        body.append(key, val[0]);
+      }
+      return;
+    }
+
+    if (['startDate', 'endDate'].includes(key) && val instanceof Date) {
+      body.append(key, val.toISOString());
+      return;
+    }
+
+    body.append(
+      key,
+      val as keyof Omit<TEventCreate, 'mainImage' | 'startDate' | 'endDate'>,
+    );
+  });
+
+  await api.post(backendPath('EventsBase'), { body });
 }

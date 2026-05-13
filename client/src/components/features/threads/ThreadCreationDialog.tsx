@@ -72,7 +72,7 @@ export const ThreadCreateButton = ({
       icon="add"
       {...props}
     >
-      <Typography className="hidden lg:block" weight="medium">
+      <Typography className="hidden lg:block text-whitr" weight="medium">
         Add a thread
       </Typography>
     </FloatingActionButton>

@@ -4,6 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { App } from 'firebase-admin/app';
 import { Storage, getDownloadURL, getStorage } from 'firebase-admin/storage';
 import { URL } from 'url';
@@ -24,21 +25,28 @@ export class FirebaseStorageService {
     const file = this.storage.bucket().file(path);
 
     const url = new URL(await getDownloadURL(file));
-    url.searchParams.delete('alt');
-    url.searchParams.delete('token');
 
     return url.href;
   }
-  async uploadFile(file: FileUploadDto): Promise<void> {
-    const [exists] = await this.storage.bucket().file(file.pathname).exists();
+
+  async uploadFile(file: FileUploadDto): Promise<string> {
+    const id = randomUUID();
+    const { pathname, originalName, buffer, metadata } = file;
+
+    const filePathname = `${pathname ? pathname + '/' : ''}${id}-${originalName}`;
+
+    const [exists] = await this.storage.bucket().file(filePathname).exists();
     if (exists)
       throw new ConflictException('File with such name already exists');
 
-    await this.storage.bucket().file(file.pathname).save(file.buffer, {
-      metadata: file.metadata,
+    await this.storage.bucket().file(filePathname).save(buffer, {
+      metadata,
     });
+
+    return filePathname;
   }
-  async deleteFile(fileLink: string) {
+
+  async deleteFile(fileLink: string): Promise<void> {
     const url = new URL(fileLink);
     const bucketName = this.storage.bucket().name;
 

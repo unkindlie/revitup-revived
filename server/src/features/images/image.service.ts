@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { ImageRepository } from 'features/images/image.repository';
+
 import { FirebaseStorageService } from 'common/firebase/firebase-storage.service';
 import { FileUploadDto } from 'common/firebase/dto/file-upload.dto';
-import { join } from 'path';
+
+import { ImageRepository } from 'features/images/image.repository';
 
 @Injectable()
 export class ImageService {
@@ -11,13 +12,16 @@ export class ImageService {
     private storageService: FirebaseStorageService,
   ) {}
 
-  async uploadImage(image: Express.Multer.File, pathname: string) {
-    await this.storageService.uploadFile(new FileUploadDto(image, pathname));
+  async uploadImage(
+    image: Express.Multer.File,
+    pathname: string,
+  ): Promise<{ id: string; url: string }> {
+    const filePathname = await this.storageService.uploadFile(
+      new FileUploadDto(image, pathname),
+    );
 
     const { originalname, mimetype, size } = image;
-    const url = await this.storageService.getFileLink(
-      join(pathname, '/', image.originalname),
-    );
+    const url = await this.storageService.getFileLink(filePathname);
 
     const id = await this.repo.createImageEntry({
       fileName: originalname,

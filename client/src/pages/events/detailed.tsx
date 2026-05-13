@@ -25,12 +25,16 @@ export const EventsDetailedPade = () => {
 
   if (isLoading || !event) return <CenteredSpinner />;
 
-  const { title, description, location, startDate, endDate } = event;
+  const { title, description, location, startDate, endDate, imgUrl } = event;
 
   return (
     <div className="flex w-full flex-col">
       <div className="h-24 *:rounded-md md:w-[55%] lg:w-[40%]">
-        <EventNoBackground />
+        {imgUrl ? (
+          <img className="size-full object-cover" src={imgUrl} />
+        ) : (
+          <EventNoBackground />
+        )}
       </div>
       <Typography className="mt-3" variant="3xl" weight="semibold">
         {title}
