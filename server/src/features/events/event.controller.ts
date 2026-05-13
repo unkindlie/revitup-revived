@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Query,
   UploadedFile,
@@ -17,7 +19,7 @@ import { PaginatedQuery } from 'common/types/pagination.type';
 
 import { Roles } from 'features/auth/decorators/roles.decorator';
 import { AccessTokenGuard } from 'features/auth/guards/access-token.guard';
-import { EventCreateDto } from 'features/events/dto';
+import { EventCreateDto, EventUpdateDto } from 'features/events/dto';
 import { EventService } from 'features/events/event.service';
 import { UserRole } from 'features/user/enums/user-role.enum';
 
@@ -55,5 +57,23 @@ export class EventController {
     await this.service.createEvent(body, file);
 
     return { message: 'Event created successfully' };
+  }
+
+  @Patch()
+  @Roles([UserRole.ADMIN])
+  @UseGuards(AccessTokenGuard)
+  async updateEvent(@Body() body: EventUpdateDto) {
+    await this.service.updateEvent(body);
+
+    return { message: 'Event updated successfully' };
+  }
+
+  @Delete()
+  @Roles([UserRole.ADMIN])
+  @UseGuards(AccessTokenGuard)
+  async deleteEvent(@Body('id', ParseIntPipe) id: number) {
+    await this.service.deleteEvent(id);
+
+    return { message: 'Event deleted successfully' };
   }
 }

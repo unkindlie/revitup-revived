@@ -7,7 +7,7 @@ import {
   EVENT_SELECT_MANY_OBJ,
   EVENT_SELECT_ONE_OBJ,
 } from 'features/events/constants/event.constants';
-import { EventCreateDto } from './dto';
+import { EventCreateDto, EventUpdateDto } from 'features/events/dto';
 
 @Injectable()
 export class EventRepository {
@@ -34,7 +34,25 @@ export class EventRepository {
     });
   }
 
-  async createEvent(input: EventCreateDto, imgUrl?: string) {
+  async createEvent(input: EventCreateDto, imgUrl?: string): Promise<void> {
     await this.repo.insert({ ...input, imgUrl });
+  }
+
+  async updateEvent(input: EventUpdateDto): Promise<void> {
+    const { id, ...rest } = input;
+
+    await this.repo.update(id, { ...rest });
+  }
+
+  async deleteEvent(id: number): Promise<boolean> {
+    const exists = await this.repo.existsBy({ id });
+    if (!exists) return false;
+
+    await this.repo.delete(id);
+    return true;
+  }
+
+  async exists(id: number): Promise<boolean> {
+    return this.repo.existsBy({ id });
   }
 }

@@ -7,9 +7,10 @@ import {
   EventShortDto,
   EventDetailedDto,
   EventCreateDto,
+  EventUpdateDto,
 } from 'features/events/dto';
 import { EventRepository } from 'features/events/event.repository';
-import { ImageService } from '../images/image.service';
+import { ImageService } from 'features/images/image.service';
 
 @Injectable()
 export class EventService {
@@ -42,5 +43,18 @@ export class EventService {
     }
 
     await this.repo.createEvent(input, imageLink);
+  }
+
+  async updateEvent(input: EventUpdateDto): Promise<void> {
+    const exists = await this.repo.exists(input.id);
+    if (!exists) throw new NotFoundException('Such event does not exist');
+
+    await this.repo.updateEvent(input);
+  }
+
+  // TODO: add image deletion
+  async deleteEvent(id: number): Promise<void> {
+    const deleted = await this.repo.deleteEvent(id);
+    if (!deleted) throw new NotFoundException('Such event does not exist');
   }
 }
