@@ -5,6 +5,7 @@ export const Pages = {
   ArticleDetailed: '/articles/:id',
 
   EventsIndex: '/events',
+  EventDetailed: '/events/:id',
 
   ThreadsIndex: '/threads',
   ThreadDetailed: '/threads/:id',

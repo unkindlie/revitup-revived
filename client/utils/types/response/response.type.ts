@@ -16,3 +16,13 @@ export type TResponse<T = unknown> = {
   path: string;
   date: Date;
 } & { response: TSuccessResponse<T> | TErrorResponse };
+
+export type TPaginatedResponse<T = unknown> = TResponse<{
+  items: T[];
+  totalCount: number;
+  query: {
+    page: number;
+    take: number;
+    totalPages: number
+  };
+}>;

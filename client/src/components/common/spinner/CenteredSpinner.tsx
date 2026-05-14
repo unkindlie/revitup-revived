@@ -1,7 +1,7 @@
 import { Spinner } from './Spinner';
 
 export const CenteredSpinner = () => (
-  <div className="flex h-full items-center justify-center">
+  <div className="flex w-full items-center justify-center">
     <Spinner />
   </div>
 );

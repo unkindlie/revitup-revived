@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { AuthModule } from 'features/auth/auth.module';
 import { CheckModule } from 'features/check/check.module';
+import { EventModule } from 'features/events/event.module';
 import { PasswordResetModule } from 'features/password-reset/password-reset.module';
 import { RefreshTokenModule } from 'features/refresh-token/refresh-token.module';
 import { UserModule } from 'features/user/user.module';
@@ -19,6 +20,7 @@ import { ThreadCategoryModule } from 'features/thread-categories/thread-category
     ArticleModule,
     ThreadModule,
     ThreadCategoryModule,
+    EventModule,
   ],
 })
 export class FeaturesModule {}

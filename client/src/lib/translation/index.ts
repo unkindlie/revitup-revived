@@ -1,6 +1,8 @@
 export const TranslationNamespaces = {
   Common: 'common',
+  Index: 'index',
   Auth: 'auth',
+  Events: 'events',
   Threads: 'threads',
 } as const;
 

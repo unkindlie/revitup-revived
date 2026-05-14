@@ -1,26 +1,27 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useTranslation } from 'react-i18next';
-import { useLogin } from '@/hooks/features/auth/useLogin';
-import { useForm, type SubmitHandler } from 'react-hook-form';
-import type { TAuthBody } from '^/types/auth';
-import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
-import { useState } from 'react';
-import { PasswordInput } from '@/components/common/inputs/PasswordInput';
-import { getFieldErrors } from '^/helpers/response/getFieldErrors';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { authLoginSchema } from '^/schemas/auth/auth-login.schema';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useForm, type SubmitHandler } from 'react-hook-form';
 import { Link } from 'react-router';
-import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
-import { DialogClose } from '@/components/ui/dialog';
+
+import { FormField } from '@/components/common/form/FormField';
+import { PasswordInput } from '@/components/common/inputs/PasswordInput';
 import { Spinner } from '@/components/common/spinner/Spinner';
 import { Typography } from '@/components/common/typography/Typography';
-import { FormField } from '@/components/common/form/FormField';
-import { TranslationNamespaces } from '@/lib/translation';
-import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
+import { Button } from '@/components/ui/button';
+import { DialogClose } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { ExternalAuthButton } from '@/components/features/auth/ui/ExternalAuthButton';
-import { getResponse } from '@/hooks/useResponse';
-import type { TResponse } from '^/types/response/response.type';
+import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
+import { useLogin } from '@/hooks/features/auth/useLogin';
+import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
+import { TranslationNamespaces } from '@/lib/translation';
+import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
+
+import { getFieldErrors } from '^/helpers/response/getFieldErrors';
+import { authLoginSchema } from '^/schemas/auth/auth-login.schema';
+import type { TAuthBody } from '^/types/auth';
+import type { TError } from '^/types/response/response.type';
 
 type LogInErrors = Partial<{
   email: string;
@@ -52,10 +53,10 @@ export const LoginForm = () => {
       closeRef.current?.click();
 
       setTimeout(() => setDialogType(undefined), 500);
-    } catch (axiosErr) {
-      const { error } = getResponse(axiosErr as TResponse);
+    } catch (catchError) {
+      const payload = (catchError as unknown as { payload: object }).payload as TError;
 
-      const fields = getFieldErrors<keyof LogInErrors>(error!);
+      const fields = getFieldErrors<keyof LogInErrors>(payload);
 
       if (fields) {
         // TODO: add a check for often used passwords

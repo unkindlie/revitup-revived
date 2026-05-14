@@ -1,6 +1,15 @@
 {
   "common": {
-    "fallback": "Fallback"
+    "fallback": "Fallback",
+    "actions": {
+      "create": "Create",
+      "cancel": "Cancel"
+    }
+  },
+  "components": {
+    "datePicker": {
+      "placeholder": "Pick a date"
+    }
   },
   "header": {
     "dropdown": {
@@ -8,6 +17,9 @@
       "logged": {
         "profile": "Profile",
         "logout": "Log out"
+      },
+      "common": {
+        "darkMode": "Dark mode"
       }
     },
     "sections": {
@@ -23,5 +35,15 @@
     "email": "E-mail",
     "password": "Password",
     "username": "Username"
+  },
+  "errors": {
+    "404": {
+      "title": "Item not found",
+      "description": "Search for this item or change the URL"
+    },
+    "unknown": {
+      "title": "Unknown error",
+      "description": "Please try again next time"
+    }
   }
 }
