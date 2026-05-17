@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { CommentSource } from 'features/comments/types/comment-source.enum';
 import { UserEntity } from 'features/user/user.entity';
 
 @Entity('comments')
@@ -30,6 +31,21 @@ export class Comment {
   @JoinColumn({ name: 'parent_id' })
   parent: Comment | null;
 
+  @Column({ name: 'parent_id', nullable: true })
+  parentId: number | null;
+
   @OneToMany(() => Comment, (comment) => comment.parent, {})
   children: Comment[];
+
+  @Column({
+    type: 'enum',
+    enum: CommentSource,
+    name: 'entity_source',
+  })
+  entitySource: CommentSource;
+
+  @Column({
+    name: 'entity_id',
+  })
+  entityId: number;
 }

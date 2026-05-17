@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Comment as CommentEntity } from 'features/comments/comment.entity';
-import { CommentCreateDto } from 'features/comments/dto/comment-create.dto';
+import { CommentCreateDto, CommentGetQueryDto } from 'features/comments/dto';
 
 @Injectable()
 export class CommentRepository {
@@ -13,15 +13,39 @@ export class CommentRepository {
 
   async getComments(): Promise<CommentEntity[]> {
     return this.repo
-      .createQueryBuilder('comment')
+      .createQueryBuilder('c')
 
-      .leftJoin('comment.author', 'author')
-      .addSelect(['author.id', 'author.username', 'author.roles'])
+      .leftJoin('c.author', 'au')
+      .addSelect(['au.id', 'au.username', 'au.roles'])
 
-      .leftJoin('comment.children', 'child')
-      .addSelect(['child.id', 'child.content'])
+      .leftJoin('c.children', 'cc')
+      .addSelect(['cc.id', 'cc.content'])
 
       .getMany();
+  }
+
+  async getCommentsForEntity(
+    entityInfo: CommentGetQueryDto,
+  ): Promise<CommentEntity[]> {
+    const { entitySource, entityId } = entityInfo;
+
+    const comments = await this.repo
+      .createQueryBuilder('comment')
+
+      .select(['comment.id', 'comment.content', 'comment.parentId'])
+
+      .leftJoin('comment.author', 'au')
+      .addSelect(['au.id', 'au.username', 'au.roles'])
+
+      .leftJoin('comment.children', 'cc')
+      .addSelect(['cc.id', 'cc.content'])
+
+      .where('comment.entitySource = :source', { source: entitySource })
+      .andWhere('comment.entityId = :id', { id: Number(entityId) })
+
+      .getMany();
+
+    return comments;
   }
 
   async createComment(
