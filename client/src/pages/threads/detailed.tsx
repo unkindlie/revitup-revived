@@ -4,6 +4,7 @@ import TimeAgo from 'javascript-time-ago';
 import { SeparatorLine } from '@/components/common/separator/SeparatorLine';
 import { Spinner } from '@/components/common/spinner/Spinner';
 import { Typography } from '@/components/common/typography/Typography';
+import { CommentsBlock } from '@/components/features/comments/CommentsBlock';
 import { ThreadNotFound } from '@/components/features/threads/ThreadNotFound';
 import { useThreadById } from '@/hooks/features/threads/useThreadById';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
@@ -34,7 +35,7 @@ export const ThreadDetailedPage = () => {
     <div className="flex flex-col gap-y-2 md:w-[720px]">
       <div>
         {category && (
-          <div className='space-x-1'>
+          <div className="space-x-1">
             <Link to={`/threads`}>
               <Typography variant="lg">Threads</Typography>
             </Link>
@@ -63,6 +64,9 @@ export const ThreadDetailedPage = () => {
             {p}
           </Typography>
         ))}
+      </div>
+      <div className="mt-2 md:max-w-[575px] lg:w-[700px]">
+        <CommentsBlock source="thread" id={1} />
       </div>
     </div>
   );

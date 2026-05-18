@@ -29,6 +29,9 @@ export const BackendRoutes = {
 
   // Thread category routes
   ThreadCategoryBase: 'thread-categories',
+
+  // Comment routes
+  CommentsBase: 'comments',
 } as const;
 
 type RoutesKeys = keyof typeof BackendRoutes;
