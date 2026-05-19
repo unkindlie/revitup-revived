@@ -26,13 +26,18 @@ export class CommentRepository {
 
   async getCommentsForEntity(
     entityInfo: CommentGetQueryDto,
-  ): Promise<CommentEntity[]> {
+  ): Promise<[CommentEntity[], number]> {
     const { entitySource, entityId } = entityInfo;
 
-    const comments = await this.repo
+    const [comments, totalCount] = await this.repo
       .createQueryBuilder('comment')
 
-      .select(['comment.id', 'comment.content', 'comment.parentId'])
+      .select([
+        'comment.id',
+        'comment.content',
+        'comment.parentId',
+        'comment.createdAt',
+      ])
 
       .leftJoin('comment.author', 'au')
       .addSelect(['au.id', 'au.username', 'au.roles'])
@@ -43,9 +48,9 @@ export class CommentRepository {
       .where('comment.entitySource = :source', { source: entitySource })
       .andWhere('comment.entityId = :id', { id: Number(entityId) })
 
-      .getMany();
+      .getManyAndCount();
 
-    return comments;
+    return [comments, totalCount];
   }
 
   async createComment(

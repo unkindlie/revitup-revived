@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   JoinColumn,
@@ -7,6 +8,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+
+import { CREATED_AT_COLUMN_NAME } from 'common/constants/database.constants';
 
 import { CommentSource } from 'features/comments/types/comment-source.enum';
 import { UserEntity } from 'features/user/user.entity';
@@ -48,4 +51,10 @@ export class Comment {
     name: 'entity_id',
   })
   entityId: number;
+
+  @CreateDateColumn({
+    name: CREATED_AT_COLUMN_NAME,
+    type: 'timestamptz',
+  })
+  createdAt: Date;
 }

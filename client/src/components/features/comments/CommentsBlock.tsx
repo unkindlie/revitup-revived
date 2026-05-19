@@ -22,7 +22,7 @@ export const CommentsBlock = ({ source, id }: CommentsBlockProps) => {
   const inView = useInView(ref);
 
   const { data: commentsRes } = useComments(source, id, inView);
-  const { data: comments } = useResponse(commentsRes);
+  const { data: com } = useResponse(commentsRes);
 
   return (
     <div className="flex flex-col gap-y-2" ref={ref}>
@@ -31,12 +31,12 @@ export const CommentsBlock = ({ source, id }: CommentsBlockProps) => {
           {t('components.comments.title')}
         </Typography>
         <div className="bg-foreground/20 flex size-8 items-center justify-center rounded-[3px]">
-          <Typography weight="medium">{comments?.length || 0}</Typography>
+          <Typography weight="medium">{com?.totalCount || 0}</Typography>
         </div>
       </div>
-      {comments && comments.length > 0 && (
+      {com && com.comments.length > 0 && (
         <div className="mt-2 space-y-3">
-          {comments.map((com) => (
+          {com.comments.map((com) => (
             <CommentItem key={com.id} {...com} />
           ))}
         </div>

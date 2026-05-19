@@ -13,7 +13,10 @@ export class CommentController {
 
   @Get()
   async getCommentsForEntity(@Query() query: CommentGetQueryDto) {
-    return this.service.getCommentsForEntity(query);
+    const [comments, totalCount] =
+      await this.service.getCommentsForEntity(query);
+
+    return { comments, totalCount };
   }
 
   @Get('all')

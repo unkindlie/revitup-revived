@@ -7,7 +7,13 @@ export type TComment = {
     roles: string[];
   };
   parentId: string | null;
+  createdAt: string;
   children: TComment[];
+};
+
+export type TCommentsResponse = {
+  comments: TComment[];
+  totalCount: number;
 };
 
 export type TCommentSource = 'article' | 'thread';

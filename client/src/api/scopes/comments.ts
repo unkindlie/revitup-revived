@@ -2,17 +2,17 @@ import { api } from '@/api';
 import { backendPath } from '@/lib/routing/backend';
 
 import type {
-  TComment,
   TCommentCreate,
   TCommentSource,
+  TCommentsResponse,
 } from '^/types/comments';
 import type { TResponse } from '^/types/response/response.type';
 
 export async function getCommentsForEntity(
   entitySource: TCommentSource,
   entityId: number,
-): Promise<TResponse<TComment[]>> {
-  const resp = await api.get<TResponse<TComment[]>>(
+): Promise<TResponse<TCommentsResponse>> {
+  const resp = await api.get<TResponse<TCommentsResponse>>(
     backendPath(
       'CommentsBase',
       {},

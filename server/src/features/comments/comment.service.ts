@@ -20,10 +20,12 @@ export class CommentService {
 
   async getCommentsForEntity(
     entityInfo: CommentGetQueryDto,
-  ): Promise<CommentNode[]> {
-    const comments = await this.repo.getCommentsForEntity(entityInfo);
+  ): Promise<[CommentNode[], number]> {
+    const [comments, totalCount] =
+      await this.repo.getCommentsForEntity(entityInfo);
+    const roots = this.getCommentRoots(comments);
 
-    return this.getCommentRoots(comments);
+    return [roots, totalCount];
   }
 
   async createComment(
