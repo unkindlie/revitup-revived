@@ -7,6 +7,15 @@
     }
   },
   "components": {
+    "comments": {
+      "title": "Comments",
+      "createPlaceholder": "Write your new comment. Please follow the rules of the portal.",
+      "noAuth": "Please login to add the comment",
+      "reply": {
+        "title": "Reply",
+        "indicator": "Reply to: {{com}}"
+      }
+    },
     "datePicker": {
       "placeholder": "Pick a date"
     }
