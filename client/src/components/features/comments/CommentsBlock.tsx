@@ -41,7 +41,9 @@ export const CommentsBlock = ({ source, id }: CommentsBlockProps) => {
           ))}
         </div>
       )}
-      <CommentCreate source={source} entityId={id} />
+      <div className="mt-2">
+        <CommentCreate source={source} entityId={id} />
+      </div>
     </div>
   );
 };
