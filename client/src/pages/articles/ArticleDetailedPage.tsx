@@ -50,15 +50,15 @@ export const ArticleDetailedPage = () => {
           <Typography className="mt-2" variant="md">
             {article.text}
           </Typography>
-          <div className="flex flex-row space-x-2">
-            <ArticleUpdateForm articleId={id} />
-            <Button className="w-28" onClick={() => deleteArticle()}>
-              {deletionPending ? <Spinner size="sm" /> : 'Delete article'}
-            </Button>
-          </div>
         </div>
         <div className="mt-4 md:max-w-[575px] lg:w-[700px]">
           <CommentsBlock source="article" id={Number(id)} />
+        </div>
+        <div className="mt-2 flex space-x-2">
+          <ArticleUpdateForm articleId={id} />
+          <Button className="w-28" onClick={() => deleteArticle()}>
+            {deletionPending ? <Spinner size="sm" /> : 'Delete article'}
+          </Button>
         </div>
       </div>
     </CommentReplyProvider>

@@ -13,6 +13,11 @@
   src: url('./assets/fonts/Planet_Kosmos.ttf');
 }
 
+@theme {
+  --breakpoint-xs: 15rem;
+  --breakpoint-2xs: 12rem;
+}
+
 :root {
   font-family: 'Inter Tight', sans-serif;
   line-height: 1.5;

@@ -3,12 +3,12 @@ export type ArticleShort = {
   title: string;
   previewText: string | null;
   imageUrl: string;
-  createdAt: Date;
-  updatedAt: Date | null;
+  createdAt: string;
 };
 
 export type ArticleDetailed = ArticleShort & {
   text: string | null;
+  updatedAt: Date | null;
 };
 
 export type ArticleCreate = {
