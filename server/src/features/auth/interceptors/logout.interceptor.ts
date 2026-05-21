@@ -10,14 +10,10 @@ import { Observable, mergeMap } from 'rxjs';
 
 import { REFRESH_TOKEN_NAME } from 'features/auth/constants/auth.constants';
 import { CookieHelper } from 'features/auth/helpers/cookie.helper';
-import { RefreshTokenService } from 'features/refresh-token/refresh-token.service';
 
 @Injectable()
 export class LogoutInterceptor implements NestInterceptor {
-  constructor(
-    private tokenService: RefreshTokenService,
-    private cookieHelper: CookieHelper,
-  ) {}
+  constructor(private cookieHelper: CookieHelper) {}
 
   intercept(
     context: ExecutionContext,
@@ -38,8 +34,6 @@ export class LogoutInterceptor implements NestInterceptor {
         }
 
         this.cookieHelper.clearCookie(REFRESH_TOKEN_NAME, res);
-
-        await this.tokenService.removeToken(refreshToken);
       }),
     );
   }
