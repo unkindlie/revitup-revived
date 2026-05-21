@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router';
-import TimeAgo from 'javascript-time-ago';
 
 import { SeparatorLine } from '@/components/common/separator/SeparatorLine';
 import { Spinner } from '@/components/common/spinner/Spinner';
@@ -12,6 +11,7 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useResponse } from '@/hooks/useResponse';
 import { useTranslation } from '@/hooks/useTranslation';
 import { TranslationNamespaces } from '@/lib/translation';
+import { timeAgo } from '@/time-ago';
 
 export const ThreadDetailedPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,8 +19,6 @@ export const ThreadDetailedPage = () => {
   const { t } = useTranslation([TranslationNamespaces.Threads]);
 
   const { data: thread } = useResponse(threadRes);
-
-  const ago = new TimeAgo('en');
 
   useDocumentTitle(thread?.title || 'Thread loading...', {
     appNamed: true,
@@ -34,8 +32,8 @@ export const ThreadDetailedPage = () => {
 
   return (
     <CommentReplyProvider>
-      <div className="flex flex-col gap-y-2 md:w-[720px]">
-        <div>
+      <div className="flex w-full flex-col gap-y-2 md:w-[720px]">
+        <div className="space-y-0.5">
           {category && (
             <div className="space-x-1">
               <Link to={`/threads`}>
@@ -56,7 +54,7 @@ export const ThreadDetailedPage = () => {
             {t('detailed.info.author', { author: author.username })}
           </Typography>
           <Typography title={new Date(createdAt).toLocaleString()}>
-            {ago.format(new Date(createdAt))}
+            {timeAgo.format(new Date(createdAt))}
           </Typography>
         </div>
         <SeparatorLine className="mx-4" />

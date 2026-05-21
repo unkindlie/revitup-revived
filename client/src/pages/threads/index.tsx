@@ -35,7 +35,9 @@ export const ThreadsIndexPage = () => {
               <ThreadCategoryBlock key={it.id} {...it} />
             ))}
           </div>
-          <SeparatorLine />
+          <div className="mx-2 mt-1">
+            <SeparatorLine />
+          </div>
         </div>
       )}
       <ThreadsContent threads={threads} isLoading={isLoading} />
