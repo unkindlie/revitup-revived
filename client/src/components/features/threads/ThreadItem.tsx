@@ -1,9 +1,10 @@
-import TimeAgo from 'javascript-time-ago';
 import { Link } from 'react-router';
 
 import { Typography } from '@/components/common/typography/Typography';
 import { Pages, path } from '@/lib/routing/client';
 import { cn } from '@/lib/utils';
+import { timeAgo } from '@/time-ago';
+
 import type { TThreadShort } from '^/types/threads';
 
 export const ThreadItem = ({
@@ -13,11 +14,10 @@ export const ThreadItem = ({
   author,
   category,
 }: TThreadShort) => {
-  const ago = new TimeAgo('en');
   const { id: userId, username } = author;
 
   return (
-    <div className="flex flex-col gap-y-1.5 border-2 border-black/25 px-3 py-2 md:w-[600px]">
+    <div className="flex flex-col gap-y-1.5 rounded-md border-2 px-3 py-2 md:w-[600px]">
       <Link
         to={path(Pages.ThreadDetailed, {
           id,
@@ -44,7 +44,7 @@ export const ThreadItem = ({
           </Link>
           <Typography>|</Typography>
           <Typography title={new Date(createdAt).toLocaleString()}>
-            {ago.format(new Date(createdAt))}
+            {timeAgo.format(new Date(createdAt))}
           </Typography>
         </div>
       </div>

@@ -4,5 +4,4 @@ export const ARTICLES_SELECT_OBJ = {
   imageUrl: true,
   previewText: true,
   createdAt: true,
-  updatedAt: true,
 };

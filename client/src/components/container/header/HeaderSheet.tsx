@@ -1,11 +1,14 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGripLines } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router';
 
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetDescription,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Switch } from '@/components/ui/switch';
@@ -35,6 +38,7 @@ export const HeaderSheet = () => {
       </SheetTrigger>
       <SheetContent showCloseButton={false}>
         <SheetHeader className="ml-1">
+          <SheetTitle className="sr-only" />
           <Typography className="text-right" weight="medium">
             Sign in
           </Typography>
@@ -51,26 +55,34 @@ export const HeaderSheet = () => {
             </div>
           </div>
           <div className="mt-3 h-px w-full bg-black/25" />
-          <SheetDescription className="mt-2 flex flex-col gap-y-1.5 text-black">
-            {NAV_ROUTES.map(({ id }, i) => (
+          <SheetDescription
+            asChild
+            className="mt-2 flex flex-col gap-y-1.5 text-black"
+          >
+            <div>
+              {NAV_ROUTES.map(({ id, route }, i) => (
+                <SheetClose asChild key={i}>
+                  <Link to={route}>
+                    <Typography
+                      className="text-primary"
+                      variant="2xl"
+                      weight="medium"
+                    >
+                      {id}
+                    </Typography>
+                  </Link>
+                </SheetClose>
+              ))}
               <Typography
-                key={i}
-                className="text-primary"
+                className="text-primary flex cursor-pointer items-center justify-between"
                 variant="2xl"
                 weight="medium"
+                onClick={toggleTheme}
               >
-                {id}
+                {t('header.dropdown.common.darkMode').toLowerCase()}
+                <Switch checked={theme === 'dark'} />
               </Typography>
-            ))}
-            <Typography
-              className="text-primary flex cursor-pointer items-center justify-between"
-              variant="2xl"
-              weight="medium"
-              onClick={toggleTheme}
-            >
-              {t('header.dropdown.common.darkMode').toLowerCase()}
-              <Switch checked={theme === 'dark'} />
-            </Typography>
+            </div>
           </SheetDescription>
         </SheetHeader>
       </SheetContent>

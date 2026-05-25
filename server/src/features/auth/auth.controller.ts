@@ -32,13 +32,11 @@ import {
   REFRESH_TOKEN_LIFE_IN_MS,
   REFRESH_TOKEN_NAME,
 } from 'features/auth/constants/auth.constants';
-import { RefreshTokenService } from 'features/refresh-token/refresh-token.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private service: AuthService,
-    private tokenService: RefreshTokenService,
     private cookieHelper: CookieHelper,
   ) {}
 
@@ -104,9 +102,6 @@ export class AuthController {
     @Res() res: Response,
   ) {
     const tokens = await this.service.generateTokens(user);
-
-    // TODO: handle user availability check
-    await this.tokenService.createTokenEntry(tokens.refreshToken);
 
     this.cookieHelper.setCookie({
       key: REFRESH_TOKEN_NAME,

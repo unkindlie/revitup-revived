@@ -17,7 +17,6 @@ import {
   UserPayloadDto,
 } from 'features/auth/dto';
 import { TokenHelper } from 'features/auth/helpers/token.helper';
-import { RefreshTokenService } from 'features/refresh-token/refresh-token.service';
 import { UserCreateDto } from 'features/user/dto';
 import { UserService } from 'features/user/user.service';
 import { PasswordHelper } from './helpers/password.helper';
@@ -27,14 +26,14 @@ export class AuthService {
   constructor(
     @Inject(authConfig.KEY)
     private config: ConfigType<typeof authConfig>,
-    private userSerivce: UserService,
-    private tokenService: RefreshTokenService,
+    private userService: UserService,
+    // private tokenService: RefreshTokenService,
     private tokenHelper: TokenHelper,
     private passwordHelper: PasswordHelper,
   ) {}
 
   async register(input: UserCreateDto): Promise<void> {
-    const exists = await this.userSerivce.userExistsByEmail(input.email);
+    const exists = await this.userService.userExistsByEmail(input.email);
     if (exists)
       throw new ConflictException({
         message: 'User with such email already exists',
@@ -43,13 +42,13 @@ export class AuthService {
 
     input.password = await this.passwordHelper.hashPassword(input.password);
 
-    await this.userSerivce.createUser(input);
+    await this.userService.createUser(input);
   }
   async login(
     emailAddress: string,
     password: string,
   ): Promise<AuthResponseDto> {
-    const user = await this.userSerivce.getUserByEmail(emailAddress);
+    const user = await this.userService.getUserByEmail(emailAddress);
 
     const isPasswordMatching = await compare(password, user.password);
     if (!isPasswordMatching)
@@ -64,7 +63,6 @@ export class AuthService {
       excludeExtraneousValues: true,
     });
     const tokens = await this.generateTokens(payload);
-    await this.tokenService.createTokenEntry(tokens.refreshToken);
 
     return {
       user: payload,
@@ -82,7 +80,7 @@ export class AuthService {
     // if (!tokenExistsInDb)
     //   throw new ForbiddenException('Refresh token was not found');
 
-    const user = await this.userSerivce.getUserByEmail(payload.email);
+    const user = await this.userService.getUserByEmail(payload.email);
     const newPayload = plainToInstance(UserPayloadDto, user, {
       excludeExtraneousValues: true,
     });
@@ -99,10 +97,10 @@ export class AuthService {
     };
   }
   async changeRole(input: AuthRoleChangeDto) {
-    const exists = await this.userSerivce.userExistsById(input.userId);
+    const exists = await this.userService.userExistsById(input.userId);
     if (!exists) throw new NotFoundException("This user doesn't exist");
 
-    await this.userSerivce.updateUserInfo({
+    await this.userService.updateUserInfo({
       id: input.userId,
       roles: input.roles,
     });
@@ -111,11 +109,11 @@ export class AuthService {
     let user: UserCreateDto;
 
     try {
-      user = await this.userSerivce.getUserByEmail(googleUser.email);
+      user = await this.userService.getUserByEmail(googleUser.email);
     } catch {
       await this.register(googleUser);
 
-      user = await this.userSerivce.getUserByEmail(googleUser.email);
+      user = await this.userService.getUserByEmail(googleUser.email);
     }
 
     return plainToInstance(UserPayloadDto, user, {
