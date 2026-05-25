@@ -21,7 +21,7 @@ export class TokenHelper {
       { sub: payload },
       {
         secret: this.config[type].secret!,
-        expiresIn: 3000,
+        expiresIn: this.config[type].expiresIn as `${number}${'d' | 'm'}`,
       },
     );
   }
