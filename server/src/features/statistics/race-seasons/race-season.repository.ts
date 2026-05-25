@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 
 import { RaceSeasonEntity } from 'features/statistics/race-seasons/race-season.entity';
 import { RACE_SEASON_MANY_SELECT } from 'features/statistics/race-seasons/constants/race-season.constants';
-import { RaceSeasonQueryDto } from 'features/statistics/race-seasons/dto/race-season-query.dto';
+import { RaceSeasonQueryDto } from 'features/statistics/race-seasons/dto';
 
 @Injectable()
 export class RaceSeasonRepository {

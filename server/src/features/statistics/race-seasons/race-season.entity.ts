@@ -20,6 +20,9 @@ export class RaceSeasonEntity {
   @Column({ name: 'season_year', type: 'int' })
   seasonYear: number;
 
+  @Column()
+  stages: number;
+
   @ManyToOne(() => DisciplineEntity, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'discipline_id' })
   discipline: DisciplineEntity;

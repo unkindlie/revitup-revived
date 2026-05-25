@@ -1,17 +1,24 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 
-import { RaceSeasonEntity } from 'features/statistics/race-seasons/race-season.entity';
 import { RaceSeasonRepository } from 'features/statistics/race-seasons/race-season.repository';
+import { RaceEventService } from 'features/statistics/race-events/race-event.service';
+import {
+  RaceSeasonDto,
+  RaceSeasonQueryDto,
+} from 'features/statistics/race-seasons/dto';
 import { RaceSeasonQuery } from 'features/statistics/race-seasons/types/race-season.query';
-import { RaceSeasonQueryDto } from 'features/statistics/race-seasons/dto/race-season-query.dto';
 
 @Injectable()
 export class RaceSeasonService {
-  constructor(private repo: RaceSeasonRepository) {}
+  constructor(
+    private raceEventService: RaceEventService,
+    private repo: RaceSeasonRepository,
+  ) {}
 
   async getRaceSeasonsByConditions(
     query: RaceSeasonQuery,
-  ): Promise<RaceSeasonEntity[]> {
+  ): Promise<RaceSeasonDto[]> {
     const queryDto: RaceSeasonQueryDto = {
       discipline: {
         shortCode: query.discipline,
@@ -19,14 +26,19 @@ export class RaceSeasonService {
       seasonYear: query.year,
     };
 
-    return this.repo.getRaceSeasons(queryDto);
+    return plainToInstance(
+      RaceSeasonDto,
+      await this.repo.getRaceSeasons(queryDto),
+    );
   }
 
-  async getRaceSeasonById(id: number): Promise<RaceSeasonEntity> {
+  async getRaceSeasonById(id: number) {
     const season = await this.repo.getRaceSeasonById(id);
     if (!season)
       throw new NotFoundException('Such season is not found in the database');
 
-    return season;
+    const raceEvents = await this.raceEventService.getRaceEventsBySeason(id);
+
+    return { ...season, raceEvents };
   }
 }

@@ -6,4 +6,5 @@ export const RACE_SEASON_MANY_SELECT = {
     name: true,
     logoUrl: true,
   },
+  stages: true,
 };
