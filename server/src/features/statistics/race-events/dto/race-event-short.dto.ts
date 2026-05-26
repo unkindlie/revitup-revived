@@ -1,5 +1,16 @@
 import { Expose, Type } from 'class-transformer';
 
+class CircuitShorterDto {
+  @Expose()
+  id: number;
+
+  @Expose()
+  name: string;
+
+  @Expose()
+  location: string;
+}
+
 export class RaceEventShortDto {
   @Expose()
   id: number;
@@ -22,15 +33,4 @@ export class RaceEventShortDto {
   @Expose()
   @Type(() => CircuitShorterDto)
   circuit: CircuitShorterDto;
-}
-
-class CircuitShorterDto {
-  @Expose()
-  id: number;
-
-  @Expose()
-  name: string;
-
-  @Expose()
-  location: string;
 }
