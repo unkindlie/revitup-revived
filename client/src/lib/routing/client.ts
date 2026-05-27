@@ -14,9 +14,13 @@ export const Pages = {
   UserProfile: '/users/:id',
 
   Profile: '/me',
+
+  StatisticsBase: '/stats',
+  StatisticsSeasons: '/stats/seasons',
+  StatisticsSeasonDetailed: '/stats/seasons/:id',
+  StatisticsRaceDetailed: '/stats/race-events/:id',
 } as const;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type Params = Record<string, string | number>;
 
 export const NAV_ROUTES = [
@@ -31,6 +35,10 @@ export const NAV_ROUTES = [
   {
     id: 'threads',
     route: Pages.ThreadsIndex,
+  },
+  {
+    id: 'stats',
+    route: Pages.StatisticsBase,
   },
 ] as const;
 

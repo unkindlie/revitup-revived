@@ -22,4 +22,10 @@ export { CategoryThreadsPage } from './threads/category-threads';
 // User pages
 export { UserProfilePage } from './users/profile';
 
+// Statistics pages
+export { StatsBasePage } from './stats/StatsBasePage';
+export { StatsSeasonsPage } from './stats/StatsSeasonsPage';
+export { StatsSeasonDetailed } from './stats/StatsSeasonDetailed';
+export { StatsEventPage } from './stats/StatsEventPage';
+
 export { MePage } from './me/MePage';

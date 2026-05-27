@@ -32,6 +32,11 @@ export const BackendRoutes = {
 
   // Comment routes
   CommentsBase: 'comments',
+
+  // Statistics routes
+  RaceSeasons: 'race-seasons',
+  RaceSeasonDetailed: 'race-seasons/:id',
+  RaceEventDetailed: 'race-events/:id',
 } as const;
 
 type RoutesKeys = keyof typeof BackendRoutes;
