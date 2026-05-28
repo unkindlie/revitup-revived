@@ -1,4 +1,4 @@
-import { TRaceEntry } from '^/types/stats/race-entry';
+import { TRaceEntry } from './race-entry';
 
 export type TRaceClassification = {
   id: number;

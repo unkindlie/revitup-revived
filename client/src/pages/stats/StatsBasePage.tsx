@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router';
 
 import { Typography } from '@/components/common/typography/Typography';
+import { useTranslation } from '@/hooks/useTranslation';
 import { Pages } from '@/lib/routing/client';
 
 const StatAreaNav = ({
@@ -28,16 +29,18 @@ const StatAreaNav = ({
 };
 
 export const StatsBasePage = () => {
+  const { t } = useTranslation(['stats']);
+
   return (
     <div className="flex w-full flex-col space-y-1">
       <Typography variant="3xl" weight="semibold">
-        Statistics
+        {t('base.title')}
       </Typography>
-      <Typography variant="lg">Search any info you want</Typography>
+      <Typography variant="lg">{t('base.description')}</Typography>
       <div className="mt-2 flex flex-col md:grid md:grid-cols-2">
         <StatAreaNav
-          title="Seasons"
-          description="Any season of all disciplines"
+          title={t('base.options.seasons.title')}
+          description={t('base.options.seasons.description')}
           route={Pages.StatisticsSeasons}
         />
       </div>

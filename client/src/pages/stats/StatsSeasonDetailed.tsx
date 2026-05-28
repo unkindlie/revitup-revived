@@ -5,10 +5,12 @@ import { Typography } from '@/components/common/typography/Typography';
 import { RaceEventItem } from '@/components/features/stats/race-events/RaceEventItem';
 import { useRaceSeasonById } from '@/hooks/features/stats/race-seasons/useRaceSeasonById';
 import { useResponse } from '@/hooks/useResponse';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export const StatsSeasonDetailed = () => {
   const { id } = useParams();
   const { data: seasonRes, isLoading } = useRaceSeasonById(Number(id || 0));
+  const { t } = useTranslation(['stats']);
 
   const { data: season } = useResponse(seasonRes);
 
@@ -23,10 +25,14 @@ export const StatsSeasonDetailed = () => {
         />
         <div className="space-y-0.5">
           <Typography variant="2xl" weight="semibold">
-            {season.seasonYear} {season.discipline.name} Season
+            {t('common.namings.season', {
+              season: `${season.seasonYear} ${season.discipline.name}`,
+            })}
           </Typography>
           <div className="space-x-2">
-            <Typography variant="lg">{season.stages} stages</Typography>
+            <Typography variant="lg">
+              {t('common.namings.stages', { count: season.stages })}
+            </Typography>
             <Typography
               className="bg-main rounded-xl px-1.5 py-1 text-white"
               weight="semibold"
@@ -38,11 +44,11 @@ export const StatsSeasonDetailed = () => {
       </div>
       <div className="space-y-2">
         <Typography variant="2xl" weight="semibold">
-          Race events
+          {t('raceEvents.title')}
         </Typography>
         <div className="flex flex-col space-y-2">
           {!season.raceEvents.length && (
-            <Typography>No race events found in this season</Typography>
+            <Typography>{t('raceEvents.noEvents')}</Typography>
           )}
           {season.raceEvents.map((re) => (
             <RaceEventItem key={re.id} {...re} />

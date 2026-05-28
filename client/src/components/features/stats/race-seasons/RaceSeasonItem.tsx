@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 
 import { Typography } from '@/components/common/typography/Typography';
+import { useTranslation } from '@/hooks/useTranslation';
 import { Pages, path } from '@/lib/routing/client';
 
 import type { TRaceSeasonShort } from '^/types/stats/race-seasons';
@@ -11,7 +12,8 @@ export const RaceSeasonItem = ({
   stages,
   discipline,
 }: TRaceSeasonShort) => {
-  const { logoUrl, name } = discipline;
+  const { t } = useTranslation(['stats']);
+  const { logoUrl, name: disciplineName } = discipline;
 
   return (
     <Link
@@ -21,9 +23,11 @@ export const RaceSeasonItem = ({
       <img className="bg-main size-20 rounded-md p-2" src={logoUrl} />
       <div className="flex flex-col">
         <Typography variant="xl" weight="semibold">
-          {seasonYear} {name} Season
+          {t('common.namings.season', {
+            season: `${seasonYear} ${disciplineName}`,
+          })}
         </Typography>
-        <Typography>{stages} stages</Typography>
+        <Typography>{t('common.namings.stages', { count: stages })}</Typography>
       </div>
     </Link>
   );

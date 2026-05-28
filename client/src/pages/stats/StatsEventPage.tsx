@@ -3,13 +3,15 @@ import { Link, useParams } from 'react-router';
 
 import { CenteredSpinner } from '@/components/common/spinner/CenteredSpinner';
 import { Typography } from '@/components/common/typography/Typography';
-import { Pages, path } from '@/lib/routing/client';
 import { useRaceEventById } from '@/hooks/features/stats/race-events/useRaceEventById';
 import { useResponse } from '@/hooks/useResponse';
+import { useTranslation } from '@/hooks/useTranslation';
+import { Pages, path } from '@/lib/routing/client';
 
 export const StatsEventPage = () => {
   const { id } = useParams();
   const { data: eventRes, isLoading } = useRaceEventById(Number(id || 0));
+  const { t } = useTranslation(['stats']);
 
   const { data: event } = useResponse(eventRes);
 
@@ -37,7 +39,8 @@ export const StatsEventPage = () => {
           <MapPin />
           <Typography weight="medium">{event.circuit.name}</Typography>
           <Typography className="ml-2">
-            {event.laps} laps ({Number(event.laps) * event.circuit.length} km)
+            {t('common.namings.laps', { count: event.laps })} (
+            {Number(event.laps) * event.circuit.length} km)
           </Typography>
         </div>
 
@@ -51,7 +54,9 @@ export const StatsEventPage = () => {
 
         {event.season && (
           <div className="flex items-center space-x-2">
-            <Typography>Season:</Typography>
+            <Typography>
+              {t('common.namings.season', { season: null })}:
+            </Typography>
             <Link
               className="flex items-center space-x-1 md:space-x-2"
               to={path(Pages.StatisticsSeasonDetailed, { id: event.season.id })}

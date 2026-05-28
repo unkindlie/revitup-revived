@@ -15,7 +15,7 @@ export type TRaceEventDetailed = {
   id: number;
   name: string;
   description: string;
-  laps: string;
+  laps: number;
   eventStage: string;
   startDate: string;
   endDate: string;
