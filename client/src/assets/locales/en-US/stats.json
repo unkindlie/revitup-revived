@@ -1,0 +1,29 @@
+{
+  "common": {
+    "namings": {
+      "season": "{{season}} Season",
+      "stages_one": "{{count}} stage",
+      "stages_other": "{{count}} stages",
+      "laps_one": "{{count}} lap",
+      "laps_other": "{{count}} laps"
+    }
+  },
+  "base": {
+    "title": "Statistics",
+    "description": "Search any info you want",
+    "options": {
+      "seasons": {
+        "title": "Seasons",
+        "description": "Any season of all disciplines"
+      }
+    }
+  },
+  "raceSeasons": {
+    "title": "Race seasons",
+    "description": "Select the needed season of your favorite racing discipline. Filtering included"
+  },
+  "raceEvents": {
+    "title": "Race events",
+    "noEvents": "No race events found in this season"
+  }
+}

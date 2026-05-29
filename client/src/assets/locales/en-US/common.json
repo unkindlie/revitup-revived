@@ -34,7 +34,8 @@
     "sections": {
       "news": "News",
       "events": "Events",
-      "threads": "Threads"
+      "threads": "Threads",
+      "stats": "Statistics"
     }
   },
   "footer": {

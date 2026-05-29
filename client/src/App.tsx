@@ -17,6 +17,10 @@ import {
   CategoryThreadsPage,
   EventsPage,
   EventsDetailedPade,
+  StatsBasePage,
+  StatsSeasonsPage,
+  StatsSeasonDetailed,
+  StatsEventPage,
 } from '@/pages';
 import { AuthProvider } from '@/providers/AuthProvider';
 import { ThemeProvider } from '@/providers/ThemeProvider';
@@ -85,6 +89,26 @@ function App() {
           // Will be extended later as a profile dashboard
           path: '/me',
           children: [{ index: true, Component: MePage }],
+        },
+        {
+          path: '/stats',
+          children: [
+            { index: true, Component: StatsBasePage },
+            {
+              path: 'seasons',
+              children: [
+                { index: true, Component: StatsSeasonsPage },
+                {
+                  path: ':id',
+                  Component: StatsSeasonDetailed,
+                },
+              ],
+            },
+            {
+              path: 'race-events',
+              children: [{ path: ':id', Component: StatsEventPage }],
+            },
+          ],
         },
       ],
     },
