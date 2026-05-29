@@ -46,10 +46,7 @@ function App() {
         },
         {
           path: '/auth/password-reset',
-          children: [
-            { index: true, Component: PasswordResetPage },
-            { path: ':id', Component: PasswordResetPage },
-          ],
+          children: [{ path: ':id', Component: PasswordResetPage }],
         },
         {
           path: '/google-auth',

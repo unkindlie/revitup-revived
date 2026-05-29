@@ -11,13 +11,13 @@ import { Input } from '@/components/ui/input';
 import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
 import { usePasswordResetRequest } from '@/hooks/features/auth/password-reset/use-request-password-reset';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
+import { getResponse } from '@/hooks/useResponse';
 import { TranslationNamespaces } from '@/lib/translation';
 
 import { getErrorFromAxiosError } from '^/helpers/response/getErrorFromAxiosError';
 import { getFieldErrors } from '^/helpers/response/getFieldErrors';
 import { getErrorFromResponse } from '^/helpers/response/getResponse';
 import { authPwResetRequestSchema } from '^/schemas/auth/auth-pw-reset-request.schema';
-import { getResponse, useResponse } from '../../../../hooks/useResponse';
 
 type FormBody = {
   email: string;
@@ -43,6 +43,7 @@ export const ForgotPasswordForm = () => {
 
     try {
       const resp = await mutateAsync({ email });
+
       const { data } = getResponse<{ id: string }>(resp);
 
       if (data) {

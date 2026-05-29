@@ -53,8 +53,10 @@ export async function refresh(): Promise<TResponse<TAuthResponse>> {
   return await response.json();
 }
 
-export async function requestPasswordReset(email: string): Promise<TResponse> {
-  const response = await api.post(BackendRoutes.AuthChangePassword, {
+export async function requestPasswordReset(
+  email: string,
+): Promise<TResponse<{ id: string }>> {
+  const response = await api.post(backendPath('AuthRequestPasswordReset'), {
     json: { email },
   });
 
@@ -64,10 +66,14 @@ export async function requestPasswordReset(email: string): Promise<TResponse> {
 export async function changePassword(
   id: string,
   password: string,
-): Promise<TResponse> {
-  const response = await api.patch(backendPath('AuthPasswordReset', { id }), {
+): Promise<void> {
+  await api.patch(backendPath('AuthChangePasswordById', { id }), {
     json: { password },
   });
+}
 
-  return await response.json();
+export async function changePasswordLogged(password: string): Promise<void> {
+  await api.patch(backendPath('AuthChangePasswordLogged'), {
+    json: { password },
+  });
 }

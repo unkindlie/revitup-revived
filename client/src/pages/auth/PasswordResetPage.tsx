@@ -13,16 +13,9 @@ import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceCon
 import { usePasswordResetChange } from '@/hooks/features/auth/password-reset/use-change-password';
 import { TranslationNamespaces } from '@/lib/translation';
 
-const schema = yup.object({
-  password: yup
-    .string()
-    .required('Password is required')
-    .min(6, 'Password is too short')
-    .max(64, 'Password is too long'),
-  id: yup.string().optional(),
-});
+import { authPwResetSchema } from '^/schemas/auth/auth-pw-reset.schema';
 
-type FormBody = yup.InferType<typeof schema>;
+type FormBody = yup.InferType<typeof authPwResetSchema>;
 
 // TODO: add the ID availability check
 export const PasswordResetPage = () => {
@@ -34,7 +27,7 @@ export const PasswordResetPage = () => {
     register,
     handleSubmit,
     formState: { isValid, errors },
-  } = useForm({ resolver: yupResolver(schema), mode: 'onChange' });
+  } = useForm({ resolver: yupResolver(authPwResetSchema), mode: 'onChange' });
 
   const { mutateAsync, isPending } = usePasswordResetChange();
 

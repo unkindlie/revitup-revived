@@ -1,10 +1,6 @@
 import * as yup from 'yup';
 
-export const authRegistrationSchema = yup.object({
-  email: yup
-    .string()
-    .required('dialogs.common.errorFields.email.required')
-    .email('dialogs.common.errorFields.email.not_valid'),
+export const authPwResetSchema = yup.object({
   password: yup
     .string()
     .required('dialogs.common.errorFields.password.required')
@@ -17,9 +13,5 @@ export const authRegistrationSchema = yup.object({
       /(?=.*[^A-Za-z0-9])/,
       'dialogs.common.errorFields.password.no_symbol',
     ),
-  username: yup
-    .string()
-    .required('dialogs.common.errorFields.username.required')
-    .min(8, 'dialogs.common.errorFields.username.too_short')
-    .max(100, 'dialogs.common.errorFields.username.too_long'),
+  id: yup.string().optional(),
 });
