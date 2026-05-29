@@ -3,6 +3,7 @@ export { StartPage } from './StartPage';
 // Auth pages
 export { RegistrationPage } from './auth/RegistrationPage';
 export { GoogleAuthRedirectPage } from './auth/GoogleAuthRedirectPage';
+export { PasswordResetPage } from './auth/PasswordResetPage';
 
 // Articles pages
 export { ArticlesIndexPage } from './articles/ArticlesIndexPage';

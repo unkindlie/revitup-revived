@@ -23,7 +23,7 @@ export class PasswordResetService {
     private passwordHelper: PasswordHelper,
   ) {}
 
-  async createPasswordResetRequest(email: string): Promise<void> {
+  async createPasswordResetRequest(email: string): Promise<string> {
     const user = await this.userService.getUserByEmail(email);
     const would = await this.repo.checkIfPossibleToCreateNewRequest(user.id);
 
@@ -33,7 +33,7 @@ export class PasswordResetService {
         fields: { email: 'req_limit_exhausted' },
       });
 
-    await this.repo.createResetRequest(user.id, RequestSource.BY_EMAIL);
+    return await this.repo.createResetRequest(user.id, RequestSource.BY_EMAIL);
   }
 
   async changePassword(input: PasswordServiceResetDto) {

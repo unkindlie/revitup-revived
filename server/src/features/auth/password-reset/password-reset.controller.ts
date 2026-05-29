@@ -22,9 +22,9 @@ export class PasswordResetController {
 
   @Post('request')
   async createResetRequest(@Body('email', ParseEmailPipe) email: string) {
-    await this.service.createPasswordResetRequest(email);
+    const reqId = await this.service.createPasswordResetRequest(email);
 
-    return { message: 'Password reset request created successfully' };
+    return { id: reqId };
   }
 
   @Patch('logged')
