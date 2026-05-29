@@ -8,12 +8,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { AccessTokenGuard } from '../auth/guards/access-token.guard';
-import { PasswordResetService } from './password-reset.service';
-import { ParseEmailPipe } from '../../common/pipes/parse-email.pipe';
-import { CurrentUser } from '../auth/decorators/user.decorator';
-import { UserPayloadDto } from '../auth/dto';
-import { ParseStrongPasswordPipe } from '../../common/pipes/parse-strong-password.pipe';
+import { ParseEmailPipe } from 'common/pipes/parse-email.pipe';
+import { ParseStrongPasswordPipe } from 'common/pipes/parse-strong-password.pipe';
+
+import { CurrentUser } from 'features/auth/decorators/user.decorator';
+import { UserPayloadDto } from 'features/auth/dto';
+import { AccessTokenGuard } from 'features/auth/guards/access-token.guard';
+import { PasswordResetService } from 'features/auth/password-reset/password-reset.service';
 
 @Controller('auth/password-reset')
 export class PasswordResetController {

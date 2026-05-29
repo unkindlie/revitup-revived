@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 
 import { AuthPayloadDto } from 'features/auth/dto';
 import { TokenHelper } from 'features/auth/helpers/token.helper';
-import { RefreshTokensPairDto } from 'features/refresh-token/dto/refresh-tokens-pair.dto';
-import { RefreshTokenRepository } from 'features/refresh-token/refresh-token.repository';
+import { RefreshTokensPairDto } from 'features/auth/refresh-token/dto/refresh-tokens-pair.dto';
+import { RefreshTokenRepository } from 'features/auth/refresh-token/refresh-token.repository';
 
 @Injectable()
 export class RefreshTokenService {
