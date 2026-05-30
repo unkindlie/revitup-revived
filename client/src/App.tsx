@@ -9,6 +9,7 @@ import {
   ArticlesIndexPage,
   RegistrationPage,
   GoogleAuthRedirectPage,
+  PasswordResetPage,
   StartPage,
   MePage,
   ThreadsIndexPage,
@@ -42,6 +43,10 @@ function App() {
         {
           path: '/register',
           Component: RegistrationPage,
+        },
+        {
+          path: '/auth/password-reset',
+          children: [{ path: ':id', Component: PasswordResetPage }],
         },
         {
           path: '/google-auth',

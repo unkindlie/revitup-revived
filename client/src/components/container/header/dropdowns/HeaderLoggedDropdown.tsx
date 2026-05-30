@@ -1,17 +1,19 @@
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router';
+
 import {
   DropdownMenuItem,
   DropdownMenuGroup,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import { useTranslation } from 'react-i18next';
 import { useLogout } from '@/hooks/features/auth/useLogout';
-import { TranslationNamespaces } from '@/lib/translation';
-import { useNavigate } from 'react-router';
 import { Pages, path } from '@/lib/routing/client';
+import { TranslationNamespaces } from '@/lib/translation';
 
 export const HeaderLoggedDropdown = () => {
   const { t } = useTranslation(TranslationNamespaces.Common);
   const { mutate: logout, isPending } = useLogout();
+
   const navigate = useNavigate();
 
   return (

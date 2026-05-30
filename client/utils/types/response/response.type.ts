@@ -4,25 +4,25 @@ export type TError = {
   fields?: Record<string, string>;
 };
 
-export type TSuccessResponse<T = unknown> = { data: T; error: null };
+export type TSuccessResponse<T> = { data: T; error: null };
 
 export type TErrorResponse = {
   data: null;
   error: TError;
 };
 
-export type TResponse<T = unknown> = {
+export type TResponse<T> = {
   statusCode: number;
   path: string;
   date: Date;
 } & { response: TSuccessResponse<T> | TErrorResponse };
 
-export type TPaginatedResponse<T = unknown> = TResponse<{
+export type TPaginatedResponse<T> = TResponse<{
   items: T[];
   totalCount: number;
   query: {
     page: number;
     take: number;
-    totalPages: number
+    totalPages: number;
   };
 }>;

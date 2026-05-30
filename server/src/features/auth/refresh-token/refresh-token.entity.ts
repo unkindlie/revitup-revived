@@ -9,12 +9,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { UserEntity } from 'features/user/user.entity';
-
 import {
   CREATED_AT_COLUMN_NAME,
   UPDATED_AT_COLUMN_NAME,
-} from '../../common/constants/database.constants';
+} from 'common/constants/database.constants';
+
+import { UserEntity } from 'features/user/user.entity';
 
 @Entity('refresh_tokens')
 export class RefreshTokenEntity {

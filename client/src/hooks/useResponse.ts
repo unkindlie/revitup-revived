@@ -11,7 +11,7 @@ export const useResponse = <T = unknown>(res?: TResponse<T>) => {
   return { data, error };
 };
 
-export const getResponse = <T = unknown>(res?: TResponse<T>) => {
+export const getResponse = <T>(res?: TResponse<T>) => {
   const data = null;
   const error = null;
 

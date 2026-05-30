@@ -5,15 +5,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 
-import { RequestSource } from './enums/request-source.enum';
-import { PasswordResetRepository } from './password-reset.repository';
+import { PasswordHelper } from 'features/auth/helpers/password.helper';
 import {
   PasswordServiceLoggedRequestDto,
   PasswordServiceResetDto,
-} from './dto/password-reset.dto';
-import { RequestInaccessibilityReason } from './enums/request-not-available-reason.enum';
-import { UserService } from '../user/user.service';
-import { PasswordHelper } from '../auth/helpers/password.helper';
+} from 'features/auth/password-reset/dto/password-reset.dto';
+import { RequestInaccessibilityReason } from 'features/auth/password-reset/enums/request-not-available-reason.enum';
+import { RequestSource } from 'features/auth/password-reset/enums/request-source.enum';
+import { PasswordResetRepository } from 'features/auth/password-reset/password-reset.repository';
+import { UserService } from 'features/user/user.service';
 
 @Injectable()
 export class PasswordResetService {
@@ -23,7 +23,7 @@ export class PasswordResetService {
     private passwordHelper: PasswordHelper,
   ) {}
 
-  async createPasswordResetRequest(email: string): Promise<void> {
+  async createPasswordResetRequest(email: string): Promise<string> {
     const user = await this.userService.getUserByEmail(email);
     const would = await this.repo.checkIfPossibleToCreateNewRequest(user.id);
 
@@ -33,7 +33,7 @@ export class PasswordResetService {
         fields: { email: 'req_limit_exhausted' },
       });
 
-    await this.repo.createResetRequest(user.id, RequestSource.BY_EMAIL);
+    return await this.repo.createResetRequest(user.id, RequestSource.BY_EMAIL);
   }
 
   async changePassword(input: PasswordServiceResetDto) {

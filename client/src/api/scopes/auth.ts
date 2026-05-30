@@ -1,9 +1,11 @@
-import { api } from '@/api';
-import type { TResponse } from '^/types/response/response.type';
-import type { TAuthBody, TAuthRegister, TAuthResponse } from '^/types/auth';
-import { BackendRoutes } from '@/lib/routing/backend';
 import { HTTPError } from 'ky';
-import { ApiError } from '../../../utils/errors/api.error';
+
+import { api } from '@/api';
+import { BackendRoutes, backendPath } from '@/lib/routing/backend';
+
+import type { TAuthBody, TAuthRegister, TAuthResponse } from '^/types/auth';
+import { ApiError } from '^/errors/api.error';
+import type { TResponse } from '^/types/response/response.type';
 
 export async function register(body: TAuthRegister): Promise<void> {
   await api.post(BackendRoutes.AuthRegister, {
@@ -51,10 +53,27 @@ export async function refresh(): Promise<TResponse<TAuthResponse>> {
   return await response.json();
 }
 
-export async function requestPasswordReset(email: string): Promise<TResponse> {
-  const response = await api.post(BackendRoutes.AuthChangePassword, {
+export async function requestPasswordReset(
+  email: string,
+): Promise<TResponse<{ id: string }>> {
+  const response = await api.post(backendPath('AuthRequestPasswordReset'), {
     json: { email },
   });
 
   return await response.json();
+}
+
+export async function changePassword(
+  id: string,
+  password: string,
+): Promise<void> {
+  await api.patch(backendPath('AuthChangePasswordById', { id }), {
+    json: { password },
+  });
+}
+
+export async function changePasswordLogged(password: string): Promise<void> {
+  await api.patch(backendPath('AuthChangePasswordLogged'), {
+    json: { password },
+  });
 }
