@@ -1,0 +1,35 @@
+{
+  "common": {
+    "namings": {
+      "season": "Сезон {{season}}",
+
+      "stages_one": "{{count}} етап",
+      "stages_few": "{{count}} етапи",
+      "stages_many": "{{count}} етапів",
+      "stages_other": "{{count}} етапа",
+
+      "laps_one": "{{count}} коло",
+      "laps_few": "{{count}} кола",
+      "laps_many": "{{count}} кіл",
+      "laps_other": "{{count}} кола"
+    }
+  },
+  "base": {
+    "title": "Статистика",
+    "description": "Знайдіть будь-яку інформацію, яка вас цікавить",
+    "options": {
+      "seasons": {
+        "title": "Сезони",
+        "description": "Будь-який сезон з усіх гоночних дисциплін"
+      }
+    }
+  },
+  "raceSeasons": {
+    "title": "Гоночні сезони",
+    "description": "Оберіть потрібний сезон вашої улюбленої гоночної дисципліни. Доступна фільтрація"
+  },
+  "raceEvents": {
+    "title": "Гоночні події",
+    "noEvents": "У цьому сезоні не знайдено жодної гоночної події"
+  }
+}

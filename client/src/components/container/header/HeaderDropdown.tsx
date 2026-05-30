@@ -12,7 +12,10 @@ import { HeaderLoggedDropdown } from '@/components/container/header/dropdowns/He
 import { HeaderDefaultDropdown } from '@/components/container/header/dropdowns/HeaderDefaultDropdown';
 import { ForgotPasswordDialog } from '@/components/features/auth/dialogs/ForgotPasswordDialog';
 import { LoginDialog } from '@/components/features/auth/dialogs/LoginDialog';
-import { Dialog } from '@/components/ui/dialog';
+import { LanguageDialog } from '@/components/container/header/dropdowns/LanguageDialog';
+import { LOCALES } from '@/lib/translation/locales';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
+import i18n from 'i18next';
 import { Switch } from '@/components/ui/switch';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
@@ -25,6 +28,10 @@ export const HeaderDropdown = () => {
   const { toggleTheme, theme } = useTheme();
 
   const isLogged = useUserStore((state) => state.isLogged);
+  const { setDialogType } = useDropdownDialogContext();
+  const currentLocale = i18n?.language ?? LOCALES[0].code;
+  const currentLocaleEntry =
+    LOCALES.find((l) => l.code === currentLocale) ?? LOCALES[0];
 
   return (
     <Dialog>
@@ -38,6 +45,21 @@ export const HeaderDropdown = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-4">
           {isLogged ? <HeaderLoggedDropdown /> : <HeaderDefaultDropdown />}
+          <DropdownMenuItem
+            onSelect={(e) => {
+              e.preventDefault();
+              setDialogType('language');
+            }}
+          >
+            <DialogTrigger className="flex w-full items-center justify-between">
+              {currentLocaleEntry.label}
+              <img
+                src={currentLocaleEntry.flag}
+                alt={currentLocaleEntry.code}
+                className="mr-2 inline h-4 w-4"
+              />
+            </DialogTrigger>
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             {t('header.dropdown.common.darkMode')}
@@ -51,6 +73,7 @@ export const HeaderDropdown = () => {
       </DropdownMenu>
       {dialogType === 'login' && <LoginDialog />}
       {dialogType === 'forgotPw' && <ForgotPasswordDialog />}
+      {dialogType === 'language' && <LanguageDialog />}
     </Dialog>
   );
 };

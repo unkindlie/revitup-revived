@@ -1,0 +1,67 @@
+{
+  "common": {
+    "fallback": "Резервний варіант",
+    "actions": {
+      "create": "Створити",
+      "cancel": "Скасувати"
+    }
+  },
+  "components": {
+    "comments": {
+      "title": "Коментарі",
+      "createPlaceholder": "Напишіть свій коментар. Будь ласка, дотримуйтесь правил порталу.",
+      "noAuth": "Увійдіть, щоб залишити коментар",
+      "reply": {
+        "title": "Відповідь",
+        "indicator": "Відповідь на: {{com}}"
+      }
+    },
+    "datePicker": {
+      "placeholder": "Оберіть дату"
+    },
+    "languageChange": {
+      "title": "Мова",
+      "description": "Оберіть бажану мову"
+    }
+  },
+  "header": {
+    "dropdown": {
+      "default": {
+        "login": "Увійти",
+        "register": "Зареєструватися"
+      },
+      "logged": {
+        "profile": "Профіль",
+        "logout": "Вийти"
+      },
+      "common": {
+        "darkMode": "Темна тема",
+        "currentLang": "Українська"
+      }
+    },
+    "sections": {
+      "news": "Новини",
+      "events": "Події",
+      "threads": "Обговорення",
+      "stats": "Статистика"
+    }
+  },
+  "footer": {
+    "authorship": "створено"
+  },
+  "fields": {
+    "email": "Електронна пошта",
+    "password": "Пароль",
+    "username": "Ім'я користувача"
+  },
+  "errors": {
+    "404": {
+      "title": "Елемент не знайдено",
+      "description": "Спробуйте знайти цей елемент або змініть URL-адресу"
+    },
+    "unknown": {
+      "title": "Невідома помилка",
+      "description": "Будь ласка, спробуйте ще раз пізніше"
+    }
+  }
+}
