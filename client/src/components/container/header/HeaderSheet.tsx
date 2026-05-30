@@ -2,6 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGripLines } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router';
 
+import googleGLogo from '@/assets/logos/google_g_icon.png';
+import revitupLogo from '@/assets/REVITUP_squared_logo.svg';
 import {
   Sheet,
   SheetClose,
@@ -14,18 +16,16 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { Typography } from '@/components/common/typography/Typography';
 import { useTranslation } from '@/hooks/useTranslation';
+import { NAV_ROUTES } from '@/lib/routing/client';
 import { useTheme } from '@/providers/ThemeProvider';
 import { useUserStore } from '@/stores/user.store';
 
-import googleGLogo from '@/assets/logos/google_g_icon.png';
-import revitupLogo from '@/assets/REVITUP_squared_logo.svg';
-import { NAV_ROUTES } from '@/lib/routing/client';
-
 // TODO: add the in-animation with Framer Motion
+// TODO: add the language change
 export const HeaderSheet = () => {
   const { t } = useTranslation(['common']);
-  const user = useUserStore((state) => state.user);
   const { toggleTheme, theme } = useTheme();
+  const user = useUserStore((state) => state.user);
 
   return (
     <Sheet>

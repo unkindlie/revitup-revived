@@ -18,6 +18,10 @@
     },
     "datePicker": {
       "placeholder": "Pick a date"
+    },
+    "languageChange": {
+      "title": "Language",
+      "description": "Choose your preferred language"
     }
   },
   "header": {
@@ -28,7 +32,8 @@
         "logout": "Log out"
       },
       "common": {
-        "darkMode": "Dark mode"
+        "darkMode": "Dark mode",
+        "currentLang": "English"
       }
     },
     "sections": {
