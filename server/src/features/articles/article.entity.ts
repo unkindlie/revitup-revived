@@ -9,8 +9,8 @@ import {
 
 @Entity('articles')
 export class Article {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({
     length: 125,

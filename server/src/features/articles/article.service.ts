@@ -16,19 +16,19 @@ export class ArticleService {
 
     return plainToInstance(ArticleShortDto, articles);
   }
-  async findArticleById(id: string): Promise<Article> {
+  async findArticleById(id: number): Promise<Article> {
     return await this.repo.findArticleById(id);
   }
   async createArticle(article: ArticleCreateDto): Promise<void> {
     await this.repo.createArticle(article);
   }
   async updateArticle(
-    id: string,
+    id: number,
     partialArticle: ArticleEditDto,
   ): Promise<void> {
     await this.repo.updateArticle(id, partialArticle);
   }
-  async revertSoftDelete(id: string): Promise<void> {
+  async revertSoftDelete(id: number): Promise<void> {
     const isAvailableForRevertion = await this.repo.existsBy({
       id,
       deletedAt: NotNull,
@@ -38,7 +38,7 @@ export class ArticleService {
 
     await this.repo.updateArticle(id, { deletedAt: null });
   }
-  async softDeleteArticle(id: string): Promise<void> {
+  async softDeleteArticle(id: number): Promise<void> {
     await this.repo.softDeleteArticle(id);
   }
 }

@@ -4,11 +4,12 @@ import {
   Delete,
   Get,
   Param,
-  ParseUUIDPipe,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
-import { ArticleService } from './article.service';
+
+import { ArticleService } from 'features/articles/article.service';
 import { ArticleCreateDto } from './dto/article-create.dto';
 import { ArticleEditDto } from './dto/article-edit.dto';
 
@@ -24,7 +25,7 @@ export class ArticleController {
 
   // TODO: swap UUID with article link
   @Get(':id')
-  async findArticleById(@Param('id', ParseUUIDPipe) id: string) {
+  async findArticleById(@Param('id', ParseIntPipe) id: number) {
     return await this.service.findArticleById(id);
   }
 
@@ -37,7 +38,7 @@ export class ArticleController {
 
   @Patch('update/:id')
   async updateArticle(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() partialArticle: ArticleEditDto,
   ) {
     await this.service.updateArticle(id, partialArticle);
@@ -46,14 +47,14 @@ export class ArticleController {
   }
 
   @Patch('revert-soft-delete/:id')
-  async revertSoftDelete(@Param('id', ParseUUIDPipe) id: string) {
+  async revertSoftDelete(@Param('id', ParseIntPipe) id: number) {
     await this.service.revertSoftDelete(id);
 
     return { message: "Article's deletion is reverted" };
   }
 
   @Delete('soft/:id')
-  async softDelete(@Param('id', ParseUUIDPipe) id: string) {
+  async softDelete(@Param('id', ParseIntPipe) id: number) {
     await this.service.softDeleteArticle(id);
 
     return { message: 'Article was soft-deleted successfully' };

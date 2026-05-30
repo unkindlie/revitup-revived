@@ -17,11 +17,11 @@ export const ArticleDetailedPage = () => {
   const commentsRef = useRef(null);
   const { id } = useParams<{ id: string }>();
 
-  const { data: articleRes, isFetched } = useGetArticleById(id!);
+  const { data: articleRes, isFetched } = useGetArticleById(Number(id) || 0);
   const { data: article } = useResponse(articleRes);
 
   const { mutate: deleteArticle, isPending: deletionPending } =
-    useDeleteArticle(id!);
+    useDeleteArticle(Number(id) || 0);
 
   useDocumentTitle(`${article ? article.title : 'Article loading...'}`, {
     appNamed: true,

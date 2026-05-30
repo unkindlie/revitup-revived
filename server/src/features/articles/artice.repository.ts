@@ -21,7 +21,7 @@ export class ArticleRepository {
       },
     });
   }
-  async findArticleById(id: string): Promise<Article> {
+  async findArticleById(id: number): Promise<Article> {
     const entity = await this.repo.findOne({
       where: { id, deletedAt: IsNull() },
     });
@@ -44,12 +44,12 @@ export class ArticleRepository {
     await this.repo.insert(article);
   }
   async updateArticle(
-    id: string,
+    id: number,
     partial: QueryDeepPartialEntity<Article>,
   ): Promise<void> {
     await this.repo.update(id, partial);
   }
-  async softDeleteArticle(id: string): Promise<void> {
+  async softDeleteArticle(id: number): Promise<void> {
     const exists = await this.repo.existsBy({ id, deletedAt: IsNull() });
     if (!exists)
       throw new NotFoundException(

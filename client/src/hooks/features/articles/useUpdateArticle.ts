@@ -3,7 +3,7 @@ import { updateArticle } from '@/api/scopes/articles';
 import type { ArticleEdit } from '^/types/articles';
 import { toast } from 'sonner';
 
-export const useEditArticle = (id: string) => {
+export const useEditArticle = (id: number) => {
   const queryClient = useQueryClient();
 
   return useMutation({

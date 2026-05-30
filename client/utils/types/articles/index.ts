@@ -1,5 +1,5 @@
 export type ArticleShort = {
-  id: string;
+  id: number;
   title: string;
   previewText: string | null;
   imageUrl: string;
