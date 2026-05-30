@@ -7,17 +7,17 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import { faGripLines } from '@fortawesome/free-solid-svg-icons';
+import i18n from 'i18next';
 
 import { HeaderLoggedDropdown } from '@/components/container/header/dropdowns/HeaderLoggedDropdown';
 import { HeaderDefaultDropdown } from '@/components/container/header/dropdowns/HeaderDefaultDropdown';
+import { LanguageDialog } from '@/components/container/header/dropdowns/LanguageDialog';
 import { ForgotPasswordDialog } from '@/components/features/auth/dialogs/ForgotPasswordDialog';
 import { LoginDialog } from '@/components/features/auth/dialogs/LoginDialog';
-import { LanguageDialog } from '@/components/container/header/dropdowns/LanguageDialog';
-import { LOCALES } from '@/lib/translation/locales';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import i18n from 'i18next';
 import { Switch } from '@/components/ui/switch';
 import { useTranslation } from '@/hooks/useTranslation';
+import { LOCALES } from '@/lib/translation/locales';
 import { useDropdownDialogContext } from '@/providers/DropdownDialogProvider';
 import { useTheme } from '@/providers/ThemeProvider';
 import { useUserStore } from '@/stores/user.store';
@@ -45,6 +45,7 @@ export const HeaderDropdown = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="mr-4">
           {isLogged ? <HeaderLoggedDropdown /> : <HeaderDefaultDropdown />}
+          <DropdownMenuSeparator />
           <DropdownMenuItem
             onSelect={(e) => {
               e.preventDefault();
@@ -60,7 +61,6 @@ export const HeaderDropdown = () => {
               />
             </DialogTrigger>
           </DropdownMenuItem>
-          <DropdownMenuSeparator />
           <DropdownMenuItem>
             {t('header.dropdown.common.darkMode')}
             <Switch
