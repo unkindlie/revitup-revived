@@ -12,6 +12,6 @@ export class DisciplineEntity {
   @Column({ name: 'short_code', length: 15 })
   shortCode: string;
 
-  @Column({ name: 'logo_url', type: 'text' })
-  logoUrl: string;
+  @Column({ name: 'main_img_url', type: 'text' })
+  mainImgUrl: string;
 }

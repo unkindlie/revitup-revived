@@ -24,5 +24,5 @@ export class ArticleEditDto {
 
   @IsUrl()
   @IsOptional()
-  imageUrl?: string;
+  mainImgUrl?: string;
 }

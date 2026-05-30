@@ -21,7 +21,7 @@ export const StatsSeasonDetailed = () => {
       <div className="flex items-center space-x-3">
         <img
           className="bg-main size-20 rounded-md p-2"
-          src={season.discipline.logoUrl}
+          src={season.discipline.mainImgUrl}
         />
         <div className="space-y-0.5">
           <Typography variant="2xl" weight="semibold">

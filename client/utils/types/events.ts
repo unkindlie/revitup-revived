@@ -1,7 +1,7 @@
 export type TEventShort = {
   id: number;
   title: string;
-  imgUrl: string | null;
+  mainImgUrl: string | null;
   startDate: Date;
   endDate: Date;
 };

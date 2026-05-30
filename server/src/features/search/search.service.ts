@@ -8,7 +8,7 @@ import { DisciplineEntity } from 'features/disciplines/discipline.entity';
 
 type SearchItem = {
   type: 'article' | 'event' | 'discipline';
-  id: string | number;
+  id: number;
 };
 
 @Injectable()
@@ -47,17 +47,15 @@ export class SearchService {
       this.disciplineRepo
         .createQueryBuilder('d')
         .select(['d.id'])
-        .where('d.name ILIKE :q', { q })
+        .where('d.title ILIKE :q', { q })
         .getMany(),
     ]);
 
     const results: SearchItem[] = [];
 
-    for (const a of articles)
-      results.push({ type: 'article', id: (a as any).id });
-    for (const e of events) results.push({ type: 'event', id: (e as any).id });
-    for (const d of disciplines)
-      results.push({ type: 'discipline', id: (d as any).id });
+    for (const a of articles) results.push({ type: 'article', id: a.id });
+    for (const e of events) results.push({ type: 'event', id: e.id });
+    for (const d of disciplines) results.push({ type: 'discipline', id: d.id });
 
     return results;
   }

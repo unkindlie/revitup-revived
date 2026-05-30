@@ -22,5 +22,5 @@ export class ArticleCreateDto {
   text?: string;
 
   @IsUrl()
-  imageUrl: string;
+  mainImgUrl: string;
 }

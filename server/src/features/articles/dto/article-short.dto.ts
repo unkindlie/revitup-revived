@@ -11,7 +11,7 @@ export class ArticleShortDto {
   previewText: string | null;
 
   @Expose()
-  imageUrl: string;
+  mainImgUrl: string;
 
   @Expose()
   createdAt: Date;

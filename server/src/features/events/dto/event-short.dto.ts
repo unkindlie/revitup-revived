@@ -8,7 +8,7 @@ export class EventShortDto {
   title: string;
 
   @Expose()
-  imgUrl: string;
+  mainImgUrl: string;
 
   @Expose()
   startDate: Date;

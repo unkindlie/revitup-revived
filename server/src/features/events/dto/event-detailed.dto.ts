@@ -11,7 +11,7 @@ export class EventDetailedDto {
   description: string;
 
   @Expose()
-  imgUrl: string;
+  mainImgUrl: string;
 
   @Expose()
   location: string;

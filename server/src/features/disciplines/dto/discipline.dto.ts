@@ -11,5 +11,5 @@ export class DisciplineDto {
   shortCode: string;
 
   @Expose()
-  logoUrl: string;
+  mainImgUrl: string;
 }

@@ -35,7 +35,7 @@ export class EventRepository {
   }
 
   async createEvent(input: EventCreateDto, imgUrl?: string): Promise<void> {
-    await this.repo.insert({ ...input, imgUrl });
+    await this.repo.insert({ ...input, mainImgUrl: imgUrl });
   }
 
   async updateEvent(input: EventUpdateDto): Promise<void> {

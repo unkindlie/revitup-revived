@@ -7,7 +7,7 @@ export type TRaceSeasonShort = {
   discipline: {
     id: number;
     title: string;
-    logoUrl: string;
+    mainImgUrl: string;
   };
 };
 
@@ -19,7 +19,7 @@ export type TRaceSeasonDetailed = {
     id: number;
     title: string;
     shortCode: string;
-    logoUrl: string;
+    mainImgUrl: string;
   };
   raceEvents: TRaceEventShort[];
 };
