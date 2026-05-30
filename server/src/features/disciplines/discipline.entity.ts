@@ -6,7 +6,7 @@ export class DisciplineEntity {
   id: number;
 
   @Column({ type: 'text' })
-  name: string;
+  title: string;
 
   @Index('discipline_shortCode_idx')
   @Column({ name: 'short_code', length: 15 })

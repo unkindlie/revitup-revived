@@ -3,7 +3,7 @@ export const RACE_SEASON_MANY_SELECT = {
   seasonYear: true,
   discipline: {
     id: true,
-    name: true,
+    title: true,
     logoUrl: true,
   },
   stages: true,

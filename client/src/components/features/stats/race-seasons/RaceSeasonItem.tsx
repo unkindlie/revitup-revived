@@ -13,7 +13,7 @@ export const RaceSeasonItem = ({
   discipline,
 }: TRaceSeasonShort) => {
   const { t } = useTranslation(['stats']);
-  const { logoUrl, name: disciplineName } = discipline;
+  const { logoUrl, title: disciplineTitle } = discipline;
 
   return (
     <Link
@@ -24,7 +24,7 @@ export const RaceSeasonItem = ({
       <div className="flex flex-col">
         <Typography variant="xl" weight="semibold">
           {t('common.namings.season', {
-            season: `${seasonYear} ${disciplineName}`,
+            season: `${seasonYear} ${disciplineTitle}`,
           })}
         </Typography>
         <Typography>{t('common.namings.stages', { count: stages })}</Typography>

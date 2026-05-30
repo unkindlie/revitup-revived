@@ -66,7 +66,7 @@ export const StatsEventPage = () => {
                 src={event.season.discipline.logoUrl}
               />
               <Typography weight="semibold">
-                {event.season.seasonYear} {event.season.discipline.name}
+                {event.season.seasonYear} {event.season.discipline.title}
               </Typography>
             </Link>
           </div>

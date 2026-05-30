@@ -26,7 +26,7 @@ export const StatsSeasonDetailed = () => {
         <div className="space-y-0.5">
           <Typography variant="2xl" weight="semibold">
             {t('common.namings.season', {
-              season: `${season.seasonYear} ${season.discipline.name}`,
+              season: `${season.seasonYear} ${season.discipline.title}`,
             })}
           </Typography>
           <div className="space-x-2">
@@ -37,7 +37,7 @@ export const StatsSeasonDetailed = () => {
               className="bg-main rounded-xl px-1.5 py-1 text-white"
               weight="semibold"
             >
-              {season.discipline.name}
+              {season.discipline.title}
             </Typography>
           </div>
         </div>
