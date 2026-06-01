@@ -37,7 +37,7 @@ export const ArticleDetailedPage = () => {
             ref={commentsRef}
             className="rounded-sm"
             alt={article.title}
-            src={article.imageUrl}
+            src={article.mainImgUrl}
             title={article.title}
           />
           <Typography variant="3xl" weight="semibold">
@@ -55,7 +55,7 @@ export const ArticleDetailedPage = () => {
           <CommentsBlock source="article" id={Number(id)} />
         </div>
         <div className="mt-2 flex space-x-2">
-          <ArticleUpdateForm articleId={id} />
+          <ArticleUpdateForm articleId={Number(id)} />
           <Button className="w-28" onClick={() => deleteArticle()}>
             {deletionPending ? <Spinner size="sm" /> : 'Delete article'}
           </Button>

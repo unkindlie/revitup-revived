@@ -36,7 +36,7 @@ export const Article = ({ article, size = 'sm' }: ArticleProps) => {
           'w-36 sm:w-44': size === 'sm',
         })}
         alt={article.title}
-        src={article.imageUrl}
+        src={article.mainImgUrl}
         title={article.title}
       />
       <div className="flex flex-col sm:gap-y-1">

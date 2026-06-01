@@ -39,6 +39,9 @@ export const BackendRoutes = {
   RaceSeasons: 'race-seasons',
   RaceSeasonDetailed: 'race-seasons/:id',
   RaceEventDetailed: 'race-events/:id',
+
+  Search: 'search',
+  SearchRecent: 'search/items',
 } as const;
 
 type RoutesKeys = keyof typeof BackendRoutes;

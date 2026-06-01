@@ -8,10 +8,6 @@ export const editArticleSchema = yup.object({
   previewText: yup
     .string()
     .max(200, 'Preview text must not exceed 200 characters'),
-  text: yup
-    .string()
-    .max(2000, 'Text must not exceed 2000 characters'),
-  imageUrl: yup
-    .string()
-    .url('Image URL must be a valid URL'),
+  text: yup.string().max(2000, 'Text must not exceed 2000 characters'),
+  mainImgUrl: yup.string().url('Image URL must be a valid URL'),
 });
