@@ -25,7 +25,8 @@
     },
     "search": {
       "title": "Пошук",
-      "recent": "Останні"
+      "recent": "Останні",
+      "clearAll": "Очистити усі"
     }
   },
   "header": {

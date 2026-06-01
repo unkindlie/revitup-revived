@@ -25,7 +25,8 @@
     },
     "search": {
       "title": "Search",
-      "recent": "Recent"
+      "recent": "Recent",
+      "clearAll": "Clear all"
     }
   },
   "header": {

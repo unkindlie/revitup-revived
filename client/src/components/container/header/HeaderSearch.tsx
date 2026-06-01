@@ -40,6 +40,25 @@ const loadRecent = (): Array<{ id: string | number; type: string }> => {
   }
 };
 
+const removeRecent = (entry: { id: string | number; type: string }) => {
+  try {
+    const raw = localStorage.getItem(RECENT_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw) as Array<{ id: string | number; type: string }>;
+    const filtered = arr.filter(
+      (a) => !(a.id === entry.id && a.type === entry.type),
+    );
+    localStorage.setItem(RECENT_KEY, JSON.stringify(filtered));
+    return filtered;
+  } catch {
+    return [];
+  }
+};
+
+const clearAllRecent = () => {
+  localStorage.removeItem(RECENT_KEY);
+};
+
 export const HeaderSearch = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResultItem[]>([]);
@@ -78,6 +97,19 @@ export const HeaderSearch = () => {
 
   const onClickItem = (item: SearchResultItem) => {
     storeRecent({ id: item.id, type: item.type });
+  };
+
+  const onClearOne = (item: SearchResultItem) => {
+    // remove from localStorage and from state
+    removeRecent({ id: item.id, type: item.type });
+    setRecent((prev) =>
+      prev.filter((p) => !(p.id === item.id && p.type === item.type)),
+    );
+  };
+
+  const onClearAll = () => {
+    clearAllRecent();
+    setRecent([]);
   };
 
   const renderItem = (item: SearchResultItem) => {
@@ -159,19 +191,41 @@ export const HeaderSearch = () => {
 
           {query.trim() === '' ? (
             <div>
-              <div className="mb-2 font-semibold">
+              <div className="mb-2 flex items-center justify-between font-semibold">
                 {t('components.search.recent')}
+                <button
+                  onClick={onClearAll}
+                  className="text-muted-foreground hover:text-foreground ml-2 text-xs"
+                >
+                  {t('components.search.clearAll')}
+                </button>
               </div>
               <div className="grid gap-2">
                 {recent.map((r) => (
-                  <DialogClose
-                    asChild
-                    className="w-full text-left"
+                  <div
                     key={`${r.type}-${r.id}`}
-                    onClick={() => onClickItem(r)}
+                    className="flex items-center justify-between"
                   >
-                    {renderItem(r)}
-                  </DialogClose>
+                    <div className="flex-1">
+                      <DialogClose
+                        asChild
+                        onClick={() => onClickItem(r)}
+                        className="w-full text-left"
+                      >
+                        {renderItem(r)}
+                      </DialogClose>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onClearOne(r);
+                      }}
+                      aria-label="Clear recent"
+                      className="text-muted-foreground hover:text-foreground ml-2 text-sm"
+                    >
+                      ×
+                    </button>
+                  </div>
                 ))}
               </div>
             </div>
