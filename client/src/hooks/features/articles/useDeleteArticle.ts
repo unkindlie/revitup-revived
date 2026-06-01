@@ -3,7 +3,7 @@ import { softDeleteArticle } from '@/api/scopes/articles';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
 
-export const useDeleteArticle = (id: string) => {
+export const useDeleteArticle = (id: number) => {
   const navigate = useNavigate();
 
   return useMutation({

@@ -5,11 +5,11 @@ export class DisciplineDto {
   id: number;
 
   @Expose()
-  name: string;
+  title: string;
 
   @Expose()
   shortCode: string;
 
   @Expose()
-  logoUrl: string;
+  mainImgUrl: string;
 }

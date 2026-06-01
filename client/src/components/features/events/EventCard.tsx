@@ -10,7 +10,7 @@ import type { TEventShort } from '^/types/events';
 export const EventCard = (event: TEventShort) => {
   const navigate = useNavigate();
 
-  const { id, title, startDate, endDate, imgUrl } = event;
+  const { id, title, startDate, endDate, mainImgUrl: imgUrl } = event;
 
   return (
     <div

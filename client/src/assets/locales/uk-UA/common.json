@@ -22,6 +22,11 @@
     "languageChange": {
       "title": "Мова",
       "description": "Оберіть бажану мову"
+    },
+    "search": {
+      "title": "Пошук",
+      "recent": "Останні",
+      "clearAll": "Очистити усі"
     }
   },
   "header": {

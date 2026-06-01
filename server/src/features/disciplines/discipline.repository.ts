@@ -17,7 +17,7 @@ export class DisciplineRepository {
   ): Promise<[DisciplineEntity[], number]> {
     return this.repo.findAndCount({
       order: {
-        name: 'ASC',
+        title: 'ASC',
       },
       take,
       skip: (page - 1) * 10,

@@ -11,6 +11,7 @@ import { StatisticsModule } from 'features/statistics/statistics.module';
 import { ThreadModule } from 'features/threads/thread.module';
 import { ThreadCategoryModule } from 'features/thread-categories/thread-category.module';
 import { UserModule } from 'features/user/user.module';
+import { SearchModule } from 'features/search/search.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { UserModule } from 'features/user/user.module';
     EventModule,
     CommentModule,
     DisciplineModule,
+    SearchModule,
     StatisticsModule,
     CircuitModule,
   ],

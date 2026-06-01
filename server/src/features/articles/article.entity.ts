@@ -9,8 +9,8 @@ import {
 
 @Entity('articles')
 export class Article {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({
     length: 125,
@@ -28,8 +28,8 @@ export class Article {
   @Column({ length: 2000, nullable: true })
   text: string;
 
-  @Column({ name: 'image_url' })
-  imageUrl: string;
+  @Column({ name: 'main_img_url' })
+  mainImgUrl: string;
 
   @CreateDateColumn()
   createdAt: Date;

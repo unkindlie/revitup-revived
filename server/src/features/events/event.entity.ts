@@ -22,8 +22,8 @@ export class Event {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({ type: 'text', nullable: true })
-  imgUrl: string;
+  @Column({ name: 'main_img_url', type: 'text', nullable: true })
+  mainImgUrl: string;
 
   @Column({ type: 'text', nullable: true })
   location: string;

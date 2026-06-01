@@ -22,6 +22,11 @@
     "languageChange": {
       "title": "Language",
       "description": "Choose your preferred language"
+    },
+    "search": {
+      "title": "Search",
+      "recent": "Recent",
+      "clearAll": "Clear all"
     }
   },
   "header": {

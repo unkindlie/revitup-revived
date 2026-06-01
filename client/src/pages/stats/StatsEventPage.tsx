@@ -63,10 +63,10 @@ export const StatsEventPage = () => {
             >
               <img
                 className="bg-main size-12 rounded-sm p-1"
-                src={event.season.discipline.logoUrl}
+                src={event.season.discipline.mainImgUrl}
               />
               <Typography weight="semibold">
-                {event.season.seasonYear} {event.season.discipline.name}
+                {event.season.seasonYear} {event.season.discipline.title}
               </Typography>
             </Link>
           </div>

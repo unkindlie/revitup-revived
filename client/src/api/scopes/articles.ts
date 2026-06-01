@@ -15,7 +15,7 @@ export async function getArticles(): Promise<TResponse<ArticleShort[]>> {
 }
 
 export async function getArticleById(
-  id: string,
+  id: number,
 ): Promise<TResponse<ArticleDetailed>> {
   const article = await api.get<TResponse<ArticleShort[]>>(
     backendPath('ArticleDetailed', {
@@ -33,7 +33,7 @@ export async function createArticle(article: ArticleCreate): Promise<void> {
 }
 
 export async function updateArticle(
-  id: string,
+  id: number,
   partialArticle: ArticleEdit,
 ): Promise<void> {
   await api.patch(
@@ -46,7 +46,7 @@ export async function updateArticle(
   );
 }
 
-export async function softDeleteArticle(id: string): Promise<void> {
+export async function softDeleteArticle(id: number): Promise<void> {
   await api.delete(
     backendPath('ArticleSoftDelete', {
       id,

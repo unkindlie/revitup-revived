@@ -23,7 +23,7 @@ import { useEffect, useRef } from 'react';
 import { useResponse } from '@/hooks/useResponse';
 
 type ArticleUpdateFormProps = {
-  articleId: string;
+  articleId: number;
 };
 
 export const ArticleUpdateForm = ({ articleId }: ArticleUpdateFormProps) => {
@@ -51,7 +51,7 @@ export const ArticleUpdateForm = ({ articleId }: ArticleUpdateFormProps) => {
         title: article.title,
         previewText: article.previewText || '',
         text: article.text || '',
-        imageUrl: article.imageUrl,
+        imageUrl: article.mainImgUrl,
       };
       originalArticleRef.current = initialValues;
       reset(initialValues);
@@ -140,12 +140,12 @@ export const ArticleUpdateForm = ({ articleId }: ArticleUpdateFormProps) => {
             <FormField
               id="imageUrl"
               label="Image URL"
-              errorMessage={formErrors.imageUrl?.message}
+              errorMessage={formErrors.mainImgUrl?.message}
             >
               <Input
                 id="imageUrl"
                 placeholder="https://example.com/image.jpg"
-                {...register('imageUrl')}
+                {...register('mainImgUrl')}
               />
             </FormField>
 
@@ -155,7 +155,7 @@ export const ArticleUpdateForm = ({ articleId }: ArticleUpdateFormProps) => {
                 disabled={!isValid || !isDirty || isPending}
                 className="flex-1"
               >
-                {isPending ? <Spinner size='sm' /> : 'Update'}
+                {isPending ? <Spinner size="sm" /> : 'Update'}
               </Button>
               <DialogClose asChild>
                 <Button type="button" variant="outline">

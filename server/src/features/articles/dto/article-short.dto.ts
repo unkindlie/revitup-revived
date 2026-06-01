@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 
 export class ArticleShortDto {
   @Expose()
-  id: string;
+  id: number;
 
   @Expose()
   title: string;
@@ -11,7 +11,7 @@ export class ArticleShortDto {
   previewText: string | null;
 
   @Expose()
-  imageUrl: string;
+  mainImgUrl: string;
 
   @Expose()
   createdAt: Date;

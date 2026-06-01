@@ -1,8 +1,8 @@
 export type ArticleShort = {
-  id: string;
+  id: number;
   title: string;
   previewText: string | null;
-  imageUrl: string;
+  mainImgUrl: string;
   createdAt: string;
 };
 
@@ -15,7 +15,7 @@ export type ArticleCreate = {
   title: string;
   previewText?: string;
   text?: string;
-  imageUrl: string;
+  mainImgUrl: string;
 };
 
 export type ArticleEdit = Partial<ArticleCreate>;
