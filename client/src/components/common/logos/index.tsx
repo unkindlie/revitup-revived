@@ -9,3 +9,16 @@ export const LongLogo = ({ className }: { className: string }) => {
 export const SquaredLogo = ({ className }: { className: string }) => {
   return <SquaredSrc className={cn('h-auto', className)} title="Logo" />;
 };
+
+export const SquaredLogoBgMain = ({ className }: { className?: string }) => {
+  return (
+    <div
+      className={cn(
+        'bg-main inline-flex items-center justify-center rounded-full',
+        className,
+      )}
+    >
+      <SquaredSrc className={cn('h-4 w-4', 'text-white')} title="Logo" />
+    </div>
+  );
+};
