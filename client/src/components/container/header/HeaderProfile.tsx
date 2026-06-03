@@ -1,7 +1,7 @@
 import { Link } from 'react-router';
 
 import RevitupLogo from '@/assets/REVITUP_squared_logo.svg?react';
-import { useGetUserById } from '@/hooks/features/users/useGetUserById';
+import { useGetUserLatestPfp } from '@/hooks/features/users/useGetUserLatestPfp';
 import { useResponse } from '@/hooks/useResponse';
 import { Pages, path } from '@/lib/routing/client';
 import { useUserStore } from '@/stores/user.store';
@@ -10,14 +10,12 @@ export const HeaderProfile = () => {
   const isLogged = useUserStore((s) => s.isLogged);
   const user = useUserStore((s) => s.user);
 
-  const { data: userFetchedRes } = useGetUserById(user?.id || 0);
-  const { data: userFetched } = useResponse(userFetchedRes);
+  const { data: pfpSrcRes } = useGetUserLatestPfp(user?.id || 0);
+  const { data: pfpSrc } = useResponse(pfpSrcRes);
 
   if (!isLogged) return null;
 
-  const src = userFetched?.profileImg || null;
-
-  if (!src) {
+  if (!pfpSrc) {
     return (
       <a href={path(Pages.Profile)} target="_blank" rel="noopener noreferrer">
         <RevitupLogo className="h-9 w-9 cursor-pointer fill-white object-cover" />
@@ -28,7 +26,7 @@ export const HeaderProfile = () => {
   return (
     <Link to={path(Pages.Profile)}>
       <img
-        src={src}
+        src={pfpSrc}
         alt="profile"
         className="h-9 w-9 cursor-pointer rounded-sm object-cover"
       />

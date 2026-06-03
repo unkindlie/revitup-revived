@@ -1,8 +1,10 @@
-import { api } from '..';
-import type { TResponse } from '../../../utils/types/response/response.type';
-import { backendPath, BackendRoutes } from '../../lib/routing/backend';
-import type { UserDetailed } from '^/types/users';
+import { api } from '@/api';
+
+import { backendPath, BackendRoutes } from '@/lib/routing/backend';
+
 import type { BaseImage } from '^/types/images';
+import type { TResponse } from '^/types/response/response.type';
+import type { UserDetailed } from '^/types/users';
 
 export async function getUserById(
   id: number,
@@ -27,4 +29,14 @@ export async function getUserProfileImagesById(
   );
 
   return await response.json();
+}
+
+export async function getUserLatestPfp(
+  id: number,
+): Promise<TResponse<string | null>> {
+  const resp = await api.get<TResponse<string | null>>(
+    backendPath('UserLatestPfp', { id }),
+  );
+
+  return await resp.json();
 }

@@ -1,7 +1,7 @@
 export const EVENT_SELECT_MANY_OBJ = {
   id: true,
   title: true,
-  imgUrl: true,
+  mainImgUrl: true,
   startDate: true,
   endDate: true,
 };

@@ -20,12 +20,14 @@ export class UserImageService {
   async uploadUserImage(
     image: Express.Multer.File,
     userId: number,
-  ): Promise<void> {
-    const { id: imgId } = await this.imageService.uploadImage(
+  ): Promise<string> {
+    const { id: imgId, url } = await this.imageService.uploadImage(
       image,
       `images/users/${userId}`,
     );
 
     await this.repo.insertUserImage(userId, imgId);
+
+    return url;
   }
 }

@@ -66,7 +66,9 @@ export class UserController {
     @CurrentUser() user: UserPayloadDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    await this.userImageService.uploadUserImage(file, user.id);
+    const url = await this.userImageService.uploadUserImage(file, user.id);
+
+    await this.service.updateUserInfo({ id: user.id, profileImgUrl: url });
 
     return { message: 'User profile image uploaded' };
   }

@@ -1,19 +1,19 @@
 import RevitupLogo from '@/assets/REVITUP_squared_logo.svg?react';
 import { Typography } from '@/components/common/typography/Typography';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {
   Carousel,
   CarouselContent,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { useUserProfileImages } from '@/hooks/features/users/useGetUserProfileImagesById';
 import { useResponse } from '@/hooks/useResponse';
 import { cn } from '@/lib/utils';

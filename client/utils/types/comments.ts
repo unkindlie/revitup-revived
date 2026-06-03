@@ -5,6 +5,7 @@ export type TComment = {
     id: number;
     username: string;
     roles: string[];
+    profileImgUrl : string;
   };
   parentId: string | null;
   createdAt: string;
