@@ -17,7 +17,7 @@ export const ProfileImage = ({
 
   return (
     <div className={className}>
-      <img className="size-full rounded-sm" src={src} {...props} />
+      <img className="size-full" src={src} {...props} />
     </div>
   );
 };

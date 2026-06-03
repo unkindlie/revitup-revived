@@ -17,10 +17,10 @@ import {
 import { useUserProfileImages } from '@/hooks/features/users/useGetUserProfileImagesById';
 import { useResponse } from '@/hooks/useResponse';
 import { cn } from '@/lib/utils';
+import type { BaseImage } from '^/types/images';
 
 type ProfileImageProps = {
   src: string;
-  imageCount?: number;
   disabled?: boolean;
 };
 
@@ -42,7 +42,7 @@ export const ProfileImage = ({
 }) => {
   const textCls = 'text-white select-none';
 
-  if (imageCount === 0) {
+  if (!src) {
     return (
       <div className="size-24">
         <RevitupLogo className="fill-main size-full dark:fill-white" />
@@ -72,21 +72,15 @@ export const ProfileImage = ({
 // TODO: create black-backgrounded fullscreen gallery after MVP (read "diploma")
 export const ProfileImageGallery = ({
   src,
-  imageCount,
   user: { id, username },
 }: ProfileImageGalleryProps) => {
   const { data: imageRes, isLoading } = useUserProfileImages(id);
-  const { data: images = [] } = useResponse(imageRes);
-
-  // If there are no images, render the image with hover overlay but disable click
-  if (imageCount === 0) {
-    return <ProfileImage src={src} imageCount={0} disabled={true} />;
-  }
+  const { data: images = [] } = useResponse<BaseImage[]>(imageRes);
 
   return (
     <Dialog>
       <DialogTrigger>
-        <ProfileImage src={src} imageCount={imageCount} />
+        <ProfileImage src={src} imageCount={images?.length} />
       </DialogTrigger>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
@@ -97,13 +91,20 @@ export const ProfileImageGallery = ({
         ) : (
           <Carousel>
             <CarouselContent>
-              {images.map((it) => (
+              {images.map((it: BaseImage, idx: number) => (
                 <CarouselItem key={it.id}>
-                  <img
-                    src={it.url}
-                    alt={`${username}'s profile`}
-                    className="w-full rounded-sm"
-                  />
+                  <div>
+                    <img
+                      src={it.url}
+                      alt={`${username}'s profile`}
+                      className="w-full rounded-sm"
+                    />
+
+                    <div className="mt-2 flex items-center justify-between text-sm text-muted-foreground">
+                      <span>{`${idx + 1} / ${images.length}`}</span>
+                      <span>{new Date(it.createdAt).toLocaleString()}</span>
+                    </div>
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>

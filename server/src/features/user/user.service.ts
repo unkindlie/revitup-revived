@@ -16,22 +16,10 @@ export class UserService {
     return await this.repository.getUsers();
   }
   async getUserById(id: number) {
-    const user = await this.repository.getUserByCondition({ id });
-    const profileImg = await this.userImageSerivce.getLatestUserImage(id);
-
-    return {
-      ...user,
-      profileImg,
-    };
+    return this.repository.getUserByCondition({ id });
   }
   async getUserByEmail(email: string) {
-    const user = await this.repository.getUserByCondition({ email });
-    const profileImg = await this.userImageSerivce.getLatestUserImage(user.id);
-
-    return {
-      ...user,
-      profileImg,
-    };
+    return this.repository.getUserByCondition({ email });
   }
 
   async createUser(input: UserCreateDto): Promise<void> {

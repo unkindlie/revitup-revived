@@ -20,4 +20,7 @@ export class UserShortDto {
 
   @Expose()
   createdAt: Date;
+
+  @Expose()
+  profileImgUrl: string;
 }

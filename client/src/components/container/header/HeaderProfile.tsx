@@ -13,6 +13,8 @@ export const HeaderProfile = () => {
   const { data: pfpSrcRes } = useGetUserLatestPfp(user?.id || 0);
   const { data: pfpSrc } = useResponse(pfpSrcRes);
 
+  console.log(pfpSrc);
+
   if (!isLogged) return null;
 
   if (!pfpSrc) {

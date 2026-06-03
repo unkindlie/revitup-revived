@@ -40,3 +40,19 @@ export async function getUserLatestPfp(
 
   return await resp.json();
 }
+
+export async function uploadUserPfp(
+  image: File,
+): Promise<TResponse<{ message: string }>> {
+  const form = new FormData();
+  form.append('image', image);
+
+  const resp = await api.post<TResponse<{ message: string }>>(
+    backendPath('UserUploadPfp'),
+    {
+      body: form,
+    },
+  );
+
+  return await resp.json();
+}

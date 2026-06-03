@@ -42,7 +42,7 @@ export const CommentItem = ({
             <div className="flex items-center space-x-2.5">
               <Typography weight="medium">{username}</Typography>
             </div>
-            <ProfileImage className="size-7" src={profileImgUrl} />
+            <ProfileImage className="size-7 *:rounded-xs" src={profileImgUrl} />
           </Link>
           <Typography variant="sm">
             {timeAgo.format(new Date(createdAt))}

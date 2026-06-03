@@ -13,6 +13,7 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -61,7 +62,21 @@ export class UserController {
 
   @Post('upload-pfp')
   @UseGuards(AccessTokenGuard)
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(
+    FileInterceptor('image', {
+      fileFilter: (_req, file, cb) => {
+        if (!file.mimetype || !file.mimetype.startsWith('image/')) {
+          cb(
+            new BadRequestException('Only image files are allowed'),
+            false as any,
+          );
+          return;
+        }
+
+        cb(null, true as any);
+      },
+    }),
+  )
   async uploadUserImage(
     @CurrentUser() user: UserPayloadDto,
     @UploadedFile() file: Express.Multer.File,
