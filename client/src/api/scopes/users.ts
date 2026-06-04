@@ -1,8 +1,10 @@
-import { api } from '..';
-import type { TResponse } from '../../../utils/types/response/response.type';
-import { backendPath, BackendRoutes } from '../../lib/routing/backend';
-import type { UserDetailed } from '^/types/users';
+import { api } from '@/api';
+
+import { backendPath, BackendRoutes } from '@/lib/routing/backend';
+
 import type { BaseImage } from '^/types/images';
+import type { TResponse } from '^/types/response/response.type';
+import type { UserDetailed } from '^/types/users';
 
 export async function getUserById(
   id: number,
@@ -27,4 +29,68 @@ export async function getUserProfileImagesById(
   );
 
   return await response.json();
+}
+
+export async function getUserLatestPfp(
+  id: number,
+): Promise<TResponse<string | null>> {
+  const resp = await api.get<TResponse<string | null>>(
+    backendPath('UserLatestPfp', { id }),
+  );
+
+  return await resp.json();
+}
+
+export async function uploadUserPfp(
+  image: File,
+): Promise<TResponse<{ message: string }>> {
+  const form = new FormData();
+  form.append('image', image);
+
+  const resp = await api.post<TResponse<{ message: string }>>(
+    backendPath('UserUploadPfp'),
+    {
+      body: form,
+    },
+  );
+
+  return await resp.json();
+}
+
+export async function updateUserInfo(
+  payload: Partial<{
+    id: number;
+    username?: string;
+    roles?: any[];
+    profileImgUrl?: string;
+  }>,
+): Promise<TResponse<{ message: string }>> {
+  const resp = await api.patch(backendPath('UserUpdateProfile'), {
+    json: payload,
+  });
+
+  return await resp.json();
+}
+
+export async function deleteUserPfp(
+  imageId: string,
+): Promise<TResponse<{ message: string }>> {
+  const resp = await api.delete(backendPath('UserDeletePfp', { imageId }));
+
+  // Some endpoints may return an empty body; parse gracefully.
+  try {
+    return await resp.json();
+  } catch {
+    return {
+      statusCode: resp.status,
+      path: backendPath('UserDeletePfp', { imageId }),
+      date: new Date(),
+      response: {
+        data: { message: '' },
+        error: null,
+      },
+    } as unknown as TResponse<{ message: string }>;
+  }
+
+  return await resp.json();
 }

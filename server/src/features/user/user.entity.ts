@@ -58,4 +58,7 @@ export class UserEntity {
     name: UPDATED_AT_COLUMN_NAME,
   })
   updatedAt: Date;
+
+  @Column({ name: 'profile_img_url', type: 'text', nullable: true })
+  profileImgUrl: string;
 }

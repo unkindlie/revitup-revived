@@ -232,14 +232,13 @@ export const HeaderSearch = () => {
           ) : (
             <div className="grid gap-2">
               {results.map((r) => (
-                <DialogClose asChild>
-                  <button
-                    key={`${r.type}-${r.id}`}
-                    onClick={() => onClickItem(r)}
-                    className="w-full text-left"
-                  >
-                    {renderItem(r)}
-                  </button>
+                <DialogClose
+                  asChild
+                  onClick={() => onClickItem(r)}
+                  className="w-full text-left"
+                  key={`${r.type}-${r.id}`}
+                >
+                  {renderItem(r)}
                 </DialogClose>
               ))}
             </div>

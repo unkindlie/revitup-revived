@@ -1,12 +1,5 @@
-import { cn } from '@/lib/utils';
+import RevitupLogo from '@/assets/REVITUP_squared_logo.svg?react';
 import { Typography } from '@/components/common/typography/Typography';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
 import {
   Carousel,
   CarouselContent,
@@ -14,12 +7,26 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { useUserProfileImages } from '@/hooks/features/users/useGetUserProfileImagesById';
 import { useResponse } from '@/hooks/useResponse';
+import { cn } from '@/lib/utils';
+import type { BaseImage } from '^/types/images';
+import { useUserStore } from '@/stores/user.store';
+import useDeleteUserPfp from '@/hooks/features/users/useDeleteUserPfp';
+import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/common/spinner/Spinner';
+import { toast } from 'sonner';
 
 type ProfileImageProps = {
   src: string;
-  imageCount?: number;
+  disabled?: boolean;
 };
 
 type ProfileImageGalleryProps = ProfileImageProps & {
@@ -32,16 +39,28 @@ type ProfileImageGalleryProps = ProfileImageProps & {
 export const ProfileImage = ({
   src,
   imageCount = 0,
+  disabled = false,
 }: {
   src: string;
   imageCount?: number;
+  disabled?: boolean;
 }) => {
   const textCls = 'text-white select-none';
+
+  if (!src || imageCount === 0) {
+    return (
+      <div className="size-24">
+        <RevitupLogo className="fill-main size-full dark:fill-white" />
+      </div>
+    );
+  }
 
   return (
     <div className="size-24">
       <div className="absolute size-24 rounded-sm bg-black/50 opacity-0 transition-all hover:opacity-100">
-        <div className="flex h-full cursor-pointer flex-col items-center justify-center">
+        <div
+          className={`flex h-full ${disabled ? '' : 'cursor-pointer'} flex-col items-center justify-center`}
+        >
           <Typography className={textCls} variant="lg" weight="semibold">
             {imageCount}
           </Typography>
@@ -58,16 +77,19 @@ export const ProfileImage = ({
 // TODO: create black-backgrounded fullscreen gallery after MVP (read "diploma")
 export const ProfileImageGallery = ({
   src,
-  imageCount,
   user: { id, username },
 }: ProfileImageGalleryProps) => {
   const { data: imageRes, isLoading } = useUserProfileImages(id);
-  const { data: images = [] } = useResponse(imageRes);
+  const { data: images = [] } = useResponse<BaseImage[]>(imageRes);
+  const currentUser = useUserStore((s) => s.user);
+  const isOwner = !!currentUser && currentUser.id === id;
+
+  const { mutate: deletePfp, isPending: deleting } = useDeleteUserPfp(id);
 
   return (
     <Dialog>
-      <DialogTrigger>
-        <ProfileImage src={src} imageCount={imageCount} />
+      <DialogTrigger disabled={images?.length === 0}>
+        <ProfileImage src={src} imageCount={images?.length} />
       </DialogTrigger>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
@@ -78,13 +100,37 @@ export const ProfileImageGallery = ({
         ) : (
           <Carousel>
             <CarouselContent>
-              {images.map((it) => (
+              {images.map((it: BaseImage, idx: number) => (
                 <CarouselItem key={it.id}>
-                  <img
-                    src={it.url}
-                    alt={`${username}'s profile`}
-                    className="w-full rounded-sm"
-                  />
+                  <div>
+                    <img
+                      src={it.url}
+                      alt={`${username}'s profile`}
+                      className="w-full rounded-sm"
+                    />
+
+                    <div className="text-muted-foreground mt-2 flex items-center justify-between text-sm">
+                      <span>{`${idx + 1} / ${images.length}`}</span>
+                      <span>{new Date(it.createdAt).toLocaleString()}</span>
+                      {isOwner && (
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            if (!confirm('Delete this profile image?')) return;
+
+                            deletePfp(it.id, {
+                              onSuccess: () => toast.success('Image deleted'),
+                              onError: () =>
+                                toast.error('Unable to delete image'),
+                            });
+                          }}
+                        >
+                          {deleting ? <Spinner size="sm" /> : 'Delete'}
+                        </Button>
+                      )}
+                    </div>
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>

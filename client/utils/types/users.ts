@@ -3,6 +3,6 @@ export type UserDetailed = {
   username: string;
   roles: string[];
   isVerified: string;
-  profileImg: string | null;
+  profileImgUrl: string | null;
   createdAt: Date;
 };

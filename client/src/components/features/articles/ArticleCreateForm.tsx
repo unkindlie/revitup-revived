@@ -97,12 +97,12 @@ export const ArticleCreateForm = () => {
             <FormField
               id="imageUrl"
               label="Image URL"
-              errorMessage={formErrors.imageUrl?.message}
+              errorMessage={formErrors.mainImgUrl?.message}
             >
               <Input
                 id="imageUrl"
                 placeholder="https://example.com/image.jpg"
-                {...register('imageUrl')}
+                {...register('mainImgUrl')}
               />
             </FormField>
 
@@ -112,7 +112,7 @@ export const ArticleCreateForm = () => {
                 disabled={!isValid || isPending}
                 className="flex-1"
               >
-                {isPending ? <Spinner size='sm' /> : 'Create'}
+                {isPending ? <Spinner size="sm" /> : 'Create'}
               </Button>
               <DialogClose asChild>
                 <Button type="button" variant="outline">

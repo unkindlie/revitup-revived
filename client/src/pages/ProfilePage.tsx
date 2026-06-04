@@ -23,7 +23,7 @@ export const ProfilePage = ({ id }: ProfilePageProps) => {
     <div className="flex h-fit w-full items-center justify-between">
       <div className="flex size-fit items-center gap-x-4">
         <ProfileImageGallery
-          src={user.profileImg ?? ''}
+          src={user.profileImgUrl || ''}
           user={{ id: user.id, username: user.username }}
         />
         <div className="flex flex-col gap-y-0.5">
@@ -32,7 +32,7 @@ export const ProfilePage = ({ id }: ProfilePageProps) => {
           </Typography>
         </div>
       </div>
-      {isCurrentUser && <ProfileContextMenu />}
+      {isCurrentUser && <ProfileContextMenu id={user.id} />}
     </div>
   );
 };

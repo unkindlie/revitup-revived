@@ -2,6 +2,7 @@
 import { Link } from 'react-router';
 
 import { Typography } from '@/components/common/typography/Typography';
+import { ProfileImage } from '@/components/features/profile/ProfileImage';
 import { useCommentReply } from '@/contexts/CommentReplyContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Pages, path } from '@/lib/routing/client';
@@ -18,7 +19,7 @@ export const CommentItem = ({
   children,
   createdAt,
 }: TComment) => {
-  const { username, id: authorId } = author;
+  const { username, id: authorId, profileImgUrl } = author;
   const [_, setValue] = useCommentReply();
   const isLogged = useUserStore((state) => state.isLogged);
   const { t } = useTranslation(['common']);
@@ -33,9 +34,15 @@ export const CommentItem = ({
   return (
     <div className="flex flex-col gap-y-3">
       <div className="flex flex-col rounded-md border">
-        <div className="flex justify-between border-b px-2 py-1">
-          <Link to={path(Pages.UserProfile, { id: authorId })}>
-            <Typography weight="medium">{username}</Typography>
+        <div className="flex items-center justify-between border-b px-2 py-1.5">
+          <Link
+            className="flex items-center space-x-2.5"
+            to={path(Pages.UserProfile, { id: authorId })}
+          >
+            <div className="flex items-center space-x-2.5">
+              <Typography weight="medium">{username}</Typography>
+            </div>
+            <ProfileImage className="size-7 *:rounded-xs" src={profileImgUrl} />
           </Link>
           <Typography variant="sm">
             {timeAgo.format(new Date(createdAt))}

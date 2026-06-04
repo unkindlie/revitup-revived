@@ -50,11 +50,15 @@ export class FirebaseStorageService {
     const url = new URL(fileLink);
     const bucketName = this.storage.bucket().name;
 
-    const pathname = url.pathname.replace(`/v0/b/${bucketName}/o/`, '');
+    // URL-encoded path part must be decoded
+    const pathname = decodeURIComponent(
+      url.pathname.replace(`/v0/b/${bucketName}/o/`, ''),
+    );
     const file = this.storage.bucket().file(pathname);
 
-    if (!file.exists()[0])
-      throw new NotFoundException("Such file doesn't exists");
+    const [exists] = await file.exists();
+    if (!exists) throw new NotFoundException("Such file doesn't exists");
+
     await file.delete();
   }
 }

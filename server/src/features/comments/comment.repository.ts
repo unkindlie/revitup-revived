@@ -16,7 +16,7 @@ export class CommentRepository {
       .createQueryBuilder('c')
 
       .leftJoin('c.author', 'au')
-      .addSelect(['au.id', 'au.username', 'au.roles'])
+      .addSelect(['au.id', 'au.username', 'au.roles', 'au.profileImgUrl'])
 
       .leftJoin('c.children', 'cc')
       .addSelect(['cc.id', 'cc.content'])
@@ -40,7 +40,7 @@ export class CommentRepository {
       ])
 
       .leftJoin('comment.author', 'au')
-      .addSelect(['au.id', 'au.username', 'au.roles'])
+      .addSelect(['au.id', 'au.username', 'au.roles', 'au.profileImgUrl'])
 
       .leftJoin('comment.children', 'cc')
       .addSelect(['cc.id', 'cc.content'])

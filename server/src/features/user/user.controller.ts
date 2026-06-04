@@ -13,6 +13,7 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
@@ -61,14 +62,44 @@ export class UserController {
 
   @Post('upload-pfp')
   @UseGuards(AccessTokenGuard)
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(
+    FileInterceptor('image', {
+      fileFilter: (_req, file, cb) => {
+        if (!file.mimetype || !file.mimetype.startsWith('image/')) {
+          cb(new BadRequestException('Only image files are allowed'), false);
+          return;
+        }
+
+        cb(null, true);
+      },
+    }),
+  )
   async uploadUserImage(
     @CurrentUser() user: UserPayloadDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    await this.userImageService.uploadUserImage(file, user.id);
+    const url = await this.userImageService.uploadUserImage(file, user.id);
+
+    await this.service.updateUserInfo({ id: user.id, profileImgUrl: url });
 
     return { message: 'User profile image uploaded' };
+  }
+
+  @Delete('pfp/:imageId')
+  @UseGuards(AccessTokenGuard)
+  async deleteUserImage(
+    @CurrentUser() user: UserPayloadDto,
+    @Param('imageId') imageId: string,
+  ) {
+    await this.userImageService.deleteUserImage(user.id, imageId);
+
+    const latest = await this.userImageService.getLatestUserImage(user.id);
+    await this.service.updateUserInfo({
+      id: user.id,
+      profileImgUrl: latest || undefined,
+    });
+
+    return { message: 'User profile image deleted' };
   }
 
   @Patch('update-profile')

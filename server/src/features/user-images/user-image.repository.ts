@@ -54,4 +54,8 @@ export class UserImageRepository {
       user: { id: userId },
     });
   }
+
+  async deleteUserImage(userId: number, imageId: string): Promise<void> {
+    await this.repo.delete({ userId, imageId });
+  }
 }

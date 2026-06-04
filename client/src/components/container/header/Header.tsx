@@ -5,6 +5,7 @@ import { HeaderLogo } from '@/components/container/header/HeaderLogo';
 import { HeaderDropdown } from '@/components/container/header/HeaderDropdown';
 import { HeaderSheet } from '@/components/container/header/HeaderSheet';
 import { HeaderSearch } from '@/components/container/header/HeaderSearch';
+import { HeaderProfile } from '@/components/container/header/HeaderProfile';
 import { NAV_ROUTES } from '@/lib/routing/client';
 import { TranslationNamespaces } from '@/lib/translation';
 import { DropdownDialogProvider } from '@/providers/DropdownDialogProvider';
@@ -22,10 +23,13 @@ export const Header = () => {
           ))}
         </div>
       </div>
-      <div className="flex">
+      <div className="flex items-center">
         <DropdownDialogProvider initialValue={undefined}>
           <div className="mr-4">
             <HeaderSearch />
+          </div>
+          <div className="mr-4 hidden items-center md:flex">
+            <HeaderProfile />
           </div>
           <div className="hidden md:block">
             <HeaderDropdown />

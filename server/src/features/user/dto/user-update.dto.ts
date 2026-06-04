@@ -23,4 +23,7 @@ export class UserUpdateDto {
 
   @IsOptional()
   password?: string;
+
+  @IsOptional()
+  profileImgUrl?: string;
 }
