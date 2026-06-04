@@ -13,11 +13,11 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
-  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { ExposingSerialization } from 'common/decorators/exposing-serialization.decorator';
+import { imageFileFilter } from 'common/file-upload/image-file.filter';
 import { PaginatedQuery } from 'common/types/pagination.type';
 import { ValidatedArray } from 'common/types/validated-array.type';
 
@@ -64,14 +64,7 @@ export class UserController {
   @UseGuards(AccessTokenGuard)
   @UseInterceptors(
     FileInterceptor('image', {
-      fileFilter: (_req, file, cb) => {
-        if (!file.mimetype || !file.mimetype.startsWith('image/')) {
-          cb(new BadRequestException('Only image files are allowed'), false);
-          return;
-        }
-
-        cb(null, true);
-      },
+      fileFilter: imageFileFilter,
     }),
   )
   async uploadUserImage(
