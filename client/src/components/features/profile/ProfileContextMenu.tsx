@@ -27,12 +27,15 @@ import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceCon
 import { usePasswordResetChangeLogged } from '@/hooks/features/auth/password-reset/use-change-password-logged';
 import { useUploadUserPfp } from '@/hooks/features/users/useUploadUserPfp';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
+import useUpdateUser from '@/hooks/features/users/useUpdateUser';
+import { useUserStore } from '@/stores/user.store';
 import { TranslationNamespaces } from '@/lib/translation';
 import {
   isImageFile,
   createPreviewUrl,
   ensureSquareFile,
 } from '@/lib/image/upload';
+import { Input } from '../../ui/input';
 
 const schema = yup.object({
   password: yup
@@ -46,8 +49,10 @@ type FormBody = yup.InferType<typeof schema>;
 
 export const ProfileContextMenu = ({ id }: { id: number }) => {
   const { t } = useTranslation(TranslationNamespaces.Auth);
-  const { closeHidden: closeHiddenPw, closeRef: closeRefPw } = useCloseDialog();
+  const { closeHidden: closeHiddenPw } = useCloseDialog();
   const { closeHidden: closeHiddenPfp, closeRef: closeRefPfp } =
+    useCloseDialog();
+  const { closeHidden: closeHiddenUpdate, closeRef: closeRefUpdate } =
     useCloseDialog();
 
   const {
@@ -59,6 +64,9 @@ export const ProfileContextMenu = ({ id }: { id: number }) => {
   const { mutateAsync, isPending } = usePasswordResetChangeLogged();
   const { mutateAsync: uploadPfp, isPending: isUploadPending } =
     useUploadUserPfp(id);
+  const { mutateAsync: updateUser, isPending: isUpdating } = useUpdateUser(id);
+
+  const currentUser = useUserStore((s) => s.user);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -102,6 +110,36 @@ export const ProfileContextMenu = ({ id }: { id: number }) => {
       toast.success('Profile image uploaded successfully');
       // close dialog for pfp
       closeRefPfp.current?.click();
+    } catch (e: any) {
+      const apiErr =
+        e?.response?.error?.message ?? e?.message ?? 'Unknown error';
+      toast.error(apiErr);
+    }
+  };
+
+  // update form
+  const updateSchema = yup.object({
+    username: yup
+      .string()
+      .required('Username is required')
+      .min(8, 'Username is too short')
+      .max(100, 'Username is too long'),
+  });
+
+  const {
+    register: registerUpdate,
+    handleSubmit: handleSubmitUpdate,
+    formState: { isValid: isValidUpdate, errors: errorsUpdate },
+  } = useForm({ resolver: yupResolver(updateSchema), mode: 'onChange' });
+
+  const onSubmitUpdate: SubmitHandler<
+    yup.InferType<typeof updateSchema>
+  > = async ({ username }) => {
+    try {
+      await updateUser({ id, username });
+
+      toast.success('Profile updated');
+      closeRefUpdate.current?.click();
     } catch (e: any) {
       const apiErr =
         e?.response?.error?.message ?? e?.message ?? 'Unknown error';
@@ -182,7 +220,7 @@ export const ProfileContextMenu = ({ id }: { id: number }) => {
             <TranslationNamespaceProvider namespace={'auth'}>
               <div className="flex flex-col space-y-2">
                 <label className="flex flex-col">
-                  <input
+                  <Input
                     accept="image/*"
                     onChange={handleFileChange}
                     type="file"
@@ -214,6 +252,59 @@ export const ProfileContextMenu = ({ id }: { id: number }) => {
               </div>
             </TranslationNamespaceProvider>
             {closeHiddenPfp}
+          </DialogContent>
+        </Dialog>
+
+        <Dialog>
+          <DialogTrigger asChild>
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              {t('dialogs.updateProfile.title', 'Edit profile')}
+            </DropdownMenuItem>
+          </DialogTrigger>
+          <DialogContent aria-describedby={undefined}>
+            <DialogHeader>
+              <DialogTitle>
+                {t('dialogs.updateProfile.title', 'Edit profile')}
+              </DialogTitle>
+            </DialogHeader>
+
+            <TranslationNamespaceProvider namespace={'auth'}>
+              <form
+                onSubmit={handleSubmitUpdate(onSubmitUpdate)}
+                className="flex flex-col space-y-2"
+              >
+                <FormField
+                  id="username"
+                  label={t('fields.username', {
+                    ns: TranslationNamespaces.Common,
+                  })}
+                  errorMessage={errorsUpdate.username?.message}
+                >
+                  <Input
+                    id="username"
+                    defaultValue={currentUser?.username ?? ''}
+                    placeholder={t('fields.username', {
+                      ns: TranslationNamespaces.Common,
+                    })}
+                    className="input"
+                    {...registerUpdate('username')}
+                  />
+                </FormField>
+
+                <Button
+                  type="submit"
+                  disabled={!isValidUpdate || isUpdating}
+                  className="mt-2 h-10 font-semibold"
+                >
+                  {isUpdating ? (
+                    <Spinner size="sm" />
+                  ) : (
+                    t('dialogs.updateProfile.action', 'Save')
+                  )}
+                </Button>
+              </form>
+            </TranslationNamespaceProvider>
+            {closeHiddenUpdate}
           </DialogContent>
         </Dialog>
       </DropdownMenuContent>

@@ -57,6 +57,21 @@ export async function uploadUserPfp(
   return await resp.json();
 }
 
+export async function updateUserInfo(
+  payload: Partial<{
+    id: number;
+    username?: string;
+    roles?: any[];
+    profileImgUrl?: string;
+  }>,
+): Promise<TResponse<{ message: string }>> {
+  const resp = await api.patch(backendPath('UserUpdateProfile'), {
+    json: payload,
+  });
+
+  return await resp.json();
+}
+
 export async function deleteUserPfp(
   imageId: string,
 ): Promise<TResponse<{ message: string }>> {
