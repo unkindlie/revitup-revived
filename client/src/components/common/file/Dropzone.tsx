@@ -37,7 +37,6 @@ export function FileDropzone({
           >
             click to browse
           </label>{' '}
-          (4MB max)
         </p>
         <input
           type="file"
