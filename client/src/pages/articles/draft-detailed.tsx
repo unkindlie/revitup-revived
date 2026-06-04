@@ -1,7 +1,6 @@
 import { useParams } from 'react-router';
 import { Spinner } from '@/components/common/spinner/Spinner';
 import { Typography } from '@/components/common/typography/Typography';
-import { useGetArticleById } from '@/hooks/features/articles/useGetArticleById';
 import { useResponse } from '@/hooks/useResponse';
 import { ArticleDraftEditForm } from '@/components/features/articles/ArticleDraftEditForm';
 import { useGetDraftById } from '../../hooks/features/articles/useGetDraftById';

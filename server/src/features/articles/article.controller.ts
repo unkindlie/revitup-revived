@@ -7,7 +7,9 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { ArticleService } from 'features/articles/article.service';
@@ -16,6 +18,8 @@ import { ArticleEditDto } from './dto/article-edit.dto';
 import { CurrentUser } from '../auth/decorators/user.decorator';
 import { AccessTokenGuard } from '../auth/guards/access-token.guard';
 import { UserPayloadDto } from '../auth/dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { imageFileFilter } from '../../common/file-upload/image-file.filter';
 
 @Controller('articles')
 export class ArticleController {
@@ -56,11 +60,18 @@ export class ArticleController {
   }
 
   @Patch('update/:id')
+  @UseGuards(AccessTokenGuard)
+  @UseInterceptors(
+    FileInterceptor('image', {
+      fileFilter: imageFileFilter,
+    }),
+  )
   async updateArticle(
     @Param('id', ParseIntPipe) id: number,
     @Body() partialArticle: ArticleEditDto,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
-    await this.service.updateArticle(id, partialArticle);
+    await this.service.updateArticle(id, partialArticle, file);
 
     return { message: 'Article was soft-deleted successfully' };
   }

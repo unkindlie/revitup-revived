@@ -9,14 +9,12 @@ export const ArticlesDraftIndexPage = () => {
 
   return (
     <div className="w-full">
-      {/* Header */}
       <div className="mb-4 space-y-1">
         <Typography variant="3xl" weight="semibold">
           Draft articles
         </Typography>
       </div>
 
-      {/* Empty state */}
       {!drafts?.length ? (
         <div className="flex flex-col items-center justify-center py-10">
           <Typography
@@ -28,7 +26,6 @@ export const ArticlesDraftIndexPage = () => {
           </Typography>
         </div>
       ) : (
-        /* Grid */
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {drafts.map((draft) => (
             <ArticleCard key={draft.id} article={draft} draft />

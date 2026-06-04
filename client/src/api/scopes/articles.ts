@@ -50,15 +50,20 @@ export async function createArticle(article: ArticleCreate): Promise<void> {
 export async function updateArticle(
   id: number,
   partialArticle: ArticleEdit,
+  mainImage?: File
 ): Promise<void> {
-  await api.patch(
-    backendPath('ArticleUpdate', {
-      id,
-    }),
-    {
-      json: partialArticle,
-    },
-  );
+  const formData = new FormData();
+
+  formData.append('title', partialArticle.title ?? '');
+  formData.append('previewText', partialArticle.previewText ?? '');
+
+  if (mainImage) {
+    formData.append('image', mainImage);
+  }
+
+  await api.patch(`articles/update/${id}`, {
+    body: formData,
+  });
 }
 
 export async function softDeleteArticle(id: number): Promise<void> {

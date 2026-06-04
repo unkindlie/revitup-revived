@@ -12,8 +12,6 @@ import { Typography } from '@/components/common/typography/Typography';
 import { FileDropzone } from '@/components/common/file/Dropzone';
 import { FileList } from '@/components/common/file/FileList';
 
-// import { useUploadFile } from '@/hooks/files/useUploadFile';
-
 import { createArticleSchema } from '^/schemas/articles/create-article.schema';
 import type { ArticleEdit } from '^/types/articles';
 import { useEditArticle } from '../../../hooks/features/articles/useUpdateArticle';
@@ -21,7 +19,8 @@ import { TranslationNamespaceProvider } from '../../../contexts/TranslationNames
 
 type FormValues = {
   title: string;
-  previewText?: string | undefined;
+  previewText?: string;
+  mainImgUrl?: string;
 };
 
 export const ArticleDraftEditForm = ({
@@ -29,7 +28,7 @@ export const ArticleDraftEditForm = ({
   defaultValues,
 }: {
   articleId: number;
-  defaultValues: FormValues & { mainImgUrl?: string };
+  defaultValues: FormValues;
 }) => {
   const {
     register,
@@ -46,45 +45,24 @@ export const ArticleDraftEditForm = ({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const [fileProgresses, setFileProgresses] = useState<Record<string, number>>(
-    {},
-  );
-  const [imageUrl, setImageUrl] = useState(defaultValues.mainImgUrl ?? '');
+  const [mainImage, setMainImage] = useState<File | null>(null);
 
   const handleBoxClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileSelect = async (files: FileList | null) => {
+  const handleFileSelect = (files: FileList | null) => {
     if (!files?.length) return;
 
     const file = files[0];
 
     setUploadedFiles([file]);
-    setFileProgresses({ [file.name]: 10 });
-
-    try {
-      setFileProgresses({ [file.name]: 40 });
-
-      // const url = await uploadFile(file);
-
-      setFileProgresses({ [file.name]: 100 });
-      // setImageUrl(url);
-
-      toast.success('Image uploaded');
-    } catch (e: any) {
-      toast.error(e?.message ?? 'Upload failed');
-    }
+    setMainImage(file);
   };
 
-  const removeFile = (filename: string) => {
-    setUploadedFiles((prev) => prev.filter((f) => f.name !== filename));
-    setFileProgresses((prev) => {
-      const copy = { ...prev };
-      delete copy[filename];
-      return copy;
-    });
-    setImageUrl('');
+  const removeFile = () => {
+    setUploadedFiles([]);
+    setMainImage(null);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -100,12 +78,16 @@ export const ArticleDraftEditForm = ({
     try {
       const payload: ArticleEdit = {
         ...data,
-        mainImgUrl: imageUrl,
       };
 
-      await updateDraft(payload);
+      await updateDraft({
+        article: payload,
+        file: mainImage ?? undefined,
+      });
 
       toast.success('Draft updated');
+
+      removeFile();
     } catch (e: any) {
       toast.error(e?.message ?? 'Failed to update draft');
     }
@@ -136,26 +118,23 @@ export const ArticleDraftEditForm = ({
               Main image
             </Typography>
 
-            <FileDropzone
-              fileInputRef={fileInputRef}
-              handleBoxClick={handleBoxClick}
-              handleDragOver={handleDragOver}
-              handleDrop={handleDrop}
-              handleFileSelect={handleFileSelect}
-            />
+            <div className="flex w-full items-center space-x-3">
+              <img className="w-52 rounded-sm" src={defaultValues.mainImgUrl} />
+
+              <FileDropzone
+                fileInputRef={fileInputRef}
+                handleBoxClick={handleBoxClick}
+                handleDragOver={handleDragOver}
+                handleDrop={handleDrop}
+                handleFileSelect={handleFileSelect}
+              />
+            </div>
 
             <FileList
               uploadedFiles={uploadedFiles}
-              fileProgresses={fileProgresses}
+              fileProgresses={{}}
               removeFile={removeFile}
             />
-
-            {imageUrl && (
-              <img
-                src={imageUrl}
-                className="h-56 w-full rounded-md object-cover"
-              />
-            )}
           </div>
 
           <Button type="submit" disabled={!isValid || isPending}>

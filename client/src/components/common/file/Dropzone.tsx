@@ -17,7 +17,7 @@ export function FileDropzone({
   handleFileSelect,
 }: FileDropzoneProps) {
   return (
-    <div className="px-6">
+    <div className="w-full">
       <div
         className="border-border flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed p-8 text-center"
         onClick={handleBoxClick}

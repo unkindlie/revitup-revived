@@ -6,10 +6,14 @@ import { ArticleShortDto } from './dto/article-short.dto';
 import { ArticleCreateDto } from './dto/article-create.dto';
 import { ArticleEditDto } from './dto/article-edit.dto';
 import { NotNull } from '../../common/constants/database.constants';
+import { FirebaseStorageService } from '../../common/firebase/firebase-storage.service';
 
 @Injectable()
 export class ArticleService {
-  constructor(private repo: ArticleRepository) {}
+  constructor(
+    private repo: ArticleRepository,
+    private firebaseStorage: FirebaseStorageService,
+  ) {}
 
   async findArticles(): Promise<ArticleShortDto[]> {
     const articles = await this.repo.findArticles();
@@ -36,8 +40,25 @@ export class ArticleService {
   async updateArticle(
     id: number,
     partialArticle: ArticleEditDto,
+    file?: Express.Multer.File,
   ): Promise<void> {
-    await this.repo.updateArticle(id, partialArticle);
+    let imageUrl: string | undefined;
+
+    if (file) {
+      const path = await this.firebaseStorage.uploadFile({
+        pathname: 'articles',
+        originalName: file.originalname,
+        buffer: file.buffer,
+        metadata: { contentType: file.mimetype },
+      });
+
+      imageUrl = await this.firebaseStorage.getFileLink(path);
+    }
+
+    await this.repo.updateArticle(id, {
+      ...partialArticle,
+      ...(imageUrl ? { mainImgUrl: imageUrl } : {}),
+    });
   }
 
   async revertSoftDelete(id: number): Promise<void> {
