@@ -7,11 +7,15 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 
 import { ArticleService } from 'features/articles/article.service';
 import { ArticleCreateDto } from './dto/article-create.dto';
 import { ArticleEditDto } from './dto/article-edit.dto';
+import { CurrentUser } from '../auth/decorators/user.decorator';
+import { AccessTokenGuard } from '../auth/guards/access-token.guard';
+import { UserPayloadDto } from '../auth/dto';
 
 @Controller('articles')
 export class ArticleController {
@@ -27,6 +31,21 @@ export class ArticleController {
   @Get(':id')
   async findArticleById(@Param('id', ParseIntPipe) id: number) {
     return await this.service.findArticleById(id);
+  }
+
+  @Get('drafts/me')
+  @UseGuards(AccessTokenGuard)
+  async findMyDrafts(@CurrentUser() user: UserPayloadDto) {
+    return this.service.findMyDrafts(user.id);
+  }
+
+  @Get('drafts/:id')
+  @UseGuards(AccessTokenGuard)
+  async getDraftById(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: UserPayloadDto,
+  ) {
+    return this.service.getDraftById(id, user.id);
   }
 
   @Post()

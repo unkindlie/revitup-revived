@@ -26,6 +26,7 @@ export class ArticleRepository {
       },
     });
   }
+
   async findArticleById(id: number): Promise<Article> {
     const entity = await this.repo.findOne({
       select: ARTICLES_SELECT_ONE_OBJ,
@@ -50,15 +51,57 @@ export class ArticleRepository {
 
     return entity;
   }
+
+  async findDraftsByAuthor(authorId: number): Promise<Article[]> {
+    return this.repo.find({
+      where: {
+        author: {
+          id: authorId,
+        },
+        status: ArticleStatus.DRAFT,
+      },
+      order: {
+        updatedAt: 'DESC',
+      },
+      select: ARTICLES_SELECT_MANY_OBJ,
+    });
+  }
+
+  async findDraftById(id: number, userId: number) {
+    const article = await this.repo.findOne({
+      where: {
+        id,
+        status: ArticleStatus.DRAFT,
+        author: {
+          id: userId,
+        },
+      },
+      relations: {
+        author: true,
+        paragraphs: true,
+      },
+    });
+
+    if (!article) {
+      throw new NotFoundException(
+        'Draft not found or you do not have access to it',
+      );
+    }
+
+    return article;
+  }
+
   async createArticle(article: ArticleCreateDto): Promise<void> {
     await this.repo.insert(article);
   }
+
   async updateArticle(
     id: number,
     partial: QueryDeepPartialEntity<Article>,
   ): Promise<void> {
     await this.repo.update(id, partial);
   }
+
   async softDeleteArticle(id: number): Promise<void> {
     const exists = await this.repo.existsBy({ id, deletedAt: IsNull() });
     if (!exists)
@@ -68,6 +111,7 @@ export class ArticleRepository {
 
     await this.repo.softDelete(id);
   }
+
   async existsBy(options: FindOptionsWhere<Article>) {
     return await this.repo.existsBy(options);
   }

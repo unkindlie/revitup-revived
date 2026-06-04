@@ -8,6 +8,8 @@ export { PasswordResetPage } from './auth/PasswordResetPage';
 // Articles pages
 export { ArticlesIndexPage } from './articles/ArticlesIndexPage';
 export { ArticleDetailedPage } from './articles/ArticleDetailedPage';
+export { ArticlesDraftIndexPage } from './articles/draft-index';
+export { ArticleDraftPage } from './articles/draft-detailed';
 
 // Events pages
 export { EventsPage } from './events/index';

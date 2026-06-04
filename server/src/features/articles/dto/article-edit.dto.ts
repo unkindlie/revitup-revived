@@ -1,10 +1,4 @@
-import {
-  IsOptional,
-  IsString,
-  IsUrl,
-  Length,
-  MaxLength,
-} from 'class-validator';
+import { IsOptional, IsString, Length, MaxLength } from 'class-validator';
 
 export class ArticleEditDto {
   @IsString()
@@ -22,7 +16,7 @@ export class ArticleEditDto {
   @MaxLength(2000)
   text?: string;
 
-  @IsUrl()
+  // @IsUrl()
   @IsOptional()
   mainImgUrl?: string;
 }

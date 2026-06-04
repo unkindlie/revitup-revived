@@ -3,6 +3,7 @@ export const Pages = {
 
   ArticlesIndex: '/articles',
   ArticleDetailed: '/articles/:id',
+  ArticleDraftEdit: '/articles/draft/:id',
 
   EventsIndex: '/events',
   EventDetailed: '/events/:id',

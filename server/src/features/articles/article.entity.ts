@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -10,6 +12,7 @@ import {
 
 import { ArticleStatus } from 'features/articles/enums/article-status.enum';
 import { ParagraphEntity } from 'features/paragraphs/paragraph.entity';
+import { UserEntity } from '../user/user.entity';
 
 @Entity('articles')
 export class Article {
@@ -32,7 +35,7 @@ export class Article {
   @Column({ length: 2000, nullable: true })
   text: string;
 
-  @Column({ name: 'main_img_url' })
+  @Column({ name: 'main_img_url', nullable: true })
   mainImgUrl: string;
 
   @CreateDateColumn()
@@ -53,4 +56,8 @@ export class Article {
     default: ArticleStatus.DRAFT,
   })
   status: ArticleStatus;
+
+  @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'author_id' })
+  author: UserEntity;
 }

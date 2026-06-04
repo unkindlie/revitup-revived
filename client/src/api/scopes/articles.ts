@@ -26,6 +26,21 @@ export async function getArticleById(
   return await article.json();
 }
 
+export async function getMyDrafts() {
+  const response =
+    await api.get<TResponse<ArticleShort[]>>('articles/drafts/me');
+
+  return response.json();
+}
+
+export async function getDraftArticleById(id: number) {
+  const res = await api.get<TResponse<ArticleDetailed>>(
+    `articles/drafts/${id}`,
+  );
+
+  return res.json();
+}
+
 export async function createArticle(article: ArticleCreate): Promise<void> {
   await api.post(backendPath('ArticleBase'), {
     json: article,

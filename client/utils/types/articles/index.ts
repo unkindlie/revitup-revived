@@ -4,6 +4,7 @@ export type ArticleShort = {
   previewText: string | null;
   mainImgUrl: string;
   createdAt: string;
+  status: string;
 };
 
 export type ArticleDetailed = ArticleShort & {
