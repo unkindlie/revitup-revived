@@ -56,3 +56,26 @@ export async function uploadUserPfp(
 
   return await resp.json();
 }
+
+export async function deleteUserPfp(
+  imageId: string,
+): Promise<TResponse<{ message: string }>> {
+  const resp = await api.delete(backendPath('UserDeletePfp', { imageId }));
+
+  // Some endpoints may return an empty body; parse gracefully.
+  try {
+    return await resp.json();
+  } catch {
+    return {
+      statusCode: resp.status,
+      path: backendPath('UserDeletePfp', { imageId }),
+      date: new Date(),
+      response: {
+        data: { message: '' },
+        error: null,
+      },
+    } as unknown as TResponse<{ message: string }>;
+  }
+
+  return await resp.json();
+}

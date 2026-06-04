@@ -18,6 +18,11 @@ import { useUserProfileImages } from '@/hooks/features/users/useGetUserProfileIm
 import { useResponse } from '@/hooks/useResponse';
 import { cn } from '@/lib/utils';
 import type { BaseImage } from '^/types/images';
+import { useUserStore } from '@/stores/user.store';
+import useDeleteUserPfp from '@/hooks/features/users/useDeleteUserPfp';
+import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/common/spinner/Spinner';
+import { toast } from 'sonner';
 
 type ProfileImageProps = {
   src: string;
@@ -42,7 +47,7 @@ export const ProfileImage = ({
 }) => {
   const textCls = 'text-white select-none';
 
-  if (!src) {
+  if (!src || imageCount === 0) {
     return (
       <div className="size-24">
         <RevitupLogo className="fill-main size-full dark:fill-white" />
@@ -76,10 +81,14 @@ export const ProfileImageGallery = ({
 }: ProfileImageGalleryProps) => {
   const { data: imageRes, isLoading } = useUserProfileImages(id);
   const { data: images = [] } = useResponse<BaseImage[]>(imageRes);
+  const currentUser = useUserStore((s) => s.user);
+  const isOwner = !!currentUser && currentUser.id === id;
+
+  const { mutate: deletePfp, isPending: deleting } = useDeleteUserPfp(id);
 
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger disabled={images?.length === 0}>
         <ProfileImage src={src} imageCount={images?.length} />
       </DialogTrigger>
       <DialogContent aria-describedby={undefined}>
@@ -100,9 +109,26 @@ export const ProfileImageGallery = ({
                       className="w-full rounded-sm"
                     />
 
-                    <div className="mt-2 flex items-center justify-between text-sm text-muted-foreground">
+                    <div className="text-muted-foreground mt-2 flex items-center justify-between text-sm">
                       <span>{`${idx + 1} / ${images.length}`}</span>
                       <span>{new Date(it.createdAt).toLocaleString()}</span>
+                      {isOwner && (
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => {
+                            if (!confirm('Delete this profile image?')) return;
+
+                            deletePfp(it.id, {
+                              onSuccess: () => toast.success('Image deleted'),
+                              onError: () =>
+                                toast.error('Unable to delete image'),
+                            });
+                          }}
+                        >
+                          {deleting ? <Spinner size="sm" /> : 'Delete'}
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </CarouselItem>

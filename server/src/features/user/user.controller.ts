@@ -66,14 +66,11 @@ export class UserController {
     FileInterceptor('image', {
       fileFilter: (_req, file, cb) => {
         if (!file.mimetype || !file.mimetype.startsWith('image/')) {
-          cb(
-            new BadRequestException('Only image files are allowed'),
-            false as any,
-          );
+          cb(new BadRequestException('Only image files are allowed'), false);
           return;
         }
 
-        cb(null, true as any);
+        cb(null, true);
       },
     }),
   )
@@ -86,6 +83,23 @@ export class UserController {
     await this.service.updateUserInfo({ id: user.id, profileImgUrl: url });
 
     return { message: 'User profile image uploaded' };
+  }
+
+  @Delete('pfp/:imageId')
+  @UseGuards(AccessTokenGuard)
+  async deleteUserImage(
+    @CurrentUser() user: UserPayloadDto,
+    @Param('imageId') imageId: string,
+  ) {
+    await this.userImageService.deleteUserImage(user.id, imageId);
+
+    const latest = await this.userImageService.getLatestUserImage(user.id);
+    await this.service.updateUserInfo({
+      id: user.id,
+      profileImgUrl: latest || undefined,
+    });
+
+    return { message: 'User profile image deleted' };
   }
 
   @Patch('update-profile')

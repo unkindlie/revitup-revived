@@ -30,4 +30,12 @@ export class UserImageService {
 
     return url;
   }
+
+  async deleteUserImage(userId: number, imageId: string): Promise<void> {
+    // remove association
+    await this.repo.deleteUserImage(userId, imageId);
+
+    // remove image record and file
+    await this.imageService.deleteImageById(imageId);
+  }
 }

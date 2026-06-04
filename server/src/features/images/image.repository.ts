@@ -13,4 +13,12 @@ export class ImageRepository {
 
     return result.identifiers[0].id as string;
   }
+
+  async findById(id: string): Promise<Image | null> {
+    return await this.repo.findOne({ where: { id } });
+  }
+
+  async deleteById(id: string): Promise<void> {
+    await this.repo.delete(id);
+  }
 }

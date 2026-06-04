@@ -15,6 +15,7 @@ export const BackendRoutes = {
   UserProfileImagesById: 'users/profile-images',
   UserLatestPfp: 'users/pfp/:id',
   UserUploadPfp: 'users/upload-pfp',
+  UserDeletePfp: 'users/pfp/:imageId',
 
   // Article routes
   ArticleBase: 'articles',
