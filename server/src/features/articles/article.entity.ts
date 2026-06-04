@@ -3,9 +3,12 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { ParagraphEntity } from 'features/paragraphs/paragraph.entity';
 
 @Entity('articles')
 export class Article {
@@ -39,4 +42,7 @@ export class Article {
 
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt: Date | null;
+
+  @OneToMany(() => ParagraphEntity, (p) => p.article)
+  paragraphs: ParagraphEntity;
 }
