@@ -15,7 +15,7 @@ export type ArticleCreate = {
   title: string;
   previewText?: string;
   text?: string;
-  mainImgUrl: string;
+  mainImgUrl?: string;
 };
 
 export type ArticleEdit = Partial<ArticleCreate>;

@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import { ArticleStatus } from 'features/articles/enums/article-status.enum';
 import { ParagraphEntity } from 'features/paragraphs/paragraph.entity';
 
 @Entity('articles')
@@ -45,4 +46,11 @@ export class Article {
 
   @OneToMany(() => ParagraphEntity, (p) => p.article)
   paragraphs: ParagraphEntity;
+
+  @Column({
+    type: 'enum',
+    enum: ArticleStatus,
+    default: ArticleStatus.DRAFT,
+  })
+  status: ArticleStatus;
 }

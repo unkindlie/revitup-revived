@@ -2,7 +2,7 @@ import { Upload } from 'lucide-react';
 import type { RefObject } from 'react';
 
 interface FileDropzoneProps {
-  fileInputRef: RefObject<HTMLInputElement | null>;
+  fileInputRef?: RefObject<HTMLInputElement | null>;
   handleBoxClick: () => void;
   handleDragOver: (e: React.DragEvent) => void;
   handleDrop: (e: React.DragEvent) => void;

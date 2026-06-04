@@ -4,7 +4,11 @@ import { Article } from './article.entity';
 import { FindOptionsWhere, IsNull, Repository } from 'typeorm';
 import { ArticleCreateDto } from './dto/article-create.dto';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { ARTICLES_SELECT_OBJ } from './article.constants';
+import {
+  ARTICLES_SELECT_MANY_OBJ,
+  ARTICLES_SELECT_ONE_OBJ,
+} from './article.constants';
+import { ArticleStatus } from './enums/article-status.enum';
 
 @Injectable()
 export class ArticleRepository {
@@ -12,9 +16,10 @@ export class ArticleRepository {
 
   async findArticles(): Promise<Article[]> {
     return await this.repo.find({
-      select: ARTICLES_SELECT_OBJ,
+      select: ARTICLES_SELECT_MANY_OBJ,
       where: {
         deletedAt: IsNull(),
+        status: ArticleStatus.PUBLISHED,
       },
       order: {
         createdAt: 'DESC',
@@ -23,7 +28,12 @@ export class ArticleRepository {
   }
   async findArticleById(id: number): Promise<Article> {
     const entity = await this.repo.findOne({
-      where: { id, deletedAt: IsNull() },
+      select: ARTICLES_SELECT_ONE_OBJ,
+      where: {
+        id,
+        deletedAt: IsNull(),
+        status: ArticleStatus.PUBLISHED,
+      },
     });
     if (!entity) {
       const isSoftDeleted = await this.repo.exists({
