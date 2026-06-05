@@ -10,7 +10,6 @@ export type ArticleShort = {
 };
 
 export type ArticleDetailed = ArticleShort & {
-  text: string | null;
   updatedAt: Date | null;
   paragraphs?: Paragraph[];
 };

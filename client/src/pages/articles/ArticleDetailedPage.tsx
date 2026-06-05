@@ -4,7 +4,6 @@ import { useParams } from 'react-router';
 import { SeparatorLine } from '@/components/common/separator/SeparatorLine';
 import { Spinner } from '@/components/common/spinner/Spinner';
 import { Typography } from '@/components/common/typography/Typography';
-import { ArticleUpdateForm } from '@/components/features/articles/ArticleUpdateForm';
 import { CommentsBlock } from '@/components/features/comments/CommentsBlock';
 import { Button } from '@/components/ui/button';
 import { CommentReplyProvider } from '@/contexts/CommentReplyContext';
@@ -33,6 +32,10 @@ export const ArticleDetailedPage = () => {
     <CommentReplyProvider>
       <div className="flex flex-col">
         <div className="flex flex-col gap-y-2 transition-all sm:w-[550px] md:w-[575px] lg:w-[600px]">
+          <Typography variant="3xl" weight="semibold">
+            {article.title}
+          </Typography>
+          <Typography variant="lg">{article.previewText}</Typography>
           <img
             ref={commentsRef}
             className="rounded-sm"
@@ -40,22 +43,48 @@ export const ArticleDetailedPage = () => {
             src={article.mainImgUrl}
             title={article.title}
           />
-          <Typography variant="3xl" weight="semibold">
-            {article.title}
-          </Typography>
-          <Typography variant="lg">{article.previewText}</Typography>
         </div>
         <SeparatorLine className="mx-4 mt-2 sm:mr-28 sm:ml-0 lg:hidden" />
-        <div className="flex flex-col gap-y-2">
-          <Typography className="mt-2" variant="md">
-            {article.text}
-          </Typography>
+        <div className="mt-4">
+          {!article.paragraphs?.length ? (
+            <div className="rounded-md border border-dashed p-6 text-center space-x-2">
+              <Typography variant="lg" weight="medium">
+                No content yet
+              </Typography>
+
+              <Typography variant="base" className="text-muted-foreground mt-1">
+                This article does not contain any paragraphs yet.
+              </Typography>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-y-8">
+              {article.paragraphs.map((paragraph) => (
+                <article
+                  key={paragraph.id}
+                  className="flex flex-col gap-y-3 md:max-w-[575px] lg:w-[700px]"
+                >
+                  {paragraph.title && (
+                    <Typography variant="2xl" weight="semibold">
+                      {paragraph.title}
+                    </Typography>
+                  )}
+
+                  <Typography
+                    paragraph
+                    variant="md"
+                    className="leading-7 whitespace-pre-wrap"
+                  >
+                    {paragraph.content}
+                  </Typography>
+                </article>
+              ))}
+            </div>
+          )}
         </div>
         <div className="mt-4 md:max-w-[575px] lg:w-[700px]">
           <CommentsBlock source="article" id={Number(id)} />
         </div>
         <div className="mt-2 flex space-x-2">
-          <ArticleUpdateForm articleId={Number(id)} />
           <Button className="w-28" onClick={() => deleteArticle()}>
             {deletionPending ? <Spinner size="sm" /> : 'Delete article'}
           </Button>

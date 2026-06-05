@@ -39,6 +39,7 @@ export class ArticleRepository {
         deletedAt: IsNull(),
         status: ArticleStatus.PUBLISHED,
       },
+      relations: ['paragraphs'],
     });
     if (!entity) {
       const isSoftDeleted = await this.repo.exists({

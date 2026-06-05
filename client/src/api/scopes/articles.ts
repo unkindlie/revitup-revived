@@ -72,6 +72,10 @@ export async function updateArticle(
   });
 }
 
+export async function publishArticle(id: number): Promise<void> {
+  await api.patch(`articles/publish/${id}`);
+}
+
 export async function softDeleteArticle(id: number): Promise<void> {
   await api.delete(
     backendPath('ArticleSoftDelete', {

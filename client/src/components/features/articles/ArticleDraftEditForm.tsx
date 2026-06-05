@@ -13,12 +13,14 @@ import { FileDropzone } from '@/components/common/file/Dropzone';
 import { FileList } from '@/components/common/file/FileList';
 
 import { createArticleSchema } from '^/schemas/articles/create-article.schema';
-import type { ArticleEdit } from '^/types/articles';
 import { useEditArticle } from '../../../hooks/features/articles/useUpdateArticle';
 import { TranslationNamespaceProvider } from '../../../contexts/TranslationNamespaceContext';
 
 import type { Paragraph } from '^/types/paragraphs';
 import { ParagraphManager } from '../../../hooks/features/paragraphs/ParagraphManager';
+import { usePublishArticle } from '../../../hooks/features/articles/usePublishArticle';
+import { useNavigate } from 'react-router';
+import { Pages, path } from '../../../lib/routing/client';
 
 type FormValues = {
   title: string;
@@ -43,8 +45,11 @@ export const ArticleDraftEditForm = ({
     mode: 'onChange',
     defaultValues,
   });
+  const navigate = useNavigate();
 
   const { mutateAsync: updateDraft, isPending } = useEditArticle(articleId);
+  const { mutateAsync: publishArticle, isPending: isPublishing } =
+    usePublishArticle(articleId);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -83,19 +88,15 @@ export const ArticleDraftEditForm = ({
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
-      const payload: ArticleEdit = {
-        ...data,
-      };
-
       await updateDraft({
-        article: payload,
+        article: data,
         file: mainImage ?? undefined,
         paragraphs,
-      });
+      }).then(() => navigate(path(Pages.ArticleDetailed, { id: articleId })));
 
       toast.success('Draft updated');
 
-      removeFile();
+      if (mainImage) removeFile();
     } catch (e: any) {
       toast.error(e?.message ?? 'Failed to update draft');
     }
@@ -184,6 +185,17 @@ export const ArticleDraftEditForm = ({
 
           <Button type="submit" disabled={!isValid || isPending}>
             {isPending ? <Spinner size="sm" /> : 'Save draft'}
+          </Button>
+
+          <Button
+            type="button"
+            variant="secondary"
+            disabled={isPublishing}
+            onClick={async () => {
+              await publishArticle();
+            }}
+          >
+            {isPublishing ? <Spinner size="sm" /> : 'Publish'}
           </Button>
         </form>
       </div>

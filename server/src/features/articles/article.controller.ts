@@ -62,6 +62,17 @@ export class ArticleController {
     return { message: 'Article was created successfully' };
   }
 
+  @Patch('publish/:id')
+  @UseGuards(AccessTokenGuard)
+  async publishArticle(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: UserPayloadDto,
+  ) {
+    await this.service.publishArticle(id, user.id);
+
+    return { message: 'Article published successfully' };
+  }
+
   @Patch('update/:id')
   @UseGuards(AccessTokenGuard)
   @UseInterceptors(

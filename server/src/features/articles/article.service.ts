@@ -7,6 +7,7 @@ import { ArticleCreateDto } from './dto/article-create.dto';
 import { ArticleEditDto } from './dto/article-edit.dto';
 import { NotNull } from '../../common/constants/database.constants';
 import { FirebaseStorageService } from '../../common/firebase/firebase-storage.service';
+import { ArticleStatus } from './enums/article-status.enum';
 
 @Injectable()
 export class ArticleService {
@@ -58,6 +59,18 @@ export class ArticleService {
     await this.repo.updateArticle(id, {
       ...partialArticle,
       ...(imageUrl ? { mainImgUrl: imageUrl } : {}),
+    });
+  }
+
+  async publishArticle(id: number, userId: number): Promise<void> {
+    const draft = await this.repo.findDraftById(id, userId);
+
+    if (!draft) {
+      throw new NotFoundException('Draft not found');
+    }
+
+    await this.repo.updateArticle(id, {
+      status: ArticleStatus.PUBLISHED,
     });
   }
 
