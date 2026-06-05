@@ -52,7 +52,10 @@ export const ThreadCreateButton = ({
         >
           <span className="inline-flex w-fit">
             <FloatingActionButton icon="add" {...props} disabled>
-              <Typography className="hidden lg:block text-white" weight="medium">
+              <Typography
+                className="hidden text-white lg:block"
+                weight="medium"
+              >
                 {t('index.createButton.title')}
               </Typography>
             </FloatingActionButton>
@@ -72,7 +75,7 @@ export const ThreadCreateButton = ({
       icon="add"
       {...props}
     >
-      <Typography className="hidden lg:block text-whitr" weight="medium">
+      <Typography className="hidden text-white lg:block" weight="medium">
         Add a thread
       </Typography>
     </FloatingActionButton>

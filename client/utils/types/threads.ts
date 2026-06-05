@@ -5,6 +5,7 @@ export type TThreadShort = {
   author: {
     id: number;
     username: string;
+    profileImgUrl: string;
   };
   category: {
     id: number;

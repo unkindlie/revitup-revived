@@ -31,7 +31,7 @@ export const ArticleDetailedPage = () => {
 
   return (
     <CommentReplyProvider>
-      <div className="flex w-full flex-col gap-8 xl:flex-row xl:items-start xl:justify-between">
+      <div className="flex w-full flex-col gap-8 lg:justify-between xl:flex-row xl:items-start">
         <div className="w-full min-w-0 xl:max-w-[720px]">
           <div className="flex flex-col gap-y-1">
             <Typography variant="3xl" weight="semibold">
@@ -84,7 +84,7 @@ export const ArticleDetailedPage = () => {
 
           <div>
             {!article.paragraphs?.length ? (
-              <div className="rounded-md border border-dashed p-8 text-center">
+              <div className="rounded-md border border-dashed p-8 text-center space-x-2">
                 <Typography variant="lg" weight="medium">
                   No content yet
                 </Typography>

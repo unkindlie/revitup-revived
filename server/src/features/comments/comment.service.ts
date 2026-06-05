@@ -35,6 +35,10 @@ export class CommentService {
     await this.repo.createComment(input, authorId);
   }
 
+  async removeCommentsForEntity(entityInfo: CommentGetQueryDto) {
+    await this.repo.removeCommentsForEntity(entityInfo);
+  }
+
   private getCommentRoots(comments: CommentEntity[]): CommentNode[] {
     const map = new Map<number, CommentNode>();
     const roots: CommentNode[] = [];

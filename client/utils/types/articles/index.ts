@@ -1,5 +1,6 @@
 import type { Paragraph } from '../paragraphs';
-import type { DisciplineShort } from '^/types/disciplines';
+
+import type { DisciplineShort } from '../disciplines'
 
 export type ArticleShort = {
   id: number;

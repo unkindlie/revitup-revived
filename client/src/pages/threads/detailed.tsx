@@ -12,12 +12,12 @@ import { useResponse } from '@/hooks/useResponse';
 import { useTranslation } from '@/hooks/useTranslation';
 import { TranslationNamespaces } from '@/lib/translation';
 import { timeAgo } from '@/time-ago';
+import { ImageWithSkeleton } from '../../components/common/image/ImageWithSkeleton';
 
 export const ThreadDetailedPage = () => {
   const { id } = useParams<{ id: string }>();
   const { data: threadRes, isLoading } = useThreadById(id!);
   const { t } = useTranslation([TranslationNamespaces.Threads]);
-
   const { data: thread } = useResponse(threadRes);
 
   useDocumentTitle(thread?.title || 'Thread loading...', {
@@ -25,49 +25,134 @@ export const ThreadDetailedPage = () => {
   });
 
   if (isLoading) return <Spinner />;
-
   if (!thread) return <ThreadNotFound />;
 
   const { title, description, createdAt, author, category } = thread;
 
   return (
     <CommentReplyProvider>
-      <div className="flex w-full flex-col gap-y-2 md:w-[720px]">
-        <div className="space-y-0.5">
-          {category && (
-            <div className="space-x-1">
-              <Link to={`/threads`}>
-                <Typography variant="lg">Threads</Typography>
-              </Link>
-              <Typography>/</Typography>
-              <Link to={`/threads/by-category/${category.shortCode}`}>
-                <Typography variant="lg">{category.name}</Typography>
-              </Link>
-            </div>
-          )}
-          <Typography variant="3xl" weight="semibold">
-            {title}
-          </Typography>
-        </div>
-        <div className="flex justify-between">
-          <Typography>
-            {t('detailed.info.author', { author: author.username })}
-          </Typography>
-          <Typography title={new Date(createdAt).toLocaleString()}>
-            {timeAgo.format(new Date(createdAt))}
-          </Typography>
-        </div>
-        <SeparatorLine className="mx-4" />
-        <div className="flex flex-col gap-y-2">
-          {description.split(`\n\n`).map((p, i) => (
-            <Typography key={i} variant="md">
-              {p}
+      <div className="flex w-full flex-col gap-8 xl:flex-row xl:items-start xl:justify-between">
+        {/* MAIN CONTENT */}
+        <div className="min-w-0 flex-1 xl:max-w-[720px]">
+          {/* Breadcrumbs + title */}
+          <div className="space-y-2">
+            {category && (
+              <div className="text-muted-foreground flex items-center gap-2">
+                <Link to="/threads">
+                  <Typography variant="sm" weight="medium">
+                    Threads
+                  </Typography>
+                </Link>
+
+                <span>/</span>
+
+                <Link to={`/threads/by-category/${category.shortCode}`}>
+                  <Typography variant="sm" weight="medium">
+                    {category.name}
+                  </Typography>
+                </Link>
+              </div>
+            )}
+
+            <Typography variant="3xl" weight="semibold">
+              {title}
             </Typography>
-          ))}
+
+            <div className="text-muted-foreground flex flex-wrap items-center justify-between gap-2">
+              <Typography variant="sm">
+                {t('detailed.info.author', {
+                  author: author.username,
+                })}
+              </Typography>
+
+              <Typography
+                variant="sm"
+                title={new Date(createdAt).toLocaleString()}
+              >
+                {timeAgo.format(new Date(createdAt))}
+              </Typography>
+            </div>
+          </div>
+
+          <SeparatorLine className="my-4" />
+
+          {/* DESCRIPTION */}
+          <div className="flex flex-col gap-y-4">
+            {description.split('\n\n').map((p, i) => (
+              <Typography
+                key={i}
+                variant="md"
+                className="text-foreground/90 leading-7"
+              >
+                {p}
+              </Typography>
+            ))}
+          </div>
+
+          {/* COMMENTS */}
+          <div className="mt-6">
+            <CommentsBlock source="thread" id={Number(id)} />
+          </div>
         </div>
-        <div className="mt-2 md:max-w-[575px] lg:w-[700px]">
-          <CommentsBlock source="thread" id={1} />
-        </div>
+
+        {/* OPTIONAL SIDEBAR (can grow later) */}
+        <aside className="w-full xl:sticky xl:top-20 xl:w-80">
+          <div className="bg-card rounded-lg border p-4">
+            <Typography variant="lg" weight="semibold">
+              Thread info
+            </Typography>
+
+            <SeparatorLine className="my-3" />
+
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center gap-3">
+                {thread.author?.profileImgUrl ? (
+                  <ImageWithSkeleton
+                    src={thread.author.profileImgUrl}
+                    alt={thread.author.username}
+                    className="h-14 w-14 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="bg-muted flex h-14 w-14 items-center justify-center rounded-full">
+                    <Typography variant="lg" weight="semibold">
+                      {thread.author?.username?.[0]?.toUpperCase() ?? '?'}
+                    </Typography>
+                  </div>
+                )}
+
+                <div className="flex flex-col">
+                  <Typography weight="semibold">
+                    {thread.author?.username ?? 'Unknown author'}
+                  </Typography>
+
+                  {thread.author?.username && (
+                    <Typography variant="sm" className="text-muted-foreground">
+                      {thread.author.username}
+                    </Typography>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-x-2">
+                <Typography variant="sm" className="text-muted-foreground">
+                  Created
+                </Typography>
+                <Typography>
+                  {new Date(createdAt).toLocaleDateString()}
+                </Typography>
+              </div>
+
+              {category && (
+                <div className="flex items-center gap-x-2">
+                  <Typography variant="sm" className="text-muted-foreground">
+                    Category
+                  </Typography>
+                  <Typography>{category.name}</Typography>
+                </div>
+              )}
+            </div>
+          </div>
+        </aside>
       </div>
     </CommentReplyProvider>
   );

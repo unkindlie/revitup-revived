@@ -8,12 +8,15 @@ import { ArticleEditDto } from './dto/article-edit.dto';
 import { NotNull } from '../../common/constants/database.constants';
 import { FirebaseStorageService } from '../../common/firebase/firebase-storage.service';
 import { ArticleStatus } from './enums/article-status.enum';
+import { CommentService } from '../comments/comment.service';
+import { CommentSource } from '../comments/types/comment-source.enum';
 
 @Injectable()
 export class ArticleService {
   constructor(
     private repo: ArticleRepository,
     private firebaseStorage: FirebaseStorageService,
+    private commentService: CommentService,
   ) {}
 
   async findArticles(): Promise<ArticleShortDto[]> {
@@ -92,5 +95,10 @@ export class ArticleService {
 
   async softDeleteArticle(id: number): Promise<void> {
     await this.repo.softDeleteArticle(id);
+
+    await this.commentService.removeCommentsForEntity({
+      entityId: id,
+      entitySource: CommentSource.ARTICLE,
+    });
   }
 }
