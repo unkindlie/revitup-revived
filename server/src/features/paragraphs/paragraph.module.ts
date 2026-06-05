@@ -10,6 +10,6 @@ import { ParagraphController } from './paragraph.controller';
   imports: [TypeOrmModule.forFeature([ParagraphEntity])],
   controllers: [ParagraphController],
   providers: [ParagraphService, ParagraphRepository],
-  exports: [ParagraphService],
+  exports: [ParagraphService, ParagraphRepository],
 })
 export class ParagraphModule {}

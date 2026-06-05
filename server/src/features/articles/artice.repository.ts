@@ -9,10 +9,14 @@ import {
   ARTICLES_SELECT_ONE_OBJ,
 } from './article.constants';
 import { ArticleStatus } from './enums/article-status.enum';
+import { ParagraphRepository } from '../paragraphs/paragraph.repository';
 
 @Injectable()
 export class ArticleRepository {
-  constructor(@InjectRepository(Article) private repo: Repository<Article>) {}
+  constructor(
+    @InjectRepository(Article) private repo: Repository<Article>,
+    private paragraphRepo: ParagraphRepository,
+  ) {}
 
   async findArticles(): Promise<Article[]> {
     return await this.repo.find({
@@ -97,9 +101,39 @@ export class ArticleRepository {
 
   async updateArticle(
     id: number,
-    partial: QueryDeepPartialEntity<Article>,
+    partial: QueryDeepPartialEntity<Article> & {
+      paragraphs?: {
+        title: string;
+        content: string;
+        order: number;
+      }[];
+    },
   ): Promise<void> {
-    await this.repo.update(id, partial);
+    const article = await this.repo.findOne({
+      where: { id },
+      relations: ['paragraphs'],
+    });
+
+    if (!article) {
+      throw new NotFoundException('Article not found');
+    }
+
+    const { paragraphs, ...scalarFields } = partial;
+
+    // 1. update ONLY scalar fields
+    await this.repo.update(id, scalarFields);
+
+    // 2. handle paragraphs separately
+    if (paragraphs) {
+      await this.paragraphRepo.deleteForArticle(id);
+
+      await this.paragraphRepo.createMany(
+        paragraphs.map((p) => ({
+          ...p,
+          article: { id },
+        })),
+      );
+    }
   }
 
   async softDeleteArticle(id: number): Promise<void> {

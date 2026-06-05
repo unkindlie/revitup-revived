@@ -7,6 +7,7 @@ import type {
 } from '^/types/articles';
 import { api } from '@/api';
 import { backendPath } from '@/lib/routing/backend';
+import type { Paragraph } from '../../../utils/types/paragraphs';
 
 export async function getArticles(): Promise<TResponse<ArticleShort[]>> {
   const articles = await api.get<TResponse<ArticleShort[]>>('articles');
@@ -50,7 +51,8 @@ export async function createArticle(article: ArticleCreate): Promise<void> {
 export async function updateArticle(
   id: number,
   partialArticle: ArticleEdit,
-  mainImage?: File
+  mainImage?: File,
+  paragraphs?: Paragraph[],
 ): Promise<void> {
   const formData = new FormData();
 
@@ -59,6 +61,10 @@ export async function updateArticle(
 
   if (mainImage) {
     formData.append('image', mainImage);
+  }
+
+  if (paragraphs) {
+    formData.append('paragraphs', JSON.stringify(paragraphs));
   }
 
   await api.patch(`articles/update/${id}`, {

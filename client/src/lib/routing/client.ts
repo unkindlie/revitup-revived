@@ -27,7 +27,7 @@ type Params = Record<string, string | number>;
 export const NAV_ROUTES = [
   {
     id: 'news',
-    route: Pages.Main,
+    route: Pages.ArticlesIndex,
   },
   {
     id: 'events',

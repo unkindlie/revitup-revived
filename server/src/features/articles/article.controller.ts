@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Body,
   Controller,
@@ -68,12 +71,19 @@ export class ArticleController {
   )
   async updateArticle(
     @Param('id', ParseIntPipe) id: number,
-    @Body() partialArticle: ArticleEditDto,
+    @Body() partialArticle: any,
     @UploadedFile() file?: Express.Multer.File,
   ) {
-    await this.service.updateArticle(id, partialArticle, file);
+    const body = {
+      ...partialArticle,
+      paragraphs: partialArticle.paragraphs
+        ? JSON.parse(partialArticle.paragraphs)
+        : undefined,
+    } as ArticleEditDto;
 
-    return { message: 'Article was soft-deleted successfully' };
+    await this.service.updateArticle(id, body, file);
+
+    return { message: 'Article was updated successfully' };
   }
 
   @Patch('revert-soft-delete/:id')

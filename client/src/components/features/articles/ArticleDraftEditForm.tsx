@@ -17,10 +17,14 @@ import type { ArticleEdit } from '^/types/articles';
 import { useEditArticle } from '../../../hooks/features/articles/useUpdateArticle';
 import { TranslationNamespaceProvider } from '../../../contexts/TranslationNamespaceContext';
 
+import type { Paragraph } from '^/types/paragraphs';
+import { ParagraphManager } from '../../../hooks/features/paragraphs/ParagraphManager';
+
 type FormValues = {
   title: string;
   previewText?: string;
   mainImgUrl?: string;
+  paragraphs?: Paragraph[];
 };
 
 export const ArticleDraftEditForm = ({
@@ -44,6 +48,9 @@ export const ArticleDraftEditForm = ({
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  const [paragraphs, setParagraphs] = useState<Paragraph[]>(
+    defaultValues.paragraphs ?? [],
+  );
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [mainImage, setMainImage] = useState<File | null>(null);
 
@@ -83,6 +90,7 @@ export const ArticleDraftEditForm = ({
       await updateDraft({
         article: payload,
         file: mainImage ?? undefined,
+        paragraphs,
       });
 
       toast.success('Draft updated');
@@ -119,7 +127,12 @@ export const ArticleDraftEditForm = ({
             </Typography>
 
             <div className="flex w-full items-center space-x-3">
-              <img className="w-52 rounded-sm" src={defaultValues.mainImgUrl} />
+              {defaultValues.mainImgUrl && (
+                <img
+                  className="w-52 rounded-sm"
+                  src={defaultValues.mainImgUrl}
+                />
+              )}
 
               <FileDropzone
                 fileInputRef={fileInputRef}
@@ -135,6 +148,38 @@ export const ArticleDraftEditForm = ({
               fileProgresses={{}}
               removeFile={removeFile}
             />
+          </div>
+
+          {paragraphs.length > 0 && (
+            <div className="flex flex-col gap-4">
+              <Typography variant="xl" weight="semibold">
+                Paragraphs
+              </Typography>
+
+              {paragraphs
+                .slice()
+                .sort((a, b) => a.order - b.order)
+                .map((p) => (
+                  <div
+                    key={p.id ?? p.order}
+                    className="flex flex-col rounded-md border p-3"
+                  >
+                    <Typography variant="lg" weight="semibold">
+                      {p.title}
+                    </Typography>
+
+                    <Typography variant="md">{p.content}</Typography>
+                  </div>
+                ))}
+            </div>
+          )}
+
+          <div className="flex flex-col gap-3">
+            <Typography variant="lg" weight="semibold">
+              Paragraphs
+            </Typography>
+
+            <ParagraphManager initial={paragraphs} onChange={setParagraphs} />
           </div>
 
           <Button type="submit" disabled={!isValid || isPending}>

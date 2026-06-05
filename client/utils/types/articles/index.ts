@@ -1,3 +1,5 @@
+import type { Paragraph } from '../paragraphs';
+
 export type ArticleShort = {
   id: number;
   title: string;
@@ -10,6 +12,7 @@ export type ArticleShort = {
 export type ArticleDetailed = ArticleShort & {
   text: string | null;
   updatedAt: Date | null;
+  paragraphs?: Paragraph[];
 };
 
 export type ArticleCreate = {

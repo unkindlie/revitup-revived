@@ -25,6 +25,7 @@ export class UserEntity {
 
   @Column({
     type: 'text',
+    select: false,
   })
   password: string;
 

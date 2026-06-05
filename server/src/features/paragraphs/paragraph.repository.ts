@@ -47,6 +47,10 @@ export class ParagraphRepository {
     await this.repo.delete(id);
   }
 
+  async deleteForArticle(articleId: number) {
+    await this.repo.delete({ article: { id: articleId } });
+  }
+
   async existsBy(where: Partial<ParagraphEntity>): Promise<boolean> {
     return this.repo.existsBy(where);
   }
