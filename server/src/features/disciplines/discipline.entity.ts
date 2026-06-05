@@ -14,4 +14,7 @@ export class DisciplineEntity {
 
   @Column({ name: 'main_img_url', type: 'text' })
   mainImgUrl: string;
+
+  @Column({ name: 'background_color', type: 'text', nullable: true })
+  bgColor: string;
 }

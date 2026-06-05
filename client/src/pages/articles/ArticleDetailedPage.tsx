@@ -35,6 +35,17 @@ export const ArticleDetailedPage = () => {
           <Typography variant="3xl" weight="semibold">
             {article.title}
           </Typography>
+          {article.discipline && (
+            <div className="flex items-center gap-x-2">
+              {article.discipline.mainImgUrl && (
+                <img
+                  src={article.discipline.mainImgUrl}
+                  className="h-8 w-8 rounded-sm"
+                />
+              )}
+              <Typography variant="sm">{article.discipline.title}</Typography>
+            </div>
+          )}
           <Typography variant="lg">{article.previewText}</Typography>
           <img
             ref={commentsRef}
@@ -47,7 +58,7 @@ export const ArticleDetailedPage = () => {
         <SeparatorLine className="mx-4 mt-2 sm:mr-28 sm:ml-0 lg:hidden" />
         <div className="mt-4">
           {!article.paragraphs?.length ? (
-            <div className="rounded-md border border-dashed p-6 text-center space-x-2">
+            <div className="space-x-2 rounded-md border border-dashed p-6 text-center">
               <Typography variant="lg" weight="medium">
                 No content yet
               </Typography>

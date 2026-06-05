@@ -13,6 +13,7 @@ import {
 import { ArticleStatus } from 'features/articles/enums/article-status.enum';
 import { ParagraphEntity } from 'features/paragraphs/paragraph.entity';
 import { UserEntity } from '../user/user.entity';
+import { DisciplineEntity } from '../disciplines/discipline.entity';
 
 @Entity('articles')
 export class Article {
@@ -60,4 +61,8 @@ export class Article {
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'author_id' })
   author: UserEntity;
+
+  @ManyToOne(() => DisciplineEntity, { nullable: true })
+  @JoinColumn({ name: 'discipline_id' })
+  discipline: DisciplineEntity;
 }

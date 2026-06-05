@@ -33,6 +33,7 @@ export const ArticleDraftPage = () => {
           title: article.title,
           previewText: article.previewText ?? '',
           mainImgUrl: article.mainImgUrl ?? '',
+          disciplineId: article.discipline?.id,
           paragraphs: article.paragraphs,
         }}
       />

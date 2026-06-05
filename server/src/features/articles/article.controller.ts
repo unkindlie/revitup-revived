@@ -56,8 +56,12 @@ export class ArticleController {
   }
 
   @Post()
-  async createArticle(@Body() article: ArticleCreateDto) {
-    await this.service.createArticle(article);
+  @UseGuards(AccessTokenGuard)
+  async createArticle(
+    @Body() article: ArticleCreateDto,
+    @CurrentUser() user: UserPayloadDto,
+  ) {
+    await this.service.createArticle(article, user.id);
 
     return { message: 'Article was created successfully' };
   }

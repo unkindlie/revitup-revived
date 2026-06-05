@@ -59,6 +59,13 @@ export async function updateArticle(
   formData.append('title', partialArticle.title ?? '');
   formData.append('previewText', partialArticle.previewText ?? '');
 
+  if (
+    partialArticle.disciplineId !== undefined &&
+    partialArticle.disciplineId !== null
+  ) {
+    formData.append('disciplineId', String(partialArticle.disciplineId));
+  }
+
   if (mainImage) {
     formData.append('image', mainImage);
   }

@@ -1,4 +1,5 @@
 import type { Paragraph } from '../paragraphs';
+import type { DisciplineShort } from '^/types/disciplines';
 
 export type ArticleShort = {
   id: number;
@@ -7,6 +8,7 @@ export type ArticleShort = {
   mainImgUrl: string;
   createdAt: string;
   status: string;
+  discipline?: DisciplineShort;
 };
 
 export type ArticleDetailed = ArticleShort & {
@@ -19,6 +21,7 @@ export type ArticleCreate = {
   previewText?: string;
   text?: string;
   mainImgUrl?: string;
+  disciplineId?: number;
 };
 
 export type ArticleEdit = Partial<ArticleCreate>;

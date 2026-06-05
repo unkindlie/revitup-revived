@@ -10,16 +10,7 @@ export class DisciplineController {
 
   @Get()
   async getDisciplines(@Query() query: PaginatedQuery) {
-    const [items, totalCount] = await this.service.getDisciplines(query);
-
-    return {
-      items,
-      totalCount,
-      query: {
-        page: query.page,
-        perPage: query.take,
-      },
-    };
+    return this.service.getDisciplines();
   }
 
   @Get(':code')

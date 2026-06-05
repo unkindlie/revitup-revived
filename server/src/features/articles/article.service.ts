@@ -34,8 +34,11 @@ export class ArticleService {
     return this.repo.findDraftById(articleId, userId);
   }
 
-  async createArticle(article: ArticleCreateDto): Promise<void> {
-    await this.repo.createArticle(article);
+  async createArticle(
+    article: ArticleCreateDto,
+    userId: number,
+  ): Promise<void> {
+    await this.repo.createArticle(article, userId);
   }
 
   async updateArticle(
@@ -43,6 +46,7 @@ export class ArticleService {
     partialArticle: ArticleEditDto,
     file?: Express.Multer.File,
   ): Promise<void> {
+    const { disciplineId, ...rest } = partialArticle;
     let imageUrl: string | undefined;
 
     if (file) {
@@ -57,8 +61,9 @@ export class ArticleService {
     }
 
     await this.repo.updateArticle(id, {
-      ...partialArticle,
+      ...rest,
       ...(imageUrl ? { mainImgUrl: imageUrl } : {}),
+      ...(disciplineId ? { discipline: { id: disciplineId } } : {}),
     });
   }
 

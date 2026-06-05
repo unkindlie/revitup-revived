@@ -28,6 +28,7 @@ export class ArticleRepository {
       order: {
         createdAt: 'DESC',
       },
+      relations: ['discipline'],
     });
   }
 
@@ -39,7 +40,7 @@ export class ArticleRepository {
         deletedAt: IsNull(),
         status: ArticleStatus.PUBLISHED,
       },
-      relations: ['paragraphs'],
+      relations: ['paragraphs', 'discipline'],
     });
     if (!entity) {
       const isSoftDeleted = await this.repo.exists({
@@ -81,10 +82,7 @@ export class ArticleRepository {
           id: userId,
         },
       },
-      relations: {
-        author: true,
-        paragraphs: true,
-      },
+      relations: ['author', 'paragraphs', 'discipline'],
     });
 
     if (!article) {
@@ -96,8 +94,17 @@ export class ArticleRepository {
     return article;
   }
 
-  async createArticle(article: ArticleCreateDto): Promise<void> {
-    await this.repo.insert(article);
+  async createArticle(
+    article: ArticleCreateDto,
+    authorId: number,
+  ): Promise<void> {
+    const { disciplineId, ...rest } = article;
+
+    await this.repo.insert({
+      ...rest,
+      discipline: { id: disciplineId },
+      author: { id: authorId },
+    });
   }
 
   async updateArticle(
@@ -112,7 +119,7 @@ export class ArticleRepository {
   ): Promise<void> {
     const article = await this.repo.findOne({
       where: { id },
-      relations: ['paragraphs'],
+      relations: ['paragraphs', 'discipline'],
     });
 
     if (!article) {
@@ -121,10 +128,8 @@ export class ArticleRepository {
 
     const { paragraphs, ...scalarFields } = partial;
 
-    // 1. update ONLY scalar fields
     await this.repo.update(id, scalarFields);
 
-    // 2. handle paragraphs separately
     if (paragraphs) {
       await this.paragraphRepo.deleteForArticle(id);
 

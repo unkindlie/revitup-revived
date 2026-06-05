@@ -4,6 +4,7 @@ export const ARTICLES_SELECT_MANY_OBJ = {
   mainImgUrl: true,
   previewText: true,
   createdAt: true,
+  discipline: true,
 };
 
 export const ARTICLES_SELECT_ONE_OBJ = {

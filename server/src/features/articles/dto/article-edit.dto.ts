@@ -38,6 +38,10 @@ export class ArticleEditDto {
   @MaxLength(2000)
   text?: string;
 
+  @IsInt()
+  @IsOptional()
+  disciplineId?: number;
+
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })

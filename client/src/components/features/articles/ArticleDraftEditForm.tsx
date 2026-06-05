@@ -14,6 +14,7 @@ import { FileList } from '@/components/common/file/FileList';
 
 import { createArticleSchema } from '^/schemas/articles/create-article.schema';
 import { useEditArticle } from '../../../hooks/features/articles/useUpdateArticle';
+import { DisciplineSelect } from '../disciplines/DisciplineSelect';
 import { TranslationNamespaceProvider } from '../../../contexts/TranslationNamespaceContext';
 
 import type { Paragraph } from '^/types/paragraphs';
@@ -27,6 +28,7 @@ type FormValues = {
   previewText?: string;
   mainImgUrl?: string;
   paragraphs?: Paragraph[];
+  disciplineId?: number;
 };
 
 export const ArticleDraftEditForm = ({
@@ -55,6 +57,11 @@ export const ArticleDraftEditForm = ({
 
   const [paragraphs, setParagraphs] = useState<Paragraph[]>(
     defaultValues.paragraphs ?? [],
+  );
+  const [selectedDiscipline, setSelectedDiscipline] = useState<
+    string | undefined
+  >(
+    defaultValues.disciplineId ? String(defaultValues.disciplineId) : undefined,
   );
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [mainImage, setMainImage] = useState<File | null>(null);
@@ -88,11 +95,18 @@ export const ArticleDraftEditForm = ({
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
+      const payload = {
+        ...data,
+        disciplineId: selectedDiscipline
+          ? Number(selectedDiscipline)
+          : undefined,
+      };
+
       await updateDraft({
-        article: data,
+        article: payload,
         file: mainImage ?? undefined,
         paragraphs,
-      }).then(() => navigate(path(Pages.ArticleDetailed, { id: articleId })));
+      });
 
       toast.success('Draft updated');
 
@@ -121,6 +135,15 @@ export const ArticleDraftEditForm = ({
           <FormField id="previewText" label="Preview text">
             <Input id="previewText" {...register('previewText')} />
           </FormField>
+
+          <div>
+            <FormField id="discipline" label="Discipline">
+              <DisciplineSelect
+                defaultValue={selectedDiscipline}
+                onValueChange={(v) => setSelectedDiscipline(v)}
+              />
+            </FormField>
+          </div>
 
           <div className="flex flex-col gap-3">
             <Typography variant="sm" weight="medium">
@@ -183,20 +206,30 @@ export const ArticleDraftEditForm = ({
             <ParagraphManager initial={paragraphs} onChange={setParagraphs} />
           </div>
 
-          <Button type="submit" disabled={!isValid || isPending}>
-            {isPending ? <Spinner size="sm" /> : 'Save draft'}
-          </Button>
+          <div className="grid w-full grid-cols-2 gap-4">
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={!isValid || isPending}
+            >
+              {isPending ? <Spinner size="sm" /> : 'Save draft'}
+            </Button>
 
-          <Button
-            type="button"
-            variant="secondary"
-            disabled={isPublishing}
-            onClick={async () => {
-              await publishArticle();
-            }}
-          >
-            {isPublishing ? <Spinner size="sm" /> : 'Publish'}
-          </Button>
+            <Button
+              className="w-full"
+              type="button"
+              variant="secondary"
+              disabled={isPublishing}
+              onClick={async () => {
+                await publishArticle();
+                navigate(path(Pages.ArticleDetailed, { id: articleId }), {
+                  replace: true,
+                });
+              }}
+            >
+              {isPublishing ? <Spinner size="sm" /> : 'Publish'}
+            </Button>
+          </div>
         </form>
       </div>
     </TranslationNamespaceProvider>
