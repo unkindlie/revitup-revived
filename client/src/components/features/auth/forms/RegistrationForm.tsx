@@ -117,7 +117,7 @@ export const RegistrationForm = () => {
       </TranslationNamespaceProvider>
       <div className="mt-2 flex flex-col gap-y-2">
         <Button
-          className="text-light-active hover:bg-light-active w-full cursor-pointer rounded-sm bg-white font-semibold shadow-none hover:text-white"
+          className="text-main hover:bg-light-active w-full cursor-pointer rounded-sm bg-white font-semibold shadow-none hover:text-white"
           type="submit"
           disabled={!isValid || isPending}
         >

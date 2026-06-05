@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { timeAgo } from '@/time-ago';
 
 import type { ArticleShort } from '^/types/articles';
+import { ImageWithSkeleton } from '../../common/image/ImageWithSkeleton';
 
 type Sizes = 'sm' | 'md' | 'lg';
 
@@ -31,13 +32,16 @@ export const Article = ({ article, size = 'sm' }: ArticleProps) => {
         size === 'sm' ? 'items-center gap-x-3 text-base' : 'flex-col gap-y-2',
       )}
     >
-      <img
+      <ImageWithSkeleton
+        src={article.mainImgUrl}
+        alt={article.title}
         className={cn('rounded-md transition-all', {
           'w-36 sm:w-44': size === 'sm',
         })}
-        alt={article.title}
-        src={article.mainImgUrl}
-        title={article.title}
+        skeletonClassName={cn({
+          'h-20 w-36 sm:w-44': size === 'sm',
+          'aspect-video w-full': size !== 'sm',
+        })}
       />
       <div className="flex flex-col sm:gap-y-1">
         <div className="flex items-center space-x-2">

@@ -4,7 +4,7 @@ export const RACE_SEASON_MANY_SELECT = {
   discipline: {
     id: true,
     title: true,
-    logoUrl: true,
+    mainImgUrl: true,
   },
   stages: true,
 };

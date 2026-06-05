@@ -12,8 +12,13 @@ export type ArticleShort = {
 };
 
 export type ArticleDetailed = ArticleShort & {
-  updatedAt: Date | null;
+  updatedAt: string | null;
   paragraphs?: Paragraph[];
+  author?: {
+    id: number;
+    username: string;
+    profileImgUrl?: string;
+  };
 };
 
 export type ArticleCreate = {
