@@ -4,9 +4,17 @@ import { Article } from './article.entity';
 import { ArticleController } from './article.controller';
 import { ArticleService } from './article.service';
 import { ArticleRepository } from './artice.repository';
+import { ParagraphModule } from '../paragraphs/paragraph.module';
+import { FirebaseModule } from '../../common/firebase/firebase.module';
+import { CommentModule } from '../comments/comment.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Article])],
+  imports: [
+    TypeOrmModule.forFeature([Article]),
+    ParagraphModule,
+    FirebaseModule,
+    CommentModule,
+  ],
   controllers: [ArticleController],
   providers: [ArticleService, ArticleRepository],
 })

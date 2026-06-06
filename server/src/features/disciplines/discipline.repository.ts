@@ -11,17 +11,8 @@ export class DisciplineRepository {
     private repo: Repository<DisciplineEntity>,
   ) {}
 
-  async getDisciplines(
-    page: number = 1,
-    take: number = 10,
-  ): Promise<[DisciplineEntity[], number]> {
-    return this.repo.findAndCount({
-      order: {
-        title: 'ASC',
-      },
-      take,
-      skip: (page - 1) * 10,
-    });
+  async getDisciplines(): Promise<DisciplineEntity[]> {
+    return this.repo.find();
   }
 
   async getDisciplineByCode(code: string): Promise<DisciplineEntity | null> {

@@ -22,6 +22,8 @@ import {
   StatsSeasonsPage,
   StatsSeasonDetailed,
   StatsEventPage,
+  ArticleDraftPage,
+  ArticlesDraftIndexPage,
 } from '@/pages';
 import { AuthProvider } from '@/providers/AuthProvider';
 import { ThemeProvider } from '@/providers/ThemeProvider';
@@ -60,6 +62,13 @@ function App() {
             {
               path: ':id',
               Component: ArticleDetailedPage,
+            },
+            {
+              path: 'draft',
+              children: [
+                { index: true, Component: ArticlesDraftIndexPage },
+                { path: ':id', Component: ArticleDraftPage },
+              ],
             },
           ],
         },

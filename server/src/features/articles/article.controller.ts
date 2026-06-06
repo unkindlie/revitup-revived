@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Body,
   Controller,
@@ -7,11 +10,19 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 
 import { ArticleService } from 'features/articles/article.service';
 import { ArticleCreateDto } from './dto/article-create.dto';
 import { ArticleEditDto } from './dto/article-edit.dto';
+import { CurrentUser } from '../auth/decorators/user.decorator';
+import { AccessTokenGuard } from '../auth/guards/access-token.guard';
+import { UserPayloadDto } from '../auth/dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { imageFileFilter } from '../../common/file-upload/image-file.filter';
 
 @Controller('articles')
 export class ArticleController {
@@ -23,27 +34,76 @@ export class ArticleController {
     return await this.service.findArticles();
   }
 
+  @Get('random')
+  async getRandomArticle() {
+    return this.service.getRandomArticle();
+  }
+
   // TODO: swap UUID with article link
   @Get(':id')
   async findArticleById(@Param('id', ParseIntPipe) id: number) {
     return await this.service.findArticleById(id);
   }
 
+  @Get('drafts/me')
+  @UseGuards(AccessTokenGuard)
+  async findMyDrafts(@CurrentUser() user: UserPayloadDto) {
+    return this.service.findMyDrafts(user.id);
+  }
+
+  @Get('drafts/:id')
+  @UseGuards(AccessTokenGuard)
+  async getDraftById(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: UserPayloadDto,
+  ) {
+    return this.service.getDraftById(id, user.id);
+  }
+
   @Post()
-  async createArticle(@Body() article: ArticleCreateDto) {
-    await this.service.createArticle(article);
+  @UseGuards(AccessTokenGuard)
+  async createArticle(
+    @Body() article: ArticleCreateDto,
+    @CurrentUser() user: UserPayloadDto,
+  ) {
+    await this.service.createArticle(article, user.id);
 
     return { message: 'Article was created successfully' };
   }
 
+  @Patch('publish/:id')
+  @UseGuards(AccessTokenGuard)
+  async publishArticle(
+    @Param('id', ParseIntPipe) id: number,
+    @CurrentUser() user: UserPayloadDto,
+  ) {
+    await this.service.publishArticle(id, user.id);
+
+    return { message: 'Article published successfully' };
+  }
+
   @Patch('update/:id')
+  @UseGuards(AccessTokenGuard)
+  @UseInterceptors(
+    FileInterceptor('image', {
+      fileFilter: imageFileFilter,
+    }),
+  )
   async updateArticle(
     @Param('id', ParseIntPipe) id: number,
-    @Body() partialArticle: ArticleEditDto,
+    @Body() partialArticle: any,
+    @UploadedFile() file?: Express.Multer.File,
   ) {
-    await this.service.updateArticle(id, partialArticle);
+    const body = {
+      ...partialArticle,
+      paragraphs: partialArticle.paragraphs
+        ? JSON.parse(partialArticle.paragraphs)
+        : undefined,
+    } as ArticleEditDto;
 
-    return { message: 'Article was soft-deleted successfully' };
+    await this.service.updateArticle(id, body, file);
+
+    return { message: 'Article was updated successfully' };
   }
 
   @Patch('revert-soft-delete/:id')

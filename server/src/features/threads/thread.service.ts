@@ -20,6 +20,10 @@ export class ThreadService {
     return this.repo.getThreadsByCategory(code);
   }
 
+  async getLatestThreads() {
+    return this.repo.getLatestThreads();
+  }
+
   async getThreadById(id: number) {
     const thread = await this.repo.getThreadById(id);
     if (!thread) throw new NotFoundException("Such article doesn't exist");

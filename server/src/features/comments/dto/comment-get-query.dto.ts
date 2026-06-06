@@ -7,5 +7,5 @@ export class CommentGetQueryDto {
   entitySource: CommentSource;
 
   @IsNumberString()
-  entityId: string;
+  entityId: number;
 }

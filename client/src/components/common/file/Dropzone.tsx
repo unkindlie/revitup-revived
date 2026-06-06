@@ -2,7 +2,7 @@ import { Upload } from 'lucide-react';
 import type { RefObject } from 'react';
 
 interface FileDropzoneProps {
-  fileInputRef: RefObject<HTMLInputElement | null>;
+  fileInputRef?: RefObject<HTMLInputElement | null>;
   handleBoxClick: () => void;
   handleDragOver: (e: React.DragEvent) => void;
   handleDrop: (e: React.DragEvent) => void;
@@ -17,7 +17,7 @@ export function FileDropzone({
   handleFileSelect,
 }: FileDropzoneProps) {
   return (
-    <div className="px-6">
+    <div className="w-full">
       <div
         className="border-border flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed p-8 text-center"
         onClick={handleBoxClick}

@@ -1,10 +1,26 @@
+import { Type } from 'class-transformer';
 import {
+  IsArray,
+  IsInt,
   IsOptional,
   IsString,
-  IsUrl,
   Length,
   MaxLength,
+  ValidateNested,
 } from 'class-validator';
+
+class ParagraphDto {
+  @IsString()
+  @Length(1, 200)
+  title: string;
+
+  @IsString()
+  @MaxLength(5000)
+  content: string;
+
+  @IsInt()
+  order: number;
+}
 
 export class ArticleEditDto {
   @IsString()
@@ -22,7 +38,13 @@ export class ArticleEditDto {
   @MaxLength(2000)
   text?: string;
 
-  @IsUrl()
+  @IsInt()
   @IsOptional()
-  mainImgUrl?: string;
+  disciplineId?: number;
+
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ParagraphDto)
+  paragraphs?: ParagraphDto[];
 }

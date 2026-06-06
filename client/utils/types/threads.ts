@@ -5,6 +5,7 @@ export type TThreadShort = {
   author: {
     id: number;
     username: string;
+    profileImgUrl: string;
   };
   category: {
     id: number;
@@ -16,6 +17,15 @@ export type TThreadShort = {
 
 export type TThreadDetailed = TThreadShort & {
   description: string;
+};
+
+export type TThreadLatest = {
+  id: number;
+  title: string;
+  category: {
+    id: number;
+    color: string;
+  }
 };
 
 export type TThreadCreate = Pick<TThreadDetailed, 'title' | 'description'> & {

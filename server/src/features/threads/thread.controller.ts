@@ -23,6 +23,11 @@ export class ThreadController {
     return this.service.getThreads();
   }
 
+  @Get('latest')
+  async getLatestThreads() {
+    return this.service.getLatestThreads();
+  }
+
   @Get('by-category/:code')
   async getThreadsByCategory(@Param('code') code: string) {
     return this.service.getThreadsByCategoryCode(code);

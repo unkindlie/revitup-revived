@@ -65,4 +65,8 @@ export class CommentRepository {
       author: { id: authorId },
     });
   }
+
+  async removeCommentsForEntity(entityInfo: CommentGetQueryDto) {
+    await this.repo.delete(entityInfo);
+  }
 }

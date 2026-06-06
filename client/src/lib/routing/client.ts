@@ -3,6 +3,7 @@ export const Pages = {
 
   ArticlesIndex: '/articles',
   ArticleDetailed: '/articles/:id',
+  ArticleDraftEdit: '/articles/draft/:id',
 
   EventsIndex: '/events',
   EventDetailed: '/events/:id',
@@ -26,7 +27,7 @@ type Params = Record<string, string | number>;
 export const NAV_ROUTES = [
   {
     id: 'news',
-    route: Pages.Main,
+    route: Pages.ArticlesIndex,
   },
   {
     id: 'events',

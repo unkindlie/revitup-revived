@@ -1,4 +1,5 @@
 import {
+  IsInt,
   IsOptional,
   IsString,
   IsUrl,
@@ -22,5 +23,10 @@ export class ArticleCreateDto {
   text?: string;
 
   @IsUrl()
-  mainImgUrl: string;
+  @IsOptional()
+  mainImgUrl?: string;
+
+  @IsInt()
+  @IsOptional()
+  disciplineId?: number;
 }

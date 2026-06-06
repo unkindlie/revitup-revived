@@ -28,6 +28,24 @@ export class ThreadRepository {
     });
   }
 
+  async getLatestThreads() {
+    return this.repo.find({
+      select: {
+        id: true,
+        title: true,
+        category: {
+          id: true,
+          color: true,
+        },
+      },
+      take: 5,
+      order: {
+        id: 'DESC',
+      },
+      relations: ['category'],
+    });
+  }
+
   async getThreadsByCategory(categoryCode: string) {
     const category = await this.dataSource
       .createQueryBuilder(ThreadCategory, 'tc')

@@ -17,11 +17,11 @@ export const RegistrationPage = () => {
 
   const section = !inForm ? 'become' : 'join';
   const buttonCls =
-    'text-light-active hover:bg-light-active w-full cursor-pointer rounded-sm bg-white font-semibold shadow-none hover:text-white';
+    'text-main hover:bg-main w-full cursor-pointer rounded-sm bg-white font-semibold shadow-none hover:text-white';
 
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="bg-light-active flex w-96 flex-col items-center justify-center gap-y-3 rounded-lg px-5 py-6 shadow-xl">
+      <div className="bg-main flex w-96 flex-col items-center justify-center gap-y-3 rounded-lg px-5 py-6 shadow-xl">
         <LongLogo className="w-60 fill-white" />
         <hr className="mt-1 h-px w-[95%] bg-white" />
         <Typography

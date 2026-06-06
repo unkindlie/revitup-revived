@@ -1,5 +1,6 @@
-import { useUserStore } from '@/stores/user.store';
 import type { PropsWithChildren } from 'react';
+
+import { useUserStore } from '@/stores/user.store';
 
 type RequireRolesProps = PropsWithChildren & {
   roles: string[];

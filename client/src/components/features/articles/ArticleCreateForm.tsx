@@ -1,129 +1,80 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, type SubmitHandler } from 'react-hook-form';
-import { createArticleSchema } from '^/schemas/articles/create-article.schema';
+
+import { Spinner } from '@/components/common/spinner/Spinner';
+import { FormField } from '@/components/common/form/FormField';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
-  DialogDescription,
-  DialogHeader,
-  DialogTrigger,
   DialogContent,
+  DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useCreateArticle } from '@/hooks/features/articles/useCreateArticle';
-import type { ArticleCreate } from '^/types/articles';
-import { FormField } from '@/components/common/form/FormField';
-import { Spinner } from '@/components/common/spinner/Spinner';
-import { DialogClose } from '@/components/ui/dialog';
-import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
-import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
+
+import { createArticleSchema } from '^/schemas/articles/create-article.schema';
+import { TranslationNamespaceProvider } from '../../../contexts/TranslationNamespaceContext';
+
+type FormValues = {
+  title: string;
+  previewText?: string;
+  text?: string;
+};
 
 export const ArticleCreateForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { isValid, errors: formErrors },
+    formState: { isValid, errors },
   } = useForm({
     resolver: yupResolver(createArticleSchema),
     mode: 'onChange',
   });
 
-  const { mutateAsync, isPending } = useCreateArticle();
-  const { closeHidden, closeRef } = useCloseDialog();
+  const { mutateAsync: createArticle, isPending } = useCreateArticle();
 
-  const onSubmit: SubmitHandler<ArticleCreate> = async (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
-      await mutateAsync(data);
-
-      closeRef.current?.click();
-    } catch (error) {
-      console.error('Error creating article:', error);
+      await createArticle({
+        ...data,
+      });
+    } catch (e) {
+      console.error(e);
     }
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Create Article</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Article creation</DialogTitle>
-          <DialogDescription>Create a new article</DialogDescription>
-        </DialogHeader>
-        <TranslationNamespaceProvider namespace={'auth'}>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="flex flex-col space-y-4"
-          >
+    <TranslationNamespaceProvider namespace={'common'}>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button>Create Article</Button>
+        </DialogTrigger>
+
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create a draft</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               id="title"
               label="Title"
-              errorMessage={formErrors.title?.message}
+              errorMessage={errors.title?.message}
             >
-              <Input
-                id="title"
-                placeholder="Article title"
-                {...register('title')}
-              />
+              <Input {...register('title')} />
             </FormField>
 
-            <FormField
-              id="previewText"
-              label="Preview Text"
-              errorMessage={formErrors.previewText?.message}
-            >
-              <Input
-                id="previewText"
-                placeholder="Preview text (optional)"
-                {...register('previewText')}
-              />
+            <FormField id="previewText" label="Preview Text">
+              <Input {...register('previewText')} />
             </FormField>
 
-            <FormField
-              id="text"
-              label="Text"
-              errorMessage={formErrors.text?.message}
-            >
-              <textarea
-                id="text"
-                placeholder="Article text (optional)"
-                className="w-full rounded-lg border p-2"
-                {...register('text')}
-              />
-            </FormField>
-
-            <FormField
-              id="imageUrl"
-              label="Image URL"
-              errorMessage={formErrors.mainImgUrl?.message}
-            >
-              <Input
-                id="imageUrl"
-                placeholder="https://example.com/image.jpg"
-                {...register('mainImgUrl')}
-              />
-            </FormField>
-
-            <div className="flex gap-2">
-              <Button
-                type="submit"
-                disabled={!isValid || isPending}
-                className="flex-1"
-              >
-                {isPending ? <Spinner size="sm" /> : 'Create'}
-              </Button>
-              <DialogClose asChild>
-                <Button type="button" variant="outline">
-                  Cancel
-                </Button>
-              </DialogClose>
-            </div>
+            <Button type="submit" disabled={!isValid || isPending}>
+              {isPending ? <Spinner size="sm" /> : 'Create draft'}
+            </Button>
           </form>
-        </TranslationNamespaceProvider>
-        {closeHidden}
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+    </TranslationNamespaceProvider>
   );
 };

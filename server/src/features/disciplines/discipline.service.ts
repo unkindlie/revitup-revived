@@ -1,7 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { PaginatedQuery } from 'common/types/pagination.type';
-
 import { DisciplineEntity } from 'features/disciplines/discipline.entity';
 import { DisciplineRepository } from 'features/disciplines/discipline.repository';
 
@@ -9,10 +7,8 @@ import { DisciplineRepository } from 'features/disciplines/discipline.repository
 export class DisciplineService {
   constructor(private repo: DisciplineRepository) {}
 
-  async getDisciplines(
-    pagination: PaginatedQuery,
-  ): Promise<[DisciplineEntity[], number]> {
-    return this.repo.getDisciplines(pagination.page, pagination.take);
+  async getDisciplines(): Promise<DisciplineEntity[]> {
+    return this.repo.getDisciplines();
   }
 
   async getDisciplineByCode(code: string): Promise<DisciplineEntity> {

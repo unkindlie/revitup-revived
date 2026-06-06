@@ -16,5 +16,10 @@ export const THREADS_SELECT_OBJ = {
 
 export const THREAD_DETAILED_SELECT_OBJ = {
   ...THREADS_SELECT_OBJ,
+  author: {
+    id: true,
+    profileImgUrl: true,
+    username: true,
+  },
   description: true,
 };

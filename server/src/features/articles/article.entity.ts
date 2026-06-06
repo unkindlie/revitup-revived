@@ -3,9 +3,17 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { ArticleStatus } from 'features/articles/enums/article-status.enum';
+import { ParagraphEntity } from 'features/paragraphs/paragraph.entity';
+import { UserEntity } from '../user/user.entity';
+import { DisciplineEntity } from '../disciplines/discipline.entity';
 
 @Entity('articles')
 export class Article {
@@ -28,7 +36,7 @@ export class Article {
   @Column({ length: 2000, nullable: true })
   text: string;
 
-  @Column({ name: 'main_img_url' })
+  @Column({ name: 'main_img_url', nullable: true })
   mainImgUrl: string;
 
   @CreateDateColumn()
@@ -39,4 +47,22 @@ export class Article {
 
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt: Date | null;
+
+  @OneToMany(() => ParagraphEntity, (p) => p.article)
+  paragraphs: ParagraphEntity;
+
+  @Column({
+    type: 'enum',
+    enum: ArticleStatus,
+    default: ArticleStatus.DRAFT,
+  })
+  status: ArticleStatus;
+
+  @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'author_id' })
+  author: UserEntity;
+
+  @ManyToOne(() => DisciplineEntity, { nullable: true })
+  @JoinColumn({ name: 'discipline_id' })
+  discipline: DisciplineEntity;
 }
