@@ -18,8 +18,11 @@ export class ArticleRepository {
     private paragraphRepo: ParagraphRepository,
   ) {}
 
-  async findArticles(): Promise<Article[]> {
-    return await this.repo.find({
+  async findArticles(
+    page: number = 1,
+    take: number = 10,
+  ): Promise<[Article[], number]> {
+    return this.repo.findAndCount({
       select: ARTICLES_SELECT_MANY_OBJ,
       where: {
         deletedAt: IsNull(),
@@ -28,6 +31,8 @@ export class ArticleRepository {
       order: {
         createdAt: 'DESC',
       },
+      take,
+      skip: (page - 1) * take,
       relations: ['discipline'],
     });
   }

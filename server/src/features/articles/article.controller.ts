@@ -10,6 +10,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -23,6 +24,7 @@ import { AccessTokenGuard } from '../auth/guards/access-token.guard';
 import { UserPayloadDto } from '../auth/dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { imageFileFilter } from '../../common/file-upload/image-file.filter';
+import { PaginatedQuery } from '../../common/types/pagination.type';
 
 @Controller('articles')
 export class ArticleController {
@@ -30,8 +32,8 @@ export class ArticleController {
 
   // TODO: add querying and page/take params
   @Get()
-  async findArticles() {
-    return await this.service.findArticles();
+  async getArticles(@Query() query: PaginatedQuery) {
+    return this.service.findArticles(query.page ?? 1, query.take ?? 10);
   }
 
   @Get('random')

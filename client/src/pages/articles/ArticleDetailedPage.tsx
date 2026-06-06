@@ -52,7 +52,10 @@ export const ArticleDetailedPage = () => {
                       <img
                         src={article.discipline.mainImgUrl}
                         alt={article.discipline.title}
-                        className="h-8 w-8 rounded-sm object-cover"
+                        className="size-8 rounded-sm object-cover p-1"
+                        style={{
+                          backgroundColor: article.discipline.bgColor,
+                        }}
                       />
                     )}
 
@@ -84,7 +87,7 @@ export const ArticleDetailedPage = () => {
 
           <div>
             {!article.paragraphs?.length ? (
-              <div className="rounded-md border border-dashed p-8 text-center space-x-2">
+              <div className="space-x-2 rounded-md border border-dashed p-8 text-center">
                 <Typography variant="lg" weight="medium">
                   No content yet
                 </Typography>

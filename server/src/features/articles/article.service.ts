@@ -19,10 +19,18 @@ export class ArticleService {
     private commentService: CommentService,
   ) {}
 
-  async findArticles(): Promise<ArticleShortDto[]> {
-    const articles = await this.repo.findArticles();
+  async findArticles(page: number, take: number) {
+    const [articles, count] = await this.repo.findArticles(page, take);
 
-    return plainToInstance(ArticleShortDto, articles);
+    return {
+      items: plainToInstance(ArticleShortDto, articles),
+      totalCount: count,
+      query: {
+        page,
+        take,
+        totalPages: Math.ceil(count / take),
+      },
+    };
   }
 
   async findArticleById(id: number): Promise<Article> {

@@ -1,4 +1,7 @@
-import type { TResponse } from '^/types/response/response.type';
+import type {
+  TPaginatedResponse,
+  TResponse,
+} from '^/types/response/response.type';
 import type {
   ArticleCreate,
   ArticleDetailed,
@@ -10,8 +13,13 @@ import { api } from '@/api';
 import { backendPath } from '@/lib/routing/backend';
 import type { Paragraph } from '../../../utils/types/paragraphs';
 
-export async function getArticles(): Promise<TResponse<ArticleShort[]>> {
-  const articles = await api.get<TResponse<ArticleShort[]>>('articles');
+export async function getArticles(params?: {
+  page?: number;
+  take?: number;
+}): Promise<TPaginatedResponse<ArticleShort>> {
+  const articles = await api.get<TPaginatedResponse<ArticleShort>>(
+    backendPath('ArticleBase', {}, params),
+  );
 
   return await articles.json();
 }
