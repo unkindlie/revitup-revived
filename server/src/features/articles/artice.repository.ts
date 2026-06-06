@@ -58,6 +58,15 @@ export class ArticleRepository {
     return entity;
   }
 
+  async getRandomArticle() {
+    return await this.repo
+      .createQueryBuilder('a')
+      .select(['a.id', 'a.title', 'a.mainImgUrl'])
+      .where('a.status = :status', { status: ArticleStatus.PUBLISHED })
+      .orderBy('RANDOM()')
+      .getOne();
+  }
+
   async findDraftsByAuthor(authorId: number): Promise<Article[]> {
     return this.repo.find({
       where: {

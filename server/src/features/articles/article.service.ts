@@ -29,6 +29,10 @@ export class ArticleService {
     return await this.repo.findArticleById(id);
   }
 
+  async getRandomArticle() {
+    return this.repo.getRandomArticle();
+  }
+
   async findMyDrafts(userId: number) {
     return this.repo.findDraftsByAuthor(userId);
   }

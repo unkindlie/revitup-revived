@@ -1,6 +1,6 @@
 import type { Paragraph } from '../paragraphs';
 
-import type { DisciplineShort } from '../disciplines'
+import type { DisciplineShort } from '../disciplines';
 
 export type ArticleShort = {
   id: number;
@@ -29,5 +29,7 @@ export type ArticleCreate = {
   mainImgUrl?: string;
   disciplineId?: number;
 };
+
+export type ArticleRandom = Pick<ArticleShort, 'id' | 'title' | 'mainImgUrl'>;
 
 export type ArticleEdit = Partial<ArticleCreate>;

@@ -4,6 +4,7 @@ import type { TResponse } from '^/types/response/response.type';
 import type {
   TThreadCreate,
   TThreadDetailed,
+  TThreadLatest,
   TThreadShort,
 } from '^/types/threads';
 import type { TThreadsWithCategory } from '^/types/thread-categories';
@@ -23,6 +24,14 @@ export async function getThreadsByCategory(
     backendPath('ThreadBaseByCategory', {
       code: categoryCode,
     }),
+  );
+
+  return await res.json();
+}
+
+export async function getLatestThreads(): Promise<TResponse<TThreadLatest[]>> {
+  const res = await api.get<TResponse<TThreadLatest[]>>(
+    backendPath('ThreadsLatest'),
   );
 
   return await res.json();

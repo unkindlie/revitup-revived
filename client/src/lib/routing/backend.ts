@@ -23,6 +23,7 @@ export const BackendRoutes = {
   ArticleDetailed: 'articles/:id',
   ArticleUpdate: 'articles/update/:id',
   ArticleSoftDelete: 'articles/soft/:id',
+  ArticleRandom: 'articles/random',
 
   // Event routes
   EventsBase: 'events',
@@ -30,6 +31,7 @@ export const BackendRoutes = {
 
   // Thread routes
   ThreadBase: 'threads',
+  ThreadsLatest: 'threads/latest',
   ThreadBaseByCategory: 'threads/by-category/:code',
   ThreadDetailed: 'threads/:id',
 

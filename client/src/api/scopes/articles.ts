@@ -4,6 +4,7 @@ import type {
   ArticleDetailed,
   ArticleShort,
   ArticleEdit,
+  ArticleRandom,
 } from '^/types/articles';
 import { api } from '@/api';
 import { backendPath } from '@/lib/routing/backend';
@@ -22,6 +23,14 @@ export async function getArticleById(
     backendPath('ArticleDetailed', {
       id,
     }),
+  );
+
+  return await article.json();
+}
+
+export async function getRandomArticle() {
+  const article = await api.get<TResponse<ArticleRandom>>(
+    backendPath('ArticleRandom'),
   );
 
   return await article.json();

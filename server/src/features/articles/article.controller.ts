@@ -34,6 +34,11 @@ export class ArticleController {
     return await this.service.findArticles();
   }
 
+  @Get('random')
+  async getRandomArticle() {
+    return this.service.getRandomArticle();
+  }
+
   // TODO: swap UUID with article link
   @Get(':id')
   async findArticleById(@Param('id', ParseIntPipe) id: number) {
