@@ -1,4 +1,4 @@
-import { TRaceEntry } from './race-entry';
+import type { TRaceEntry } from './race-entry';
 
 export type TRaceClassification = {
   id: number;

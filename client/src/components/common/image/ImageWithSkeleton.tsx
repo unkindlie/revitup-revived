@@ -1,42 +1,51 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 
-type ImageWithSkeletonProps = {
-  src?: string | null;
-  alt: string;
-  className?: string;
-  skeletonClassName?: string;
-};
+type Props = React.ImgHTMLAttributes<HTMLImageElement>;
 
-export const ImageWithSkeleton = ({
-  src,
-  alt,
-  className,
-  skeletonClassName,
-}: ImageWithSkeletonProps) => {
-  const [loaded, setLoaded] = useState(false);
+export const ImageWithSkeleton = ({ src, className, alt, ...props }: Props) => {
+  const [loading, setLoading] = useState(Boolean(src));
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    setLoading(Boolean(src));
+    setError(false);
+  }, [src]);
+
+  if (!src || error) {
+    return (
+      <div
+        className={cn(
+          'bg-muted flex items-center justify-center rounded-md',
+          className,
+        )}
+      >
+        <span className="text-muted-foreground text-sm">
+          No image available
+        </span>
+      </div>
+    );
+  }
 
   return (
-    <div className="relative">
-      {!loaded && (
-        <Skeleton
-          className={cn(
-            'absolute inset-0 rounded-md',
-            skeletonClassName ?? className,
-          )}
-        />
-      )}
+    <div className={cn('relative overflow-hidden', className)}>
+      {loading && <Skeleton className="absolute inset-0 h-full w-full" />}
 
       <img
-        src={src ?? ''}
+        src={src}
         alt={alt}
-        className={cn(className, {
-          'opacity-0': !loaded,
-        })}
-        onLoad={() => setLoaded(true)}
-        onError={() => setLoaded(true)}
+        className={cn(
+          'h-full w-full object-cover transition-opacity duration-300',
+          loading ? 'opacity-0' : 'opacity-100',
+        )}
+        onLoad={() => setLoading(false)}
+        onError={() => {
+          setLoading(false);
+          setError(true);
+        }}
+        {...props}
       />
     </div>
   );

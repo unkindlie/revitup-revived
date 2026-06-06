@@ -20,6 +20,7 @@ export type TRaceSeasonDetailed = {
     title: string;
     shortCode: string;
     mainImgUrl: string;
+    bgColor: string;
   };
   raceEvents: TRaceEventShort[];
 };

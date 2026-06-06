@@ -5,4 +5,5 @@ export const useRandomArticle = () =>
   useQuery({
     queryKey: ['article-random'],
     queryFn: getRandomArticle,
+    refetchOnWindowFocus: false,
   });
