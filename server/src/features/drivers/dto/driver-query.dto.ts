@@ -16,4 +16,8 @@ export class DriverQueryDto {
   @IsOptional()
   @IsNumberString()
   take?: number;
+
+  @IsOptional()
+  @IsString()
+  search?: string;
 }

@@ -35,6 +35,9 @@ export class DriverEntity {
   @Column({ nullable: true })
   profileImgUrl: string;
 
+  @Column({ nullable: true })
+  number: number;
+
   @Column({ type: 'text', nullable: true })
   biography: string;
 

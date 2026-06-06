@@ -15,9 +15,11 @@ export class DriverRepository {
     page = 1,
     take = 12,
     disciplineId?: number,
+    search?: string,
   ): Promise<[DriverEntity[], number]> {
     const qb = this.repo
       .createQueryBuilder('driver')
+      .distinct(true)
       .leftJoinAndSelect('driver.disciplines', 'discipline')
       .orderBy('driver.lastName', 'ASC')
       .addOrderBy('driver.firstName', 'ASC')
@@ -28,6 +30,19 @@ export class DriverRepository {
       qb.andWhere('discipline.id = :disciplineId', {
         disciplineId,
       });
+    }
+
+    if (search?.trim()) {
+      const q = `%${search.trim().toLowerCase()}%`;
+
+      qb.andWhere(
+        `
+      LOWER(driver.firstName) LIKE :q
+      OR LOWER(driver.lastName) LIKE :q
+      OR LOWER(discipline.title) LIKE :q
+      `,
+        { q },
+      );
     }
 
     return qb.getManyAndCount();

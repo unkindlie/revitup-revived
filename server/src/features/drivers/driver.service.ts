@@ -15,6 +15,7 @@ export class DriverService {
       query.page ?? 1,
       query.take ?? 12,
       query.discipline,
+      query.search,
     );
 
     return {

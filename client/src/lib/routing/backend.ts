@@ -46,8 +46,13 @@ export const BackendRoutes = {
   RaceSeasonDetailed: 'race-seasons/:id',
   RaceEventDetailed: 'race-events/:id',
 
+  // SearchRoutes
   Search: 'search',
   SearchRecent: 'search/items',
+
+  // DriversRoutes
+  DriversBase: 'drivers',
+  DriverDetailed: 'drivers/:id',
 } as const;
 
 type RoutesKeys = keyof typeof BackendRoutes;
@@ -60,15 +65,12 @@ export function backendPath<K extends RoutesKeys>(
   queryParams?: QueryParams,
 ): string {
   let route = BackendRoutes[page] as string;
-
-  // 1. replace params safely
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
       route = route.replace(`:${key}`, encodeURIComponent(String(value)));
     });
   }
 
-  // 2. build query safely using URLSearchParams
   if (queryParams) {
     const search = new URLSearchParams();
 
