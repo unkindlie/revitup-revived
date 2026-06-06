@@ -16,9 +16,7 @@ export class RaceSeasonService {
     private repo: RaceSeasonRepository,
   ) {}
 
-  async getRaceSeasonsByConditions(
-    query: RaceSeasonQuery,
-  ): Promise<RaceSeasonDto[]> {
+  async getRaceSeasonsByConditions(query: RaceSeasonQuery) {
     const queryDto: RaceSeasonQueryDto = {
       discipline: {
         shortCode: query.discipline,
@@ -26,10 +24,23 @@ export class RaceSeasonService {
       seasonYear: query.year,
     };
 
-    return plainToInstance(
-      RaceSeasonDto,
-      await this.repo.getRaceSeasons(queryDto),
+    const [seasons, count] = await this.repo.getRaceSeasons(
+      queryDto,
+      query.page,
+      query.take,
     );
+
+    const items = plainToInstance(RaceSeasonDto, seasons);
+
+    return {
+      items,
+      totalCount: count,
+      query: {
+        page: query.page ?? 1,
+        take: query.take ?? 10,
+        totalPages: Math.ceil(count / (query.take ?? 10)),
+      },
+    };
   }
 
   async getRaceSeasonById(id: number) {

@@ -52,7 +52,7 @@ export const BackendRoutes = {
 
 type RoutesKeys = keyof typeof BackendRoutes;
 type Params = Record<string, string | number>;
-type QueryParams = Record<string, string | number | boolean>;
+type QueryParams = Record<string, string | number | boolean | undefined>;
 
 export function backendPath<K extends RoutesKeys>(
   page: K,
@@ -61,16 +61,28 @@ export function backendPath<K extends RoutesKeys>(
 ): string {
   let route = BackendRoutes[page] as string;
 
+  // 1. replace params safely
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
       route = route.replace(`:${key}`, encodeURIComponent(String(value)));
     });
   }
 
+  // 2. build query safely using URLSearchParams
   if (queryParams) {
-    Object.entries(queryParams).forEach(([key, value], i) => {
-      route += `${i === 0 ? '?' : '&'}${key}=${encodeURIComponent(value)}`;
+    const search = new URLSearchParams();
+
+    Object.entries(queryParams).forEach(([key, value]) => {
+      if (value !== undefined && value !== null && value !== '') {
+        search.append(key, String(value));
+      }
     });
+
+    const queryString = search.toString();
+
+    if (queryString) {
+      route += `?${queryString}`;
+    }
   }
 
   return route;

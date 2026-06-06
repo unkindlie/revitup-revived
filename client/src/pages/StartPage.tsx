@@ -7,7 +7,7 @@ import { useIsMobile } from '../hooks/ui/useIsMobile';
 import { cn } from '../lib/utils';
 
 export const StartPage = () => {
-  const { isFetched, data: articlesResponse } = useGetArticles();
+  const { isFetched, data: articlesResponse } = useGetArticles(1, 11);
   const { data: articles } = useResponse(articlesResponse);
 
   const isMobile = useIsMobile();
@@ -18,11 +18,11 @@ export const StartPage = () => {
 
   if (!isFetched || !articles) return null;
 
-  if (!articles.length) return <NoArticlesAvailable />;
+  if (!articles.items.length) return <NoArticlesAvailable />;
 
-  const newestArticle = articles[0];
-  const featuredArticles = articles.slice(1, 5);
-  const remainingArticles = articles.slice(5);
+  const newestArticle = articles.items[0];
+  const featuredArticles = articles.items.slice(1, 5);
+  const remainingArticles = articles.items.slice(5);
 
   return (
     <div className="flex flex-col gap-y-8">

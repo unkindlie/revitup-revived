@@ -1,5 +1,6 @@
 import type { TCircuitReference, TCircuitShort } from '^/types/circuits';
 import type { TRaceSeasonDetailed } from '^/types/stats/race-seasons';
+import type { TRaceClassification } from '^/types/stats/race-classification';
 
 export type TRaceEventShort = {
   id: number;
@@ -21,4 +22,5 @@ export type TRaceEventDetailed = {
   endDate: string;
   circuit: TCircuitReference;
   season: Omit<TRaceSeasonDetailed, 'raceEvents'>;
+  classification: TRaceClassification[];
 };

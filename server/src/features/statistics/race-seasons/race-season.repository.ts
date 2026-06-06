@@ -15,14 +15,18 @@ export class RaceSeasonRepository {
 
   async getRaceSeasons(
     conditions: RaceSeasonQueryDto,
-  ): Promise<RaceSeasonEntity[]> {
-    return this.repo.find({
+    page: number = 1,
+    take: number = 10,
+  ): Promise<[RaceSeasonEntity[], number]> {
+    return this.repo.findAndCount({
       select: RACE_SEASON_MANY_SELECT,
       where: conditions,
       relations: ['discipline'],
       order: {
         seasonYear: 'DESC',
       },
+      take,
+      skip: (page - 1) * take,
     });
   }
 

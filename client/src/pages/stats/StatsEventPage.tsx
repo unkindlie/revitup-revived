@@ -7,6 +7,17 @@ import { useRaceEventById } from '@/hooks/features/stats/race-events/useRaceEven
 import { useResponse } from '@/hooks/useResponse';
 import { useTranslation } from '@/hooks/useTranslation';
 import { Pages, path } from '@/lib/routing/client';
+import { RaceClassificationTable } from '../../components/features/stats/race-events/RaceClassificationTable';
+
+const formatRaceTime = (timeMs: number) => {
+  const hours = Math.floor(timeMs / 3_600_000);
+  const minutes = Math.floor((timeMs % 3_600_000) / 60_000);
+  const seconds = ((timeMs % 60_000) / 1000).toFixed(3);
+
+  return hours > 0
+    ? `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.padStart(6, '0')}`
+    : `${minutes}:${seconds.padStart(6, '0')}`;
+};
 
 export const StatsEventPage = () => {
   const { id } = useParams();
@@ -62,13 +73,25 @@ export const StatsEventPage = () => {
               to={path(Pages.StatisticsSeasonDetailed, { id: event.season.id })}
             >
               <img
-                className="bg-main size-12 rounded-sm p-1"
+                style={{
+                  backgroundColor: event.season.discipline.bgColor,
+                }}
+                className="size-12 rounded-sm p-1"
                 src={event.season.discipline.mainImgUrl}
               />
               <Typography weight="semibold">
                 {event.season.seasonYear} {event.season.discipline.title}
               </Typography>
             </Link>
+          </div>
+        )}
+        {event.classification?.length > 0 && (
+          <div className="mt-6">
+            <Typography variant="2xl" weight="semibold" className="mb-4">
+              Race Classification
+            </Typography>
+
+            <RaceClassificationTable classifications={event.classification} />
           </div>
         )}
       </div>

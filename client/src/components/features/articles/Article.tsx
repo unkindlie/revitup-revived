@@ -9,10 +9,12 @@ import type { ArticleShort } from '^/types/articles';
 import { ImageWithSkeleton } from '../../common/image/ImageWithSkeleton';
 
 type Sizes = 'sm' | 'md' | 'lg';
+type Variant = 'default' | 'card';
 
 type ArticleProps = {
   article: ArticleShort;
   size?: Sizes;
+  variant?: Variant;
 };
 
 const SIZES = {
@@ -23,7 +25,63 @@ const SIZES = {
   },
 } as const;
 
-export const Article = ({ article, size = 'sm' }: ArticleProps) => {
+export const Article = ({ article, variant, size = 'sm' }: ArticleProps) => {
+  const { discipline } = article;
+
+  if (variant === 'card') {
+    return (
+      <Link
+        to={path(Pages.ArticleDetailed, { id: article.id })}
+        className="flex flex-col rounded-md border-2 transition-all hover:shadow-lg"
+      >
+        <div className="h-40 w-full overflow-hidden">
+          <ImageWithSkeleton
+            src={article.mainImgUrl}
+            alt={article.title}
+            className="h-full w-full rounded-t-md object-cover"
+          />
+        </div>
+
+        <div className="flex flex-col gap-y-2 p-3">
+          <div className="flex items-center justify-between">
+            <Typography variant="sm" className="opacity-75">
+              {timeAgo.format(new Date(article.createdAt), 'mini')}
+            </Typography>
+
+            {discipline && (
+              <div className="flex items-center gap-x-1">
+                {discipline.mainImgUrl && (
+                  <img
+                    src={discipline.mainImgUrl}
+                    style={{
+                      backgroundColor: discipline.bgColor,
+                    }}
+                    className="size-6 rounded-sm p-1"
+                  />
+                )}
+
+                <Typography variant="sm" weight="medium">
+                  {discipline.title}
+                </Typography>
+              </div>
+            )}
+          </div>
+
+          <Typography variant="xl" weight="semibold">
+            {article.title}
+          </Typography>
+
+          <Typography
+            variant="sm"
+            className="text-muted-foreground line-clamp-3"
+          >
+            {article.previewText ?? 'More to follow...'}
+          </Typography>
+        </div>
+      </Link>
+    );
+  }
+
   return (
     <Link
       to={path(Pages.ArticleDetailed, { id: article.id })}
@@ -38,26 +96,25 @@ export const Article = ({ article, size = 'sm' }: ArticleProps) => {
         className={cn('rounded-md transition-all', {
           'w-36 sm:w-44': size === 'sm',
         })}
-        skeletonClassName={cn({
-          'h-20 w-36 sm:w-44': size === 'sm',
-          'aspect-video w-full': size !== 'sm',
-        })}
       />
       <div className="flex flex-col sm:gap-y-1">
         <div className="flex items-center space-x-2">
           <Typography variant="sm" weight="medium">
             {timeAgo.format(new Date(article.createdAt), 'mini')}
           </Typography>
-          {article.discipline && (
+          {discipline && (
             <div className="flex items-center gap-x-2 rounded-full px-2 py-0.5">
-              {article.discipline.mainImgUrl && (
+              {discipline.mainImgUrl && (
                 <img
-                  src={article.discipline.mainImgUrl}
-                  className="h-6 w-6 rounded-sm"
+                  src={discipline.mainImgUrl}
+                  style={{
+                    backgroundColor: discipline.bgColor,
+                  }}
+                  className="size-8 rounded-sm p-1"
                 />
               )}
               <Typography variant="sm" weight="medium">
-                {article.discipline.title}
+                {discipline.title}
               </Typography>
             </div>
           )}

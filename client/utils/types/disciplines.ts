@@ -3,5 +3,5 @@ export type DisciplineShort = {
   title: string;
   shortCode: string;
   mainImgUrl: string;
-  bgColor: string | null;
+  bgColor: string;
 };
