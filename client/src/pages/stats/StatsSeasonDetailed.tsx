@@ -17,10 +17,13 @@ export const StatsSeasonDetailed = () => {
   if (isLoading || !season) return <CenteredSpinner />;
 
   return (
-    <div className="flex flex-col space-y-4 lg:w-3/5">
+    <div className="flex flex-col space-y-4">
       <div className="flex items-center space-x-3">
         <img
-          className="bg-main size-20 rounded-md p-2"
+          style={{
+            backgroundColor: season.discipline.bgColor,
+          }}
+          className="size-20 rounded-md p-2"
           src={season.discipline.mainImgUrl}
         />
         <div className="space-y-0.5">
@@ -34,7 +37,10 @@ export const StatsSeasonDetailed = () => {
               {t('common.namings.stages', { count: season.stages })}
             </Typography>
             <Typography
-              className="bg-main rounded-xl px-1.5 py-1 text-white"
+              style={{
+                backgroundColor: season.discipline.bgColor,
+              }}
+              className="rounded-xl px-1.5 py-1 text-white"
               weight="semibold"
             >
               {season.discipline.title}
@@ -42,18 +48,12 @@ export const StatsSeasonDetailed = () => {
           </div>
         </div>
       </div>
-      <div className="space-y-2">
-        <Typography variant="2xl" weight="semibold">
-          {t('raceEvents.title')}
-        </Typography>
-        <div className="flex flex-col space-y-2">
-          {!season.raceEvents.length && (
-            <Typography>{t('raceEvents.noEvents')}</Typography>
-          )}
-          {season.raceEvents.map((re) => (
-            <RaceEventItem key={re.id} {...re} />
-          ))}
-        </div>
+      <div className="grid w-full grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
+        {!season.raceEvents.length ? (
+          <Typography>{t('raceEvents.noEvents')}</Typography>
+        ) : (
+          season.raceEvents.map((re) => <RaceEventItem key={re.id} {...re} />)
+        )}
       </div>
     </div>
   );
