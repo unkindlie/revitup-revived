@@ -41,7 +41,7 @@ export const DisciplineSelect = ({
       <SelectContent className="w-full" position="popper">
         <SelectGroup>
           {disciplines.map((d) => (
-            <SelectItem key={d.id} value={d.id.toString()}>
+            <SelectItem key={d.id} value={d.shortCode}>
               <>
                 {d.mainImgUrl && (
                   <img src={d.mainImgUrl} className="mr-2 h-5 w-5 rounded-sm" />

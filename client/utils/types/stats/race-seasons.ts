@@ -8,6 +8,7 @@ export type TRaceSeasonShort = {
     id: number;
     title: string;
     mainImgUrl: string;
+    bgColor: string;
   };
 };
 
