@@ -12,6 +12,8 @@ import {
 import { ParagraphService } from './paragraph.service';
 import { ParagraphCreateDto } from './dto/paragraph-create.dto';
 import { ParagraphUpdateDto } from './dto/paragraph-update.dto';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { UserRole } from '../user/enums/user-role.enum';
 
 @Controller('paragraphs')
 export class ParagraphController {
@@ -23,6 +25,7 @@ export class ParagraphController {
   }
 
   @Post()
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   async create(@Body() dto: ParagraphCreateDto) {
     await this.service.create(dto);
 
@@ -30,6 +33,7 @@ export class ParagraphController {
   }
 
   @Post('bulk')
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   async createMany(@Body() dtoList: ParagraphCreateDto[]) {
     await this.service.createMany(dtoList);
 
@@ -37,6 +41,7 @@ export class ParagraphController {
   }
 
   @Patch(':id')
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: ParagraphUpdateDto,
@@ -47,6 +52,7 @@ export class ParagraphController {
   }
 
   @Delete(':id')
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   async delete(@Param('id', ParseIntPipe) id: number) {
     await this.service.delete(id);
 

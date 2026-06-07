@@ -11,7 +11,6 @@ import { useSetFavouriteDriver } from '../../hooks/features/users/useSetFavourit
 import { useUserStore } from '../../stores/user.store';
 import { useFavouriteDriver } from '../../hooks/features/users/useFavouriteDriver';
 import { useMemo } from 'react';
-import { RequireAuth } from '../../hoc/RequireAuth';
 
 export const DriverDetailedPage = () => {
   const { id } = useParams<{ id: string }>();

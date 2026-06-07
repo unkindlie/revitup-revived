@@ -25,6 +25,8 @@ import { UserPayloadDto } from '../auth/dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { imageFileFilter } from '../../common/file-upload/image-file.filter';
 import { PaginatedQuery } from '../../common/types/pagination.type';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { UserRole } from '../user/enums/user-role.enum';
 
 @Controller('articles')
 export class ArticleController {
@@ -63,6 +65,7 @@ export class ArticleController {
   }
 
   @Post()
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   @UseGuards(AccessTokenGuard)
   async createArticle(
     @Body() article: ArticleCreateDto,
@@ -74,6 +77,7 @@ export class ArticleController {
   }
 
   @Patch('publish/:id')
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   @UseGuards(AccessTokenGuard)
   async publishArticle(
     @Param('id', ParseIntPipe) id: number,
@@ -85,6 +89,7 @@ export class ArticleController {
   }
 
   @Patch('update/:id')
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   @UseGuards(AccessTokenGuard)
   @UseInterceptors(
     FileInterceptor('image', {
@@ -109,6 +114,7 @@ export class ArticleController {
   }
 
   @Patch('revert-soft-delete/:id')
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   async revertSoftDelete(@Param('id', ParseIntPipe) id: number) {
     await this.service.revertSoftDelete(id);
 
@@ -116,6 +122,7 @@ export class ArticleController {
   }
 
   @Delete('soft/:id')
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   async softDelete(@Param('id', ParseIntPipe) id: number) {
     await this.service.softDeleteArticle(id);
 

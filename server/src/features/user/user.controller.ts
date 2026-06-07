@@ -105,6 +105,7 @@ export class UserController {
   }
 
   @Patch('update-profile')
+  @UseGuards(AccessTokenGuard)
   async updateInfo(@Body() body: UserUpdateDto) {
     await this.service.updateUserInfo(body);
 
@@ -112,8 +113,9 @@ export class UserController {
   }
 
   @Delete('delete-profile')
+  @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.NO_CONTENT)
-  async deleteUser(@Body('userId', ParseIntPipe) id: number) {
-    await this.service.deleteUser(id);
+  async deleteUser(@CurrentUser() user: UserPayloadDto) {
+    await this.service.deleteUser(user.id);
   }
 }
