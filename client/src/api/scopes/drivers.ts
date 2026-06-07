@@ -34,3 +34,13 @@ export async function getDriverById(
 
   return await res.json();
 }
+
+export async function getFavouriteDriverByUser(
+  userId: number,
+): Promise<TResponse<number>> {
+  const res = await api.get<TResponse<number>>(
+    backendPath('DriverFavourite', { id: userId }),
+  );
+
+  return await res.json();
+}

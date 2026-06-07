@@ -19,6 +19,11 @@ export class DriverController {
     return this.service.getDrivers(query);
   }
 
+  @Get('favourite/:id')
+  async getFavouriteDriverId(@Param('id', ParseIntPipe) id: number) {
+    return this.service.getFavDriverForUser(id);
+  }
+
   @Get(':id')
   async getDriverById(@Param('id', ParseIntPipe) id: number) {
     return this.service.getDriverById(id);

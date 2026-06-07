@@ -5,12 +5,32 @@ import { CenteredSpinner } from '@/components/common/spinner/CenteredSpinner';
 import { ImageWithSkeleton } from '@/components/common/image/ImageWithSkeleton';
 import { useDriverById } from '@/hooks/features/drivers/useDriverById';
 import { useResponse } from '@/hooks/useResponse';
+import { Button } from '../../components/ui/button';
+import { Heart } from 'lucide-react';
+import { useSetFavouriteDriver } from '../../hooks/features/users/useSetFavouriteDriver';
+import { useUserStore } from '../../stores/user.store';
+import { useFavouriteDriver } from '../../hooks/features/users/useFavouriteDriver';
+import { useMemo } from 'react';
 
 export const DriverDetailedPage = () => {
   const { id } = useParams<{ id: string }>();
+  const user = useUserStore((state) => state.user);
 
   const { data: driverRes, isLoading } = useDriverById(Number(id));
+  const { data: favouriteIdRes } = useFavouriteDriver(user?.id);
+
   const { data: driver } = useResponse(driverRes);
+  const { data: favouriteId } = useResponse(favouriteIdRes);
+
+  const isFavourite = useMemo(
+    () => favouriteId && favouriteId === driver?.id,
+    [favouriteId, driver?.id],
+  );
+
+  const { mutate, isPending } = useSetFavouriteDriver(
+    !isFavourite ? driver?.id : undefined,
+    user?.id,
+  );
 
   if (isLoading) {
     return (
@@ -42,9 +62,21 @@ export const DriverDetailedPage = () => {
 
       <div className="flex flex-1 flex-col gap-4">
         <div>
-          <Typography variant="3xl" weight="semibold">
-            {driver.firstName + ' ' + driver.lastName}
-          </Typography>
+          <div className="flex space-x-2">
+            <Typography variant="3xl" weight="semibold">
+              {driver.firstName + ' ' + driver.lastName}
+            </Typography>
+            <Button
+              onClick={() => mutate()}
+              disabled={isPending}
+              className="flex items-center gap-2"
+            >
+              <Heart
+                size={18}
+                className={isFavourite ? 'fill-red-500 text-red-500' : ''}
+              />
+            </Button>
+          </div>
 
           {driver.country && (
             <Typography className="text-muted-foreground">

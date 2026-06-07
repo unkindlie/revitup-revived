@@ -42,11 +42,18 @@ export class CommentRepository {
       .leftJoin('comment.author', 'au')
       .addSelect(['au.id', 'au.username', 'au.roles', 'au.profileImgUrl'])
 
+      .leftJoin('au.favoriteDriver', 'fd')
+      .addSelect(['fd.id', 'fd.lastName', 'fd.number'])
+
       .leftJoin('comment.children', 'cc')
       .addSelect(['cc.id', 'cc.content'])
 
-      .where('comment.entitySource = :source', { source: entitySource })
-      .andWhere('comment.entityId = :id', { id: Number(entityId) })
+      .where('comment.entitySource = :source', {
+        source: entitySource,
+      })
+      .andWhere('comment.entityId = :id', {
+        id: Number(entityId),
+      })
 
       .getManyAndCount();
 

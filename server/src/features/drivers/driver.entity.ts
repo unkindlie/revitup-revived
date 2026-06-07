@@ -14,6 +14,7 @@ import {
 } from '../../common/constants/database.constants';
 import { DisciplineEntity } from '../disciplines/discipline.entity';
 import { DriverImageEntity } from './driver-image.entity';
+import { UserEntity } from '../user/user.entity';
 
 @Entity('drivers')
 export class DriverEntity {
@@ -55,4 +56,7 @@ export class DriverEntity {
 
   @UpdateDateColumn({ name: UPDATED_AT_COLUMN_NAME })
   updatedAt: Date;
+
+  @OneToMany(() => UserEntity, (user) => user.favoriteDriver)
+  favoritedBy: UserEntity[];
 }

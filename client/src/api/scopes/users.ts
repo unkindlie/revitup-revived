@@ -61,7 +61,7 @@ export async function updateUserInfo(
   payload: Partial<{
     id: number;
     username?: string;
-    roles?: any[];
+    roles?: string[];
     profileImgUrl?: string;
   }>,
 ): Promise<TResponse<{ message: string }>> {
@@ -70,6 +70,10 @@ export async function updateUserInfo(
   });
 
   return await resp.json();
+}
+
+export async function setFavouriteDriver(driverId?: number) {
+  await api.post(backendPath('UserToggleFavDriver'), { json: { driverId } });
 }
 
 export async function deleteUserPfp(

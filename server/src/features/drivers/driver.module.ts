@@ -6,9 +6,13 @@ import { DriverImageEntity } from './driver-image.entity';
 import { DriverController } from './driver.controller';
 import { DriverService } from './driver.service';
 import { DriverRepository } from './driver.repository';
+import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DriverEntity, DriverImageEntity])],
+  imports: [
+    TypeOrmModule.forFeature([DriverEntity, DriverImageEntity]),
+    UserModule,
+  ],
   controllers: [DriverController],
   providers: [DriverService, DriverRepository],
   exports: [DriverService, DriverRepository],

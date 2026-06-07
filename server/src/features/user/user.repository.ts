@@ -17,7 +17,10 @@ export class UserRepository {
   async getUserByCondition(
     condition: FindOptionsWhere<UserEntity>,
   ): Promise<UserEntity> {
-    const entity = await this.repo.findOneBy(condition);
+    const entity = await this.repo.findOne({
+      where: condition,
+      relations: { favoriteDriver: true },
+    });
     if (!entity)
       throw new NotFoundException({
         message: 'Such user does not exist',
@@ -41,5 +44,11 @@ export class UserRepository {
   }
   async existsBy(options: FindOptionsWhere<UserEntity>): Promise<boolean> {
     return await this.repo.existsBy(options);
+  }
+
+  async setFavouriteDriver(userId: number, driverId?: number): Promise<void> {
+    await this.repo.update(userId, {
+      favoriteDriver: driverId ? { id: driverId } : null,
+    });
   }
 }

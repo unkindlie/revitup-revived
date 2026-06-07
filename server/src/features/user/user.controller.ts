@@ -27,6 +27,7 @@ import { UserImageService } from '../user-images/user-image.service';
 import { AccessTokenGuard } from '../auth/guards/access-token.guard';
 import { CurrentUser } from '../auth/decorators/user.decorator';
 import { UserPayloadDto } from '../auth/dto';
+import { UserFavDriverDto } from './dto/user-fav-driver.dto';
 
 @Controller('users')
 export class UserController {
@@ -44,7 +45,6 @@ export class UserController {
   }
 
   @Get(':id')
-  @ExposingSerialization(UserShortDto)
   async getUserById(@Param('id', ParseIntPipe) id: number) {
     return await this.service.getUserById(id);
   }
@@ -58,6 +58,15 @@ export class UserController {
   @Get('pfp/:id')
   async getUserImageById(@Param('id', ParseIntPipe) id: number) {
     return await this.userImageService.getLatestUserImage(id);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Post('favourite-driver')
+  setFavouriteDriver(
+    @CurrentUser() user: UserPayloadDto,
+    @Body() body: UserFavDriverDto,
+  ) {
+    return this.service.setFavouriteDriver(user.id, body.driverId);
   }
 
   @Post('upload-pfp')

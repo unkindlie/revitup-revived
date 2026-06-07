@@ -37,4 +37,16 @@ export class DriverService {
 
     return plainToInstance(DriverDetailedDto, driver);
   }
+
+  async exists(id: number) {
+    const exists = await this.repo.existsBy({ id });
+
+    if (!exists) {
+      throw new NotFoundException('Driver not found');
+    }
+  }
+
+  async getFavDriverForUser(userId: number) {
+    return this.repo.getFavDriverForUser(userId);
+  }
 }

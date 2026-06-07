@@ -85,6 +85,21 @@ export class DriverRepository {
     });
   }
 
+  async getFavDriverForUser(userId: number): Promise<number | null> {
+    return this.repo
+      .findOne({
+        select: {
+          id: true,
+        },
+        where: {
+          favoritedBy: {
+            id: userId,
+          },
+        },
+      })
+      .then((it) => it?.id || null);
+  }
+
   async existsBy(where: FindOptionsWhere<DriverEntity>): Promise<boolean> {
     return this.repo.existsBy(where);
   }

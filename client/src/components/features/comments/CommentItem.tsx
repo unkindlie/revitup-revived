@@ -11,6 +11,7 @@ import { useUserStore } from '@/stores/user.store';
 import { timeAgo } from '@/time-ago';
 
 import type { TComment } from '^/types/comments';
+import { Heart } from 'lucide-react';
 
 export const CommentItem = ({
   id,
@@ -19,7 +20,7 @@ export const CommentItem = ({
   children,
   createdAt,
 }: TComment) => {
-  const { username, id: authorId, profileImgUrl } = author;
+  const { username, id: authorId, profileImgUrl, favoriteDriver } = author;
   const [_, setValue] = useCommentReply();
   const isLogged = useUserStore((state) => state.isLogged);
   const { t } = useTranslation(['common']);
@@ -35,15 +36,31 @@ export const CommentItem = ({
     <div className="flex flex-col gap-y-3">
       <div className="flex flex-col rounded-md border">
         <div className="flex items-center justify-between border-b px-2 py-1.5">
-          <Link
-            className="flex items-center space-x-2.5"
-            to={path(Pages.UserProfile, { id: authorId })}
-          >
-            <div className="flex items-center space-x-2.5">
-              <Typography weight="medium">{username}</Typography>
-            </div>
-            <ProfileImage className="size-7 *:rounded-xs" src={profileImgUrl} />
-          </Link>
+          <div className="flex items-center gap-x-2.5">
+            <Link
+              className="flex items-center space-x-2.5"
+              to={path(Pages.UserProfile, { id: authorId })}
+            >
+              <div className="flex items-center space-x-2.5">
+                <Typography weight="medium">{username}</Typography>
+              </div>
+              <ProfileImage
+                className="size-7 *:rounded-xs"
+                src={profileImgUrl}
+              />
+            </Link>
+            {favoriteDriver && (
+              <Link
+                to={path(Pages.DriverDetailed, { id: favoriteDriver.id })}
+                className="flex items-center space-x-1.5 opacity-85"
+              >
+                <Heart size={18} />
+                <Typography>
+                  #{favoriteDriver.number} {favoriteDriver.lastName}
+                </Typography>
+              </Link>
+            )}
+          </div>
           <Typography variant="sm">
             {timeAgo.format(new Date(createdAt))}
           </Typography>

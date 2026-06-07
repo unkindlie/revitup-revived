@@ -3,14 +3,10 @@ import { Injectable } from '@nestjs/common';
 import { UserCreateDto, UserUpdateDto } from 'features/user/dto';
 import { UserEntity } from 'features/user/user.entity';
 import { UserRepository } from 'features/user/user.repository';
-import { UserImageService } from '../user-images/user-image.service';
 
 @Injectable()
 export class UserService {
-  constructor(
-    private repository: UserRepository,
-    private userImageSerivce: UserImageService,
-  ) {}
+  constructor(private repository: UserRepository) {}
 
   async getUsers(): Promise<[UserEntity[], number]> {
     return await this.repository.getUsers();
@@ -37,5 +33,19 @@ export class UserService {
   }
   async userExistsByEmail(emailAddress: string): Promise<boolean> {
     return await this.repository.existsBy({ email: emailAddress });
+  }
+
+  async setFavouriteDriver(userId: number, driverId?: number) {
+    const user = await this.repository.getUserByCondition({ id: userId });
+
+    const currentFavouriteId = user.favoriteDriver?.id;
+
+    const nextValue = currentFavouriteId === driverId ? undefined : driverId;
+
+    await this.repository.setFavouriteDriver(userId, nextValue);
+
+    return {
+      favouriteDriverId: nextValue,
+    };
   }
 }

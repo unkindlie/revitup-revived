@@ -5,7 +5,12 @@ export type TComment = {
     id: number;
     username: string;
     roles: string[];
-    profileImgUrl : string;
+    profileImgUrl: string;
+    favoriteDriver: {
+      id: number;
+      lastName: string;
+      number: number;
+    } | null;
   };
   parentId: string | null;
   createdAt: string;

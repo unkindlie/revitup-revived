@@ -17,6 +17,7 @@ export const BackendRoutes = {
   UserUploadPfp: 'users/upload-pfp',
   UserDeletePfp: 'users/pfp/:imageId',
   UserUpdateProfile: 'users/update-profile',
+  UserToggleFavDriver: 'users/favourite-driver',
 
   // Article routes
   ArticleBase: 'articles',
@@ -53,6 +54,7 @@ export const BackendRoutes = {
   // DriversRoutes
   DriversBase: 'drivers',
   DriverDetailed: 'drivers/:id',
+  DriverFavourite: 'drivers/favourite/:id',
 } as const;
 
 type RoutesKeys = keyof typeof BackendRoutes;
