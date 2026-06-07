@@ -17,22 +17,40 @@ export const ProfilePage = ({ id }: ProfilePageProps) => {
 
   const isCurrentUser = useMemo(() => user && id === user.id, [user, id]);
 
-  if (!user) return <Typography>cuh</Typography>;
+  if (!user) return <Typography>User not found</Typography>;
 
   return (
-    <div className="flex h-fit w-full items-center justify-between">
-      <div className="flex size-fit items-center gap-x-4">
-        <ProfileImageGallery
-          src={user.profileImgUrl || ''}
-          user={{ id: user.id, username: user.username }}
-        />
-        <div className="flex flex-col gap-y-0.5">
-          <Typography variant="3xl" weight="semibold">
-            {user.username}
-          </Typography>
+    <div className="flex flex-col gap-y-6">
+      <div className="flex h-fit w-full items-center justify-between">
+        <div className="flex size-fit items-center gap-x-4">
+          <ProfileImageGallery
+            src={user.profileImgUrl || ''}
+            user={{ id: user.id, username: user.username }}
+          />
+          <div className="flex flex-col gap-y-0.5">
+            <Typography variant="3xl" weight="semibold">
+              {user.username}
+            </Typography>
+            <Typography>
+              {user.roles.includes('admin')
+                ? 'Admin'
+                : user.roles.includes('editor')
+                  ? 'Editor'
+                  : 'Default peasant'}
+            </Typography>
+          </div>
         </div>
+        {isCurrentUser && <ProfileContextMenu {...user} />}
       </div>
-      {isCurrentUser && <ProfileContextMenu id={user.id} />}
+      <div>
+        <Typography variant="2xl" weight="semibold">
+          About the user
+        </Typography>
+        <Typography>
+          {user.description ||
+            'User has not provided his bio/description of his profile'}
+        </Typography>
+      </div>
     </div>
   );
 };

@@ -19,6 +19,7 @@ export type ArticleDetailed = ArticleShort & {
     id: number;
     username: string;
     profileImgUrl?: string;
+    roles: string[];
   };
 };
 

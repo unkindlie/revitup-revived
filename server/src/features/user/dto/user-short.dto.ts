@@ -10,6 +10,9 @@ export class UserShortDto {
   username: string;
 
   @Expose()
+  description: string | null;
+
+  @Expose()
   roles: UserRole[];
 
   @Expose()

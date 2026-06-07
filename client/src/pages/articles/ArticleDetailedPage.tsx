@@ -157,7 +157,11 @@ export const ArticleDetailedPage = () => {
 
                 {article.author?.username && (
                   <Typography variant="sm" className="text-muted-foreground">
-                    {article.author.username}
+                    {article.author.roles.includes('admin')
+                      ? 'Admin'
+                      : article.author.roles.includes('editor')
+                        ? 'Editor'
+                        : 'Default peasant'}
                   </Typography>
                 )}
               </div>

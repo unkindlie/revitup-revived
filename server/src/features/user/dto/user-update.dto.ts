@@ -2,6 +2,7 @@ import {
   IsEnum,
   IsNumber,
   IsOptional,
+  IsString,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -16,6 +17,11 @@ export class UserUpdateDto {
   @MinLength(8)
   @MaxLength(100)
   username?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(1000)
+  description?: string;
 
   @IsOptional()
   @IsEnum(UserRole)

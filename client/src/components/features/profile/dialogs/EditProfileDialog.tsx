@@ -17,17 +17,21 @@ import { Spinner } from '@/components/common/spinner/Spinner';
 
 import { useUpdateUser } from '@/hooks/features/users/useUpdateUser';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
+import { Textarea } from '../../../ui/textarea';
 
 const schema = yup.object({
   username: yup.string().required().min(8).max(100),
+  description: yup.string().optional().max(1000),
 });
 
 export function EditProfileDialog({
   userId,
   defaultUsername,
+  defaultDescription,
 }: {
   userId: number;
   defaultUsername: string;
+  defaultDescription?: string;
 }) {
   const { closeHidden, closeRef } = useCloseDialog();
   const { mutateAsync, isPending } = useUpdateUser(userId);
@@ -38,12 +42,15 @@ export function EditProfileDialog({
     formState: { isValid },
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: { username: defaultUsername },
+    defaultValues: {
+      username: defaultUsername,
+      description: defaultDescription,
+    },
   });
 
-  const onSubmit = async (data: { username: string }) => {
+  const onSubmit = async (data: { username: string; description?: string }) => {
     try {
-      await mutateAsync(data);
+      await mutateAsync({ ...data, id: userId });
       toast.success('Profile updated');
       closeRef.current?.click();
     } catch (e: any) {
@@ -66,6 +73,8 @@ export function EditProfileDialog({
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
           <Input {...register('username')} />
+
+          <Textarea {...register('description')} />
 
           <Button disabled={!isValid || isPending}>
             {isPending ? <Spinner size="sm" /> : 'Save'}

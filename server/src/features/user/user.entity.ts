@@ -27,6 +27,13 @@ export class UserEntity {
   username: string;
 
   @Column({
+    nullable: true,
+    length: 1000,
+    name: 'description',
+  })
+  description: string;
+
+  @Column({
     type: 'text',
     select: false,
   })

@@ -6,6 +6,7 @@ export type TThreadShort = {
     id: number;
     username: string;
     profileImgUrl: string;
+    roles: string[];
   };
   category: {
     id: number;
@@ -25,7 +26,7 @@ export type TThreadLatest = {
   category: {
     id: number;
     color: string;
-  }
+  };
 };
 
 export type TThreadCreate = Pick<TThreadDetailed, 'title' | 'description'> & {

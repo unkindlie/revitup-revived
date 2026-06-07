@@ -6,8 +6,9 @@ export const useUpdateUser = (userId: number) => {
 
   return useMutation({
     mutationKey: ['user-update', userId],
-    mutationFn: (payload: Partial<{ id: number; username?: string }>) =>
-      updateUserInfo(payload),
+    mutationFn: (
+      payload: Partial<{ id: number; username?: string; description?: string }>,
+    ) => updateUserInfo(payload),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['user-detailed', userId] });
       qc.invalidateQueries({ queryKey: ['user-latest-pfp', userId] });

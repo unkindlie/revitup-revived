@@ -20,6 +20,7 @@ export const THREAD_DETAILED_SELECT_OBJ = {
     id: true,
     profileImgUrl: true,
     username: true,
+    roles: true,
   },
   description: true,
 };
