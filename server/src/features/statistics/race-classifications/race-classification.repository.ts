@@ -19,7 +19,7 @@ export class RaceClassificationRepository {
       order: {
         finishPosition: 'ASC',
       },
-      relations: ['raceEntry'],
+      relations: ['raceEntry', 'driver'],
     });
   }
 }

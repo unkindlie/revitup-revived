@@ -55,6 +55,7 @@ export const BackendRoutes = {
   DriversBase: 'drivers',
   DriverDetailed: 'drivers/:id',
   DriverFavourite: 'drivers/favourite/:id',
+  DriverRandom: 'drivers/random',
 } as const;
 
 type RoutesKeys = keyof typeof BackendRoutes;

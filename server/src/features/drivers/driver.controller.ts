@@ -24,6 +24,11 @@ export class DriverController {
     return this.service.getFavDriverForUser(id);
   }
 
+  @Get('random')
+  async getRandomDriver() {
+    return this.service.getRandomDriver();
+  }
+
   @Get(':id')
   async getDriverById(@Param('id', ParseIntPipe) id: number) {
     return this.service.getDriverById(id);

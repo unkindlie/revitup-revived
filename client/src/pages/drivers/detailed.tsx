@@ -11,10 +11,12 @@ import { useSetFavouriteDriver } from '../../hooks/features/users/useSetFavourit
 import { useUserStore } from '../../stores/user.store';
 import { useFavouriteDriver } from '../../hooks/features/users/useFavouriteDriver';
 import { useMemo } from 'react';
+import { RequireAuth } from '../../hoc/RequireAuth';
 
 export const DriverDetailedPage = () => {
   const { id } = useParams<{ id: string }>();
   const user = useUserStore((state) => state.user);
+  const isLogged = useUserStore((state) => state.isLogged);
 
   const { data: driverRes, isLoading } = useDriverById(Number(id));
   const { data: favouriteIdRes } = useFavouriteDriver(user?.id);
@@ -66,16 +68,18 @@ export const DriverDetailedPage = () => {
             <Typography variant="3xl" weight="semibold">
               {driver.firstName + ' ' + driver.lastName}
             </Typography>
-            <Button
-              onClick={() => mutate()}
-              disabled={isPending}
-              className="flex items-center gap-2"
-            >
-              <Heart
-                size={18}
-                className={isFavourite ? 'fill-red-500 text-red-500' : ''}
-              />
-            </Button>
+            {isLogged && (
+              <Button
+                onClick={() => mutate()}
+                disabled={isPending}
+                className="flex items-center gap-2"
+              >
+                <Heart
+                  size={18}
+                  className={isFavourite ? 'fill-red-500 text-red-500' : ''}
+                />
+              </Button>
+            )}
           </div>
 
           {driver.country && (
@@ -130,7 +134,6 @@ export const DriverDetailedPage = () => {
           </Typography>
         </div>
 
-        {/* gallery */}
         {!!driver.images?.length && (
           <div className="mt-4">
             <Typography variant="lg" weight="semibold">

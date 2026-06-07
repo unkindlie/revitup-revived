@@ -38,6 +38,10 @@ export class DriverService {
     return plainToInstance(DriverDetailedDto, driver);
   }
 
+  async getRandomDriver() {
+    return this.repo.getRandomDriver();
+  }
+
   async exists(id: number) {
     const exists = await this.repo.existsBy({ id });
 

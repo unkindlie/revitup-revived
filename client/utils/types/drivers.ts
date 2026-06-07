@@ -18,3 +18,7 @@ export type TDriverDetailed = TDriverShort & {
     imageUrl: string;
   }[];
 };
+
+export type TDriverRandom = Omit<TDriverShort, 'disciplines'> & {
+  number: number;
+};

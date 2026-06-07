@@ -100,6 +100,20 @@ export class DriverRepository {
       .then((it) => it?.id || null);
   }
 
+  async getRandomDriver() {
+    return await this.repo
+      .createQueryBuilder('d')
+      .select([
+        'd.id',
+        'd.firstName',
+        'd.lastName',
+        'd.profileImgUrl',
+        'd.number',
+      ])
+      .orderBy('RANDOM()')
+      .getOne();
+  }
+
   async existsBy(where: FindOptionsWhere<DriverEntity>): Promise<boolean> {
     return this.repo.existsBy(where);
   }

@@ -10,6 +10,7 @@ import {
 import { RaceEarlyEndReason } from 'features/statistics/race-classifications/types/race-early-end-reason.enum';
 import { RaceEntryEntity } from 'features/statistics/race-entries/race-entry.entity';
 import { RaceEventEntity } from 'features/statistics/race-events/race-event.entity';
+import { DriverEntity } from '../../drivers/driver.entity';
 
 @Entity('race_classifications')
 @Index(
@@ -45,4 +46,13 @@ export class RaceClassificationEntity {
   @ManyToOne(() => RaceEventEntity, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'race_event_id' })
   raceEvent: RaceEventEntity;
+
+  @ManyToOne(() => DriverEntity, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({
+    name: 'driver_id',
+  })
+  driver: DriverEntity | null;
 }

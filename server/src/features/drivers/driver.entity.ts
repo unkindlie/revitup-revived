@@ -15,6 +15,7 @@ import {
 import { DisciplineEntity } from '../disciplines/discipline.entity';
 import { DriverImageEntity } from './driver-image.entity';
 import { UserEntity } from '../user/user.entity';
+import { RaceClassificationEntity } from '../statistics/race-classifications/race-classification.entity';
 
 @Entity('drivers')
 export class DriverEntity {
@@ -59,4 +60,10 @@ export class DriverEntity {
 
   @OneToMany(() => UserEntity, (user) => user.favoriteDriver)
   favoritedBy: UserEntity[];
+
+  @OneToMany(
+    () => RaceClassificationEntity,
+    (classification) => classification.driver,
+  )
+  classifications: RaceClassificationEntity[];
 }

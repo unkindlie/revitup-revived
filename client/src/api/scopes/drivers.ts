@@ -5,7 +5,11 @@ import type {
 } from '../../../utils/types/response/response.type';
 import { backendPath } from '../../lib/routing/backend';
 
-import type { TDriverShort, TDriverDetailed } from '^/types/drivers';
+import type {
+  TDriverShort,
+  TDriverDetailed,
+  TDriverRandom,
+} from '^/types/drivers';
 
 export async function getDrivers(params?: {
   page?: number;
@@ -40,6 +44,14 @@ export async function getFavouriteDriverByUser(
 ): Promise<TResponse<number>> {
   const res = await api.get<TResponse<number>>(
     backendPath('DriverFavourite', { id: userId }),
+  );
+
+  return await res.json();
+}
+
+export async function getRandomDriver(): Promise<TResponse<TDriverRandom>> {
+  const res = await api.get<TResponse<TDriverRandom>>(
+    backendPath('DriverRandom'),
   );
 
   return await res.json();

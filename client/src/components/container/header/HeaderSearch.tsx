@@ -100,7 +100,6 @@ export const HeaderSearch = () => {
   };
 
   const onClearOne = (item: SearchResultItem) => {
-    // remove from localStorage and from state
     removeRecent({ id: item.id, type: item.type });
     setRecent((prev) =>
       prev.filter((p) => !(p.id === item.id && p.type === item.type)),
@@ -144,6 +143,27 @@ export const HeaderSearch = () => {
             <div className="text-muted-foreground text-sm">Discipline</div>
           </div>
         </div>
+      );
+    }
+    if (item.type === 'driver') {
+      return (
+        <Link
+          to={path(Pages.DriverDetailed, { id: item.id })}
+          className="flex items-center gap-3"
+        >
+          {item.mainImgUrl ? (
+            <img
+              src={item.mainImgUrl}
+              className="h-10 w-10 rounded-full object-cover"
+            />
+          ) : (
+            <div className="bg-muted-foreground h-10 w-10 rounded-full" />
+          )}
+          <div>
+            <div className="font-semibold">{item.title}</div>
+            <div className="text-muted-foreground text-sm">Driver</div>
+          </div>
+        </Link>
       );
     }
     // article
