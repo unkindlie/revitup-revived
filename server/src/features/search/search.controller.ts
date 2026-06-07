@@ -16,7 +16,7 @@ export class SearchController {
     @Body()
     body: {
       items: Array<{
-        type: 'article' | 'event' | 'discipline';
+        type: 'article' | 'event' | 'discipline' | 'driver';
         id: number;
       }>;
     },

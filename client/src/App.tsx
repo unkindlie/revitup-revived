@@ -24,6 +24,8 @@ import {
   StatsEventPage,
   ArticleDraftPage,
   ArticlesDraftIndexPage,
+  DriversIndexPage,
+  DriverDetailedPage,
 } from '@/pages';
 import { AuthProvider } from '@/providers/AuthProvider';
 import { ThemeProvider } from '@/providers/ThemeProvider';
@@ -123,6 +125,13 @@ function App() {
               path: 'race-events',
               children: [{ path: ':id', Component: StatsEventPage }],
             },
+          ],
+        },
+        {
+          path: '/drivers',
+          children: [
+            { index: true, Component: DriversIndexPage },
+            { path: ':id', Component: DriverDetailedPage },
           ],
         },
       ],

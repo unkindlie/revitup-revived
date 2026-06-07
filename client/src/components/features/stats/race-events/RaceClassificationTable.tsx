@@ -4,6 +4,8 @@ import { Typography } from '@/components/common/typography/Typography';
 import { cn } from '@/lib/utils';
 
 import type { TRaceClassification } from '^/types/stats/race-classification';
+import { Pages, path } from '../../../../lib/routing/client';
+import { Link } from 'react-router';
 
 type SortKey =
   | 'position'
@@ -11,7 +13,8 @@ type SortKey =
   | 'name'
   | 'car'
   | 'time'
-  | 'fastestLap';
+  | 'fastestLap'
+  | 'driver';
 
 type SortDirection = 'asc' | 'desc';
 
@@ -46,6 +49,8 @@ export const RaceClassificationTable = ({
           return c.timeMs ?? 0;
         case 'fastestLap':
           return c.isFastestLap ? 1 : 0;
+        case 'driver':
+          return c.driver?.lastName ?? 'Unknown';
       }
     };
 
@@ -85,8 +90,7 @@ export const RaceClassificationTable = ({
       className="cursor-pointer px-4 py-3 text-left select-none"
       onClick={() => toggleSort(key)}
     >
-      {label}{' '}
-      {sortKey === key && (direction === 'asc' ? '↑' : '↓')}
+      {label} {sortKey === key && (direction === 'asc' ? '↑' : '↓')}
     </th>
   );
 
@@ -101,6 +105,7 @@ export const RaceClassificationTable = ({
             <Header label="Car" sortKey="car" />
             <Header label="Time" sortKey="time" />
             <Header label="FL" sortKey="fastestLap" />
+            <Header label="Driver" sortKey="driver" />
           </tr>
         </thead>
 
@@ -115,13 +120,9 @@ export const RaceClassificationTable = ({
                 c.finishPosition === 3 && 'bg-orange-500/10',
               )}
             >
-              <td className="px-4 py-2 font-semibold">
-                {c.finishPosition}
-              </td>
+              <td className="px-4 py-2 font-semibold">{c.finishPosition}</td>
 
-              <td className="px-4 py-2">
-                {c.raceEntry.entryNumber}
-              </td>
+              <td className="px-4 py-2">{c.raceEntry.entryNumber}</td>
 
               <td className="px-4 py-2">{c.raceEntry.name}</td>
 
@@ -129,9 +130,7 @@ export const RaceClassificationTable = ({
 
               <td className="px-4 py-2">
                 {c.earlyEndResult ? (
-                  <Typography destructive>
-                    {c.earlyEndResult}
-                  </Typography>
+                  <Typography destructive>{c.earlyEndResult}</Typography>
                 ) : (
                   formatRaceTime(c.timeMs)
                 )}
@@ -139,6 +138,21 @@ export const RaceClassificationTable = ({
 
               <td className="px-4 py-2 text-center">
                 {c.isFastestLap ? '🟣' : '-'}
+              </td>
+
+              <td>
+                {c.driver ? (
+                  <Link
+                    to={path(Pages.DriverDetailed, {
+                      id: c.driver.id,
+                    })}
+                    className="font-medium hover:underline"
+                  >
+                    {c.driver.firstName} {c.driver.lastName}
+                  </Link>
+                ) : (
+                  'Unknown'
+                )}
               </td>
             </tr>
           ))}

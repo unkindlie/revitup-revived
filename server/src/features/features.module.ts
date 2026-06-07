@@ -12,6 +12,7 @@ import { ThreadModule } from 'features/threads/thread.module';
 import { ThreadCategoryModule } from 'features/thread-categories/thread-category.module';
 import { UserModule } from 'features/user/user.module';
 import { SearchModule } from 'features/search/search.module';
+import { DriverModule } from './drivers/driver.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { SearchModule } from 'features/search/search.module';
     SearchModule,
     StatisticsModule,
     CircuitModule,
+    DriverModule,
   ],
 })
 export class FeaturesModule {}

@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -12,6 +14,7 @@ import {
   UPDATED_AT_COLUMN_NAME,
 } from '../../common/constants/database.constants';
 import { UserRole } from './enums/user-role.enum';
+import { DriverEntity } from '../drivers/driver.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -62,4 +65,8 @@ export class UserEntity {
 
   @Column({ name: 'profile_img_url', type: 'text', nullable: true })
   profileImgUrl: string;
+
+  @ManyToOne(() => DriverEntity, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'favorite_driver_id' })
+  favoriteDriver: DriverEntity | null;
 }

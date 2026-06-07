@@ -5,15 +5,15 @@ import { Repository } from 'typeorm';
 import { Article } from 'features/articles/article.entity';
 import { Event } from 'features/events/event.entity';
 import { DisciplineEntity } from 'features/disciplines/discipline.entity';
+import { DriverEntity } from '../drivers/driver.entity';
 
 type SearchItem = {
-  type: 'article' | 'event' | 'discipline';
+  type: 'article' | 'event' | 'discipline' | 'driver';
   id: string | number;
   title?: string;
   mainImgUrl?: string | null;
 };
 
-// TODO: move it separately to the search repository
 @Injectable()
 export class SearchService {
   constructor(
@@ -23,6 +23,8 @@ export class SearchService {
     private eventRepo: Repository<Event>,
     @InjectRepository(DisciplineEntity)
     private disciplineRepo: Repository<DisciplineEntity>,
+    @InjectRepository(DriverEntity)
+    private driverRepo: Repository<DriverEntity>,
   ) {}
 
   async search(query: string): Promise<SearchItem[]> {
@@ -30,7 +32,7 @@ export class SearchService {
 
     const q = `%${query.trim()}%`;
 
-    const [articles, events, disciplines] = await Promise.all([
+    const [articles, events, disciplines, drivers] = await Promise.all([
       this.articleRepo
         .createQueryBuilder('a')
         .select(['a.id', 'a.title', 'a.mainImgUrl'])
@@ -51,6 +53,11 @@ export class SearchService {
         .createQueryBuilder('d')
         .select(['d.id', 'd.title', 'd.mainImgUrl'])
         .where('d.title ILIKE :q', { q })
+        .getMany(),
+      this.driverRepo
+        .createQueryBuilder('dr')
+        .select(['dr.id', 'dr.firstName', 'dr.lastName', 'dr.profileImgUrl'])
+        .where('(dr.firstName ILIKE :q OR dr.lastName ILIKE :q)', { q })
         .getMany(),
     ]);
 
@@ -77,13 +84,21 @@ export class SearchService {
         title: d.title,
         mainImgUrl: d.mainImgUrl ?? null,
       });
+    for (const dr of drivers) {
+      results.push({
+        type: 'driver',
+        id: dr.id,
+        title: `${dr.firstName} ${dr.lastName}`,
+        mainImgUrl: dr.profileImgUrl ?? null,
+      });
+    }
 
     return results;
   }
 
   async fetchItems(
     items: Array<{
-      type: 'article' | 'event' | 'discipline';
+      type: 'article' | 'event' | 'discipline' | 'driver';
       id: number;
     }>,
   ): Promise<SearchItem[]> {
@@ -141,6 +156,24 @@ export class SearchService {
                 id: d.id,
                 title: d.title,
                 mainImgUrl: d.mainImgUrl ?? null,
+              });
+          }
+          if (it.type === 'driver') {
+            const dr = await this.driverRepo.findOne({
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                profileImgUrl: true,
+              },
+              where: { id: it.id },
+            });
+            if (dr)
+              results.push({
+                type: 'driver',
+                id: dr.id,
+                title: `${dr.firstName} ${dr.lastName}`,
+                mainImgUrl: dr.profileImgUrl ?? null,
               });
           }
         } catch {

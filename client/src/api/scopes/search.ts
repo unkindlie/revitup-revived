@@ -5,7 +5,7 @@ import { backendPath } from '@/lib/routing/backend';
 import type { TResponse } from '^/types/response/response.type';
 
 export type SearchResultItem = {
-  type: 'article' | 'event' | 'discipline';
+  type: 'article' | 'event' | 'discipline' | 'driver';
   id: string | number;
   title?: string;
   mainImgUrl?: string | null;

@@ -30,7 +30,7 @@ export const ArticleRandom = () => {
   return (
     <div
       onClick={handleClick}
-      className="group relative h-40 w-52 cursor-pointer overflow-hidden rounded-md border"
+      className="group relative h-40 cursor-pointer overflow-hidden rounded-md border"
     >
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-300 group-hover:scale-105"

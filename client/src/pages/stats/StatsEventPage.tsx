@@ -9,16 +9,6 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { Pages, path } from '@/lib/routing/client';
 import { RaceClassificationTable } from '../../components/features/stats/race-events/RaceClassificationTable';
 
-const formatRaceTime = (timeMs: number) => {
-  const hours = Math.floor(timeMs / 3_600_000);
-  const minutes = Math.floor((timeMs % 3_600_000) / 60_000);
-  const seconds = ((timeMs % 60_000) / 1000).toFixed(3);
-
-  return hours > 0
-    ? `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.padStart(6, '0')}`
-    : `${minutes}:${seconds.padStart(6, '0')}`;
-};
-
 export const StatsEventPage = () => {
   const { id } = useParams();
   const { data: eventRes, isLoading } = useRaceEventById(Number(id || 0));

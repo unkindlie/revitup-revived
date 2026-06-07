@@ -7,4 +7,12 @@ export type TRaceClassification = {
   isFastestLap: boolean;
   earlyEndResult: string | null;
   raceEntry: TRaceEntry;
+
+  driver: {
+    id: number;
+    firstName: string;
+    lastName: string;
+    driverNumber: number | null;
+    profileImgUrl: string | null;
+  } | null;
 };

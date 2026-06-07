@@ -20,6 +20,9 @@ export const Pages = {
   StatisticsSeasons: '/stats/seasons',
   StatisticsSeasonDetailed: '/stats/seasons/:id',
   StatisticsRaceDetailed: '/stats/race-events/:id',
+
+  DriversBase: '/drivers',
+  DriverDetailed: '/drivers/:id',
 } as const;
 
 type Params = Record<string, string | number>;
@@ -36,6 +39,10 @@ export const NAV_ROUTES = [
   {
     id: 'threads',
     route: Pages.ThreadsIndex,
+  },
+  {
+    id: 'drivers',
+    route: Pages.DriversBase,
   },
   {
     id: 'stats',

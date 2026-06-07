@@ -31,4 +31,8 @@ export { StatsSeasonsPage } from './stats/StatsSeasonsPage';
 export { StatsSeasonDetailed } from './stats/StatsSeasonDetailed';
 export { StatsEventPage } from './stats/StatsEventPage';
 
+// Drivers pages
+export { DriversIndexPage } from './drivers/index';
+export { DriverDetailedPage } from './drivers/detailed';
+
 export { MePage } from './me/MePage';
