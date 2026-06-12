@@ -26,7 +26,22 @@
     "search": {
       "title": "Search",
       "recent": "Recent",
-      "clearAll": "Clear all"
+      "clearAll": "Clear all",
+      "types": {
+        "event": "Event",
+        "discipline": "Discipline",
+        "driver": "Driver",
+        "article": "Article"
+      }
+    },
+    "image": {
+      "noImage": "No image available"
+    },
+    "randomDriver": {
+      "action": "View driver profile"
+    },
+    "latestThreads": {
+      "title": "Останні треди"
     }
   },
   "header": {

@@ -26,7 +26,22 @@
     "search": {
       "title": "Пошук",
       "recent": "Останні",
-      "clearAll": "Очистити усі"
+      "clearAll": "Очистити усі",
+      "types": {
+        "event": "Подія",
+        "discipline": "Дисципліна",
+        "driver": "Пілот",
+        "article": "Стаття"
+      }
+    },
+    "image": {
+      "noImage": "Зображення недоступне"
+    },
+    "randomDriver": {
+      "action": "Переглянути профіль пілота"
+    },
+    "latestThreads": {
+      "title": "Останні треди"
     }
   },
   "header": {
