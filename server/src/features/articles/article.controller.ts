@@ -32,7 +32,6 @@ import { UserRole } from '../user/enums/user-role.enum';
 export class ArticleController {
   constructor(private service: ArticleService) {}
 
-  // TODO: add querying and page/take params
   @Get()
   async getArticles(@Query() query: PaginatedQuery) {
     return this.service.findArticles(query.page ?? 1, query.take ?? 10);
@@ -43,7 +42,6 @@ export class ArticleController {
     return this.service.getRandomArticle();
   }
 
-  // TODO: swap UUID with article link
   @Get(':id')
   async findArticleById(@Param('id', ParseIntPipe) id: number) {
     return await this.service.findArticleById(id);

@@ -17,11 +17,6 @@ export class ArticleCreateDto {
   @MaxLength(200)
   previewText?: string;
 
-  @IsString()
-  @IsOptional()
-  @MaxLength(2000)
-  text?: string;
-
   @IsUrl()
   @IsOptional()
   mainImgUrl?: string;
