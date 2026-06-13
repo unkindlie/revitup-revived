@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from './article.entity';
-import { FindOptionsWhere, IsNull, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, IsNull, Repository } from 'typeorm';
 import { ArticleCreateDto } from './dto/article-create.dto';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import {
@@ -21,10 +21,12 @@ export class ArticleRepository {
   async findArticles(
     page: number = 1,
     take: number = 10,
+    search?: string,
   ): Promise<[Article[], number]> {
     return this.repo.findAndCount({
       select: ARTICLES_SELECT_MANY_OBJ,
       where: {
+        title: search ? ILike(`%${search}%`) : undefined,
         deletedAt: IsNull(),
         status: ArticleStatus.PUBLISHED,
       },

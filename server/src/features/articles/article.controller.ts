@@ -24,17 +24,21 @@ import { AccessTokenGuard } from '../auth/guards/access-token.guard';
 import { UserPayloadDto } from '../auth/dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { imageFileFilter } from '../../common/file-upload/image-file.filter';
-import { PaginatedQuery } from '../../common/types/pagination.type';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../user/enums/user-role.enum';
+import { ArticleQueryDto } from './dto/article-query.dto';
 
 @Controller('articles')
 export class ArticleController {
   constructor(private service: ArticleService) {}
 
   @Get()
-  async getArticles(@Query() query: PaginatedQuery) {
-    return this.service.findArticles(query.page ?? 1, query.take ?? 10);
+  async getArticles(@Query() query: ArticleQueryDto) {
+    return this.service.findArticles(
+      query.page ?? 1,
+      query.take ?? 10,
+      query.search,
+    );
   }
 
   @Get('random')

@@ -9,14 +9,19 @@ import { useResponse } from '../../hooks/useResponse';
 import { usePagination } from '../../hooks/ui/usePagination';
 import { Article } from '../../components/features/articles/Article';
 import { PaginationControls } from '../../components/common/pagination/PaginationControls';
+import { Input } from '../../components/ui/input';
+import { useTranslation } from '../../hooks/useTranslation';
 
 export const ArticlesIndexPage = () => {
   useDocumentTitle('Articles', { appNamed: true });
 
   const [searchParams, setSearchParams] = useSearchParams();
   const page = Number(searchParams.get('page') ?? 1);
+  const search = searchParams.get('search') ?? undefined;
 
-  const { data: articlesRes, isFetched } = useGetArticles(page);
+  const { t } = useTranslation(['articles']);
+
+  const { data: articlesRes, isFetched } = useGetArticles(page, 10, search);
   const { data: articles } = useResponse(articlesRes);
 
   const { currentPage, totalPages, hasPreviousPage, hasNextPage, goToPage } =
@@ -31,22 +36,44 @@ export const ArticlesIndexPage = () => {
     setSearchParams({ page: String(p) });
   };
 
+  const updateQuery = (patch: Record<string, string | number | undefined>) => {
+    const next = new URLSearchParams(searchParams);
+
+    Object.entries(patch).forEach(([key, value]) => {
+      if (!value) next.delete(key);
+      else next.set(key, String(value));
+    });
+
+    next.set('page', '1');
+    setSearchParams(next);
+  };
+
   if (!isFetched || !articles) return null;
 
   return (
     <div className="flex w-full flex-col gap-y-4">
-      <div className="flex w-full flex-row justify-between">
-        <div className="space-y-1">
-          <Typography variant="3xl" weight="semibold">
-            Articles
-          </Typography>
-          <Typography>Check any article you like</Typography>
+      <div className="flex w-full flex-row items-center justify-between">
+        <div className="flex w-full items-center justify-between">
+          <div className="space-y-1">
+            <Typography variant="3xl" weight="semibold">
+              {t('index.title')}
+            </Typography>
+            <Typography>{t('index.description')}</Typography>
+          </div>
+          <Input
+            className="w-1/2"
+            placeholder={t('index.search')}
+            defaultValue={search ?? ''}
+            onChange={(e) =>
+              updateQuery({ search: e.target.value || undefined })
+            }
+          />
         </div>
 
         <RequireRoles roles={['admin', 'editor']}>
-          <div className="space-x-3">
+          <div className="space-y-1 space-x-1 text-right">
             <Link to="/articles/draft">
-              <Typography>My drafts</Typography>
+              <Typography>{t('index.draft.title')}</Typography>
             </Link>
             <ArticleCreateForm />
           </div>

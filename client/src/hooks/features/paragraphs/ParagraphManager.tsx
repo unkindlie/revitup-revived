@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ParagraphEditor } from './ParagraphEditor';
 
 import type { Paragraph } from '^/types/paragraphs';
+import { useTranslation } from '../../useTranslation';
 
 type Props = {
   initial?: Paragraph[];
@@ -12,6 +13,7 @@ type Props = {
 
 export const ParagraphManager = ({ initial = [], onChange }: Props) => {
   const [paragraphs, setParagraphs] = useState<Paragraph[]>(initial);
+  const { t } = useTranslation(['articles']);
 
   const update = (next: Paragraph[]) => {
     setParagraphs(next);
@@ -54,7 +56,7 @@ export const ParagraphManager = ({ initial = [], onChange }: Props) => {
       ))}
 
       <Button type="button" onClick={addParagraph} variant={'outline'}>
-        Add paragraph
+        {t('draftEdit.actions.paragraphs.add')}
       </Button>
     </div>
   );

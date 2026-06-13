@@ -42,6 +42,20 @@
     },
     "latestThreads": {
       "title": "Останні треди"
+    },
+    "roles": {
+      "user": "Звичайний користувач",
+      "editor": "Редактор",
+      "admin": "Адміністратор"
+    },
+    "pagination": {
+      "previous": "Попередня",
+      "next": "Наступна"
+    },
+    "fileUpload": "Перетягни зображення або натисни, щоби обрати",
+    "disciplineSelect": {
+      "placeholder": "Оберіть дисципліну",
+      "notAvailable": "Немає дисциплін."
     }
   },
   "header": {

@@ -16,6 +16,7 @@ import type { Paragraph } from '../../../utils/types/paragraphs';
 export async function getArticles(params?: {
   page?: number;
   take?: number;
+  search?: string;
 }): Promise<TPaginatedResponse<ArticleShort>> {
   const articles = await api.get<TPaginatedResponse<ArticleShort>>(
     backendPath('ArticleBase', {}, params),

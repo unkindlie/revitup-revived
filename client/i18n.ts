@@ -8,6 +8,7 @@ import authEn from '@/assets/locales/en-GB/auth.json';
 import eventsEn from '@/assets/locales/en-GB/events.json';
 import threadsEn from '@/assets/locales/en-GB/threads.json';
 import statsEn from '@/assets/locales/en-GB/stats.json';
+import articlesEn from '@/assets/locales/en-GB/articles.json';
 
 import commonUk from '@/assets/locales/uk-UA/common.json';
 import indexUk from '@/assets/locales/uk-UA/index.json';
@@ -15,6 +16,7 @@ import authUk from '@/assets/locales/uk-UA/auth.json';
 import eventsUk from '@/assets/locales/uk-UA/events.json';
 import threadsUk from '@/assets/locales/uk-UA/threads.json';
 import statsUk from '@/assets/locales/uk-UA/stats.json';
+import articlesUk from '@/assets/locales/uk-UA/articles.json';
 
 i18n.use(initReactI18next).init({
   fallbackLng: 'en-GB',
@@ -29,6 +31,7 @@ i18n.use(initReactI18next).init({
       [TranslationNamespaces.Events]: eventsEn,
       [TranslationNamespaces.Threads]: threadsEn,
       [TranslationNamespaces.Statistics]: statsEn,
+      [TranslationNamespaces.Articles]: articlesEn,
     },
     'uk-UA': {
       [TranslationNamespaces.Common]: commonUk,
@@ -37,6 +40,7 @@ i18n.use(initReactI18next).init({
       [TranslationNamespaces.Events]: eventsUk,
       [TranslationNamespaces.Threads]: threadsUk,
       [TranslationNamespaces.Statistics]: statsUk,
+      [TranslationNamespaces.Articles]: articlesUk,
     },
   },
 });

@@ -1,5 +1,6 @@
 import { Upload } from 'lucide-react';
 import type { RefObject } from 'react';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 interface FileDropzoneProps {
   fileInputRef?: RefObject<HTMLInputElement | null>;
@@ -16,6 +17,8 @@ export function FileDropzone({
   handleDrop,
   handleFileSelect,
 }: FileDropzoneProps) {
+  const { t } = useTranslation(['common']);
+
   return (
     <div className="w-full">
       <div
@@ -27,17 +30,13 @@ export function FileDropzone({
         <div className="bg-muted mb-2 rounded-full p-3">
           <Upload className="text-muted-foreground h-5 w-5" />
         </div>
-        <p className="text-foreground text-sm font-medium">Upload an image</p>
-        <p className="text-muted-foreground mt-1 text-sm">
-          or,{' '}
-          <label
-            htmlFor="fileUpload"
-            className="text-primary hover:text-primary/90 cursor-pointer font-medium"
-            onClick={(e) => e.stopPropagation()}
-          >
-            click to browse
-          </label>{' '}
-        </p>
+        <label
+          htmlFor="fileUpload"
+          className="text-primary hover:text-primary/90 cursor-pointer font-medium"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {t('components.fileUpload')}
+        </label>
         <input
           type="file"
           id="fileUpload"

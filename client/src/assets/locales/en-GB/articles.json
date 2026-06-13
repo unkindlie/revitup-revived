@@ -1,0 +1,60 @@
+{
+  "common": {
+    "fields": {
+      "title": "Title",
+      "previewText": "Preview text",
+      "discipline": "Discipline",
+      "mainImg": "Main image",
+      "paragraphs": "Paragraphs"
+    }
+  },
+  "index": {
+    "title": "Articles",
+    "description": "Choose the article you like",
+    "search": "Search articles..",
+    "draft": {
+      "title": "My drafts",
+      "create": "Create a draft article",
+      "action": "Create draft",
+      "success": "Article draft successfully created"
+    }
+  },
+  "draft": {
+    "title": "Draft articles",
+    "noDrafts": "No drafts yet.",
+    "text": "Draft"
+  },
+  "draftEdit": {
+    "title": "Edit draft article",
+    "actions": {
+      "save": {
+        "title": "Save draft",
+        "success": "Draft updated"
+      },
+      "publish": {
+        "title": "Publish",
+        "success": "Article published"
+      },
+      "paragraphs": {
+        "add": "Add paragraph",
+        "remove": "Remove",
+        "single": "Paragraph",
+        "title": "Paragraph title",
+        "content": "Paragraph content"
+      }
+    }
+  },
+  "detailed": {
+    "loading": "Article loading...",
+    "noContent": {
+      "title": "No content yet",
+      "description": "This article does not contain any paragraphs yet."
+    },
+    "author": "About the author",
+    "published": "Published",
+    "updated": "Updated",
+    "sections": "Sections",
+    "toDraft": "Move to draft",
+    "discipline": "Discipline"
+  }
+}

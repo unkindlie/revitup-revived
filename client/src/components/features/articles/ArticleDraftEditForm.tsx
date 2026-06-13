@@ -22,6 +22,7 @@ import { ParagraphManager } from '../../../hooks/features/paragraphs/ParagraphMa
 import { usePublishArticle } from '../../../hooks/features/articles/usePublishArticle';
 import { useNavigate } from 'react-router';
 import { Pages, path } from '../../../lib/routing/client';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 type FormValues = {
   title: string;
@@ -52,6 +53,7 @@ export const ArticleDraftEditForm = ({
   const { mutateAsync: updateDraft, isPending } = useEditArticle(articleId);
   const { mutateAsync: publishArticle, isPending: isPublishing } =
     usePublishArticle(articleId);
+  const { t } = useTranslation(['articles']);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -59,10 +61,8 @@ export const ArticleDraftEditForm = ({
     defaultValues.paragraphs ?? [],
   );
   const [selectedDiscipline, setSelectedDiscipline] = useState<
-    string | undefined
-  >(
-    defaultValues.disciplineId ? String(defaultValues.disciplineId) : undefined,
-  );
+    number | undefined
+  >(defaultValues.disciplineId || undefined);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [mainImage, setMainImage] = useState<File | null>(null);
 
@@ -108,7 +108,7 @@ export const ArticleDraftEditForm = ({
         paragraphs,
       });
 
-      toast.success('Draft updated');
+      toast.success(t('draftEdit.actions.save.success'));
 
       if (mainImage) removeFile();
     } catch (e: any) {
@@ -120,34 +120,34 @@ export const ArticleDraftEditForm = ({
     <TranslationNamespaceProvider namespace={'common'}>
       <div className="mx-auto flex w-full max-w-3xl flex-col gap-6">
         <Typography variant="3xl" weight="semibold">
-          Edit draft article
+          {t('draftEdit.title')}
         </Typography>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <FormField
             id="title"
-            label="Title"
+            label={t('common.fields.title')}
             errorMessage={errors.title?.message}
           >
             <Input id="title" {...register('title')} />
           </FormField>
 
-          <FormField id="previewText" label="Preview text">
+          <FormField id="previewText" label={t('common.fields.previewText')}>
             <Input id="previewText" {...register('previewText')} />
           </FormField>
 
           <div>
-            <FormField id="discipline" label="Discipline">
+            <FormField id="discipline" label={t('common.fields.discipline')}>
               <DisciplineSelect
-                defaultValue={selectedDiscipline}
-                onValueChange={(v) => setSelectedDiscipline(v)}
+                defaultValue={String(selectedDiscipline)}
+                onValueChange={(v) => setSelectedDiscipline(Number(v))}
               />
             </FormField>
           </div>
 
           <div className="flex flex-col gap-3">
             <Typography variant="sm" weight="medium">
-              Main image
+              {t('common.fields.mainImg')}
             </Typography>
 
             <div className="flex w-full items-center space-x-3">
@@ -177,7 +177,7 @@ export const ArticleDraftEditForm = ({
           {paragraphs.length > 0 && (
             <div className="flex flex-col gap-4">
               <Typography variant="xl" weight="semibold">
-                Paragraphs
+                {t('common.fields.paragraphs')}
               </Typography>
 
               {paragraphs
@@ -200,7 +200,7 @@ export const ArticleDraftEditForm = ({
 
           <div className="flex flex-col gap-3">
             <Typography variant="lg" weight="semibold">
-              Paragraphs
+              {t('common.fields.paragraphs')}
             </Typography>
 
             <ParagraphManager initial={paragraphs} onChange={setParagraphs} />
@@ -212,7 +212,11 @@ export const ArticleDraftEditForm = ({
               type="submit"
               disabled={!isValid || isPending}
             >
-              {isPending ? <Spinner size="sm" /> : 'Save draft'}
+              {isPending ? (
+                <Spinner size="sm" />
+              ) : (
+                t('draftEdit.actions.save.title')
+              )}
             </Button>
 
             <Button
@@ -227,7 +231,11 @@ export const ArticleDraftEditForm = ({
                 });
               }}
             >
-              {isPublishing ? <Spinner size="sm" /> : 'Publish'}
+              {isPublishing ? (
+                <Spinner size="sm" />
+              ) : (
+                t('draftEdit.actions.publish.title')
+              )}
             </Button>
           </div>
         </form>

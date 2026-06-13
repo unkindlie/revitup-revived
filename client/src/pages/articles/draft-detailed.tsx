@@ -23,8 +23,6 @@ export const ArticleDraftPage = () => {
     );
   }
 
-  console.log(article);
-
   return (
     <div className="flex w-full">
       <ArticleDraftEditForm

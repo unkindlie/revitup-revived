@@ -13,6 +13,7 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useResponse } from '@/hooks/useResponse';
 import { timeAgo } from '@/time-ago';
 import { RequireRoles } from '../../hoc/RequireRoles';
+import { useTranslation } from '../../hooks/useTranslation';
 
 export const ArticleDetailedPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,8 +23,9 @@ export const ArticleDetailedPage = () => {
 
   const { mutate: deleteArticle, isPending: deletionPending } =
     useDeleteArticle(Number(id) || 0);
+  const { t } = useTranslation(['articles']);
 
-  useDocumentTitle(`${article ? article.title : 'Article loading...'}`, {
+  useDocumentTitle(`${article ? article.title : t('detailed.loading')}`, {
     appNamed: true,
   });
 
@@ -89,14 +91,14 @@ export const ArticleDetailedPage = () => {
             {!article.paragraphs?.length ? (
               <div className="space-x-2 rounded-md border border-dashed p-8 text-center">
                 <Typography variant="lg" weight="medium">
-                  No content yet
+                  {t('detailed.noContent.title')}
                 </Typography>
 
                 <Typography
                   variant="base"
                   className="text-muted-foreground mt-2"
                 >
-                  This article does not contain any paragraphs yet.
+                  {t('detailed.noContent.description')}
                 </Typography>
               </div>
             ) : (
@@ -112,7 +114,7 @@ export const ArticleDetailedPage = () => {
                     <Typography
                       paragraph
                       variant="md"
-                      className="text-foreground/90 leading-8 whitespace-pre-wrap"
+                      className="text-foreground/90 whitespace-pre-wrap"
                     >
                       {paragraph.content}
                     </Typography>
@@ -158,10 +160,10 @@ export const ArticleDetailedPage = () => {
                 {article.author?.username && (
                   <Typography variant="sm" className="text-muted-foreground">
                     {article.author.roles.includes('admin')
-                      ? 'Admin'
+                      ? t('components.roles.admin', { ns: 'common' })
                       : article.author.roles.includes('editor')
-                        ? 'Editor'
-                        : 'Default peasant'}
+                        ? t('components.roles.editor', { ns: 'common' })
+                        : t('components.roles.user', { ns: 'common' })}
                   </Typography>
                 )}
               </div>
@@ -176,7 +178,7 @@ export const ArticleDetailedPage = () => {
                   weight="medium"
                   className="text-muted-foreground"
                 >
-                  Published
+                  {t('detailed.published')}:
                 </Typography>
 
                 <Typography>
@@ -191,7 +193,7 @@ export const ArticleDetailedPage = () => {
                     weight="medium"
                     className="text-muted-foreground"
                   >
-                    Updated
+                    {t('detailed.updated')}:
                   </Typography>
 
                   <Typography>
@@ -207,7 +209,7 @@ export const ArticleDetailedPage = () => {
                     weight="medium"
                     className="text-muted-foreground"
                   >
-                    Discipline
+                    {t('detailed.discipline')}:
                   </Typography>
 
                   <div className="mt-1 flex items-center gap-2">
@@ -231,7 +233,7 @@ export const ArticleDetailedPage = () => {
                     weight="medium"
                     className="text-muted-foreground"
                   >
-                    Sections
+                    {t('detailed.sections')}:
                   </Typography>
 
                   <Typography>{article?.paragraphs?.length}</Typography>

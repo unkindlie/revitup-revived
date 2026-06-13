@@ -5,6 +5,7 @@ import { Typography } from '@/components/common/typography/Typography';
 import { Pages, path } from '@/lib/routing/client';
 
 import type { ArticleShort } from '^/types/articles';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 type Props = {
   article: ArticleShort;
@@ -15,7 +16,8 @@ export const ArticleCard = ({ article, draft = false }: Props) => {
   const navigate = useNavigate();
 
   const { id, title, previewText, mainImgUrl, createdAt } = article;
-  const { discipline } = article as any;
+  const { discipline } = article;
+  const { t } = useTranslation(['articles']);
 
   const destination = draft
     ? path(Pages.ArticleDraftEdit, { id })
@@ -72,7 +74,7 @@ export const ArticleCard = ({ article, draft = false }: Props) => {
         {draft && (
           <div className="mt-1">
             <Typography variant="sm" weight="medium" className="text-amber-500">
-              Draft
+              {t('draft.text')}
             </Typography>
           </div>
         )}

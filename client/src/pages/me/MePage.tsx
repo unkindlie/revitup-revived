@@ -1,11 +1,11 @@
-import { Typography } from '../../components/common/typography/Typography';
+import { RequireAuth } from '../../hoc/RequireAuth';
 import { useUserStore } from '../../stores/user.store';
 import { ProfilePage } from '../ProfilePage';
 
 export const MePage = () => {
   const user = useUserStore((state) => state.user);
 
-  if (!user) return <Typography>cuh1</Typography>;
+  if (!user) return <RequireAuth>{null}</RequireAuth>;
 
   return <ProfilePage id={user.id} />;
 };
