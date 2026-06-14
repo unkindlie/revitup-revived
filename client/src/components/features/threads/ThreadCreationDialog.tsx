@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { type ComponentProps } from 'react';
+import { useEffect, type ComponentProps } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -76,7 +76,7 @@ export const ThreadCreateButton = ({
       {...props}
     >
       <Typography className="hidden text-white lg:block" weight="medium">
-        Add a thread
+        {t('index.createButton.title')}
       </Typography>
     </FloatingActionButton>
   );
@@ -97,10 +97,12 @@ export const ThreadCreationDialog = ({
     mode: 'onChange',
   });
   const { mutateAsync, isPending } = useCreateThread();
-  const { error, success } = toast;
+  const { error } = toast;
   const { closeHidden, closeRef } = useCloseDialog();
+  const { t } = useTranslation(['threads']);
 
   const isLogged = useUserStore((state) => state.isLogged);
+
   const onSubmit: SubmitHandler<TThreadCreate> = async (
     data: TThreadCreate,
   ) => {
@@ -108,7 +110,6 @@ export const ThreadCreationDialog = ({
       await mutateAsync(data);
 
       closeRef.current?.click();
-      success('Thread created successfully');
     } catch (e) {
       error('Error creating the thread', { description: e as string });
     }
@@ -122,9 +123,9 @@ export const ThreadCreationDialog = ({
       <DialogContent>
         <TranslationNamespaceProvider namespace={'threads'}>
           <DialogHeader>
-            <DialogTitle>Add a thread</DialogTitle>
+            <DialogTitle>{t('index.createForm.header.title')}</DialogTitle>
             <DialogDescription>
-              Here you can create your article
+              {t('index.createForm.header.description')}
             </DialogDescription>
           </DialogHeader>
           <form
@@ -133,24 +134,26 @@ export const ThreadCreationDialog = ({
           >
             <FormField
               id="title"
-              label="Title"
+              label={t('index.createForm.fields.title.name')}
               errorMessage={formErrors.title?.message}
             >
               <Input
                 id="title"
-                placeholder="Thread title"
+                placeholder={t('index.createForm.fields.title.placeholder')}
                 {...register('title')}
               />
             </FormField>
 
             <FormField
               id="description"
-              label="Description"
+              label={t('index.createForm.fields.description.name')}
               errorMessage={formErrors.description?.message}
             >
               <Textarea
                 id="description"
-                placeholder="Thread description"
+                placeholder={t(
+                  'index.createForm.fields.description.placeholder',
+                )}
                 className="w-full rounded-lg border p-2"
                 {...register('description')}
               />
@@ -158,23 +161,37 @@ export const ThreadCreationDialog = ({
 
             <FormField
               id="categoryId"
-              label="Category"
+              label={t('index.createForm.fields.category')}
               errorMessage={formErrors.categoryId?.message}
             >
               <ThreadCategoriesSelect
                 defaultValue={defaultCategoryId}
-                onValueChange={(value) => setValue('categoryId', Number(value))}
+                onValueChange={(value) =>
+                  setValue('categoryId', Number(value), {
+                    shouldDirty: true,
+                    shouldTouch: true,
+                    shouldValidate: true,
+                  })
+                }
                 {...register('categoryId')}
               />
             </FormField>
 
             <div className="flex gap-2">
-              <Button type="submit" disabled={!isValid} className="flex-1">
-                {isPending ? <Spinner size="sm" /> : 'Create'}
+              <Button
+                type="submit"
+                disabled={!isValid || isPending}
+                className="flex-1"
+              >
+                {isPending ? (
+                  <Spinner size="sm" />
+                ) : (
+                  t('common.actions.create', { ns: 'common' })
+                )}
               </Button>
               <DialogClose asChild>
                 <Button type="button" variant="outline">
-                  Cancel
+                  {t('common.actions.cancel', { ns: 'common' })}
                 </Button>
               </DialogClose>
             </div>

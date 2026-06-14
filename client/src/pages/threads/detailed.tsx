@@ -38,7 +38,7 @@ export const ThreadDetailedPage = () => {
               <div className="text-muted-foreground flex items-center gap-2">
                 <Link to="/threads">
                   <Typography variant="sm" weight="medium">
-                    Threads
+                    {t('detailed.index')}
                   </Typography>
                 </Link>
 
@@ -94,7 +94,7 @@ export const ThreadDetailedPage = () => {
         <aside className="w-full xl:sticky xl:top-20 xl:w-80">
           <div className="bg-card rounded-lg border p-4">
             <Typography variant="lg" weight="semibold">
-              Thread info
+              {t('detailed.info.title')}
             </Typography>
 
             <SeparatorLine className="my-3" />
@@ -123,10 +123,10 @@ export const ThreadDetailedPage = () => {
                   {thread.author?.username && (
                     <Typography variant="sm" className="text-muted-foreground">
                       {thread.author.roles.includes('admin')
-                        ? 'Admin'
+                        ? t('components.roles.admin', { ns: 'common' })
                         : thread.author.roles.includes('editor')
-                          ? 'Editor'
-                          : 'Default peasant'}
+                          ? t('components.roles.editor', { ns: 'common' })
+                          : t('components.roles.user', { ns: 'common' })}
                     </Typography>
                   )}
                 </div>
@@ -134,7 +134,7 @@ export const ThreadDetailedPage = () => {
 
               <div className="flex items-center gap-x-2">
                 <Typography variant="sm" className="text-muted-foreground">
-                  Created
+                  {t('detailed.info.created')}
                 </Typography>
                 <Typography>
                   {new Date(createdAt).toLocaleDateString()}
@@ -144,7 +144,7 @@ export const ThreadDetailedPage = () => {
               {category && (
                 <div className="flex items-center gap-x-2">
                   <Typography variant="sm" className="text-muted-foreground">
-                    Category
+                    {t('detailed.info.category')}
                   </Typography>
                   <Typography>{category.name}</Typography>
                 </div>
