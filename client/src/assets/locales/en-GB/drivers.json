@@ -1,0 +1,15 @@
+{
+  "index": {
+    "title": "Drivers",
+    "description": "Explore drivers across many disciplines",
+    "search": "Search drivers...",
+    "reset": "Reset"
+  },
+  "detailed": {
+    "born": "Born:",
+    "number": "Number:",
+    "biography": "Biography",
+    "gallery": "Gallery",
+    "notFound": "Driver not found"
+  }
+}

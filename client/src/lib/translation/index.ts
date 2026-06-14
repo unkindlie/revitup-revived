@@ -6,6 +6,7 @@ export const TranslationNamespaces = {
   Threads: 'threads',
   Statistics: 'stats',
   Articles: 'articles',
+  Drivers: 'drivers',
 } as const;
 
 export type TranslationNamespace =

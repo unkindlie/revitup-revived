@@ -12,6 +12,7 @@ import { useDrivers } from '@/hooks/features/drivers/useDrivers';
 import { useResponse } from '@/hooks/useResponse';
 import { usePagination } from '@/hooks/ui/usePagination';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
+import { useTranslation } from '../../hooks/useTranslation';
 
 export const DriversIndexPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -30,10 +31,11 @@ export const DriversIndexPage = () => {
     discipline,
     search,
   });
+  const { t } = useTranslation(['drivers']);
 
   const { data: drivers } = useResponse(driversRes);
 
-  useDocumentTitle('Drivers', { appNamed: true });
+  useDocumentTitle(t('index.title'), { appNamed: true });
 
   const { currentPage, totalPages, hasNextPage, hasPreviousPage, goToPage } =
     usePagination({
@@ -68,17 +70,17 @@ export const DriversIndexPage = () => {
     <div className="flex w-full flex-col gap-4">
       <div className="flex flex-col gap-2">
         <Typography variant="3xl" weight="semibold">
-          Drivers
+          {t('index.title')}
         </Typography>
 
         <Typography className="text-muted-foreground">
-          Explore drivers across disciplines, teams, and eras
+          {t('index.description')}
         </Typography>
       </div>
 
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
         <Input
-          placeholder="Search drivers..."
+          placeholder={t('index.search')}
           defaultValue={search ?? ''}
           onChange={(e) => updateQuery({ search: e.target.value || undefined })}
         />
@@ -91,6 +93,12 @@ export const DriversIndexPage = () => {
             }
           />
         </div>
+        <button
+          className="text-muted-foreground text-sm hover:underline"
+          onClick={() => setSearchParams(undefined)}
+        >
+          {t('index.reset')}
+        </button>
       </div>
 
       <div className="relative">
