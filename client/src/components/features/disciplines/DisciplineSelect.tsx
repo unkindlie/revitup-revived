@@ -18,7 +18,7 @@ type SelectProps = ComponentProps<typeof SelectPrimitive.Root>;
 
 export const DisciplineSelect = ({
   onValueChange,
-  defaultValue,
+  value,
   ...props
 }: SelectProps) => {
   const { data: disciplinesRes, isLoading } = useDisciplines();
@@ -36,11 +36,7 @@ export const DisciplineSelect = ({
     );
 
   return (
-    <Select
-      onValueChange={onValueChange}
-      defaultValue={defaultValue}
-      {...props}
-    >
+    <Select onValueChange={onValueChange} value={value} {...props}>
       <SelectTrigger className="w-full">
         <SelectValue
           placeholder={t('components.disciplineSelect.placeholder')}
@@ -49,7 +45,7 @@ export const DisciplineSelect = ({
       <SelectContent className="w-full" position="popper">
         <SelectGroup>
           {disciplines.map((d) => (
-            <SelectItem key={d.id} value={String(d.id)}>
+            <SelectItem key={d.id} value={String(d.shortCode)}>
               <>
                 {d.mainImgUrl && (
                   <img src={d.mainImgUrl} className="mr-2 h-5 w-5 rounded-sm" />

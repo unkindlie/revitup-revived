@@ -19,72 +19,76 @@ export const StatsEventPage = () => {
   if (isLoading || !event) return <CenteredSpinner />;
 
   return (
-    <div className="flex flex-col space-y-4 lg:w-3/5">
-      <div>
-        <Typography className="flex" variant="2xl" weight="semibold">
-          {event.eventStage}.{' '}
-          <Typography className="ml-1" variant="2xl" weight="semibold">
-            {event.name}
-          </Typography>
-        </Typography>
-      </div>
-
-      {event.description && (
+    <div className="flex flex-col space-y-4">
+      <div className="space-y-4 lg:w-3/5">
         <div>
-          <Typography>{event.description}</Typography>
+          <Typography className="flex" variant="2xl" weight="semibold">
+            {event.eventStage}.{' '}
+            <Typography className="ml-1" variant="2xl" weight="semibold">
+              {event.name}
+            </Typography>
+          </Typography>
+        </div>
+
+        {event.description && (
+          <div>
+            <Typography>{event.description}</Typography>
+          </div>
+        )}
+
+        <div className="flex flex-col space-y-2">
+          <div className="flex items-center space-x-2">
+            <MapPin />
+            <Typography weight="medium">{event.circuit.name}</Typography>
+            <Typography className="ml-2">
+              {t('common.namings.laps', { count: event.laps })} (
+              {Number(event.laps) * event.circuit.length} km)
+            </Typography>
+          </div>
+
+          <div className="flex items-center">
+            <Calendar />
+            <Typography className="ml-2">
+              {new Date(event.startDate).toDateString()} -{' '}
+              {new Date(event.endDate).toDateString()}
+            </Typography>
+          </div>
+
+          {event.season && (
+            <div className="flex items-center space-x-2">
+              <Typography>
+                {t('common.namings.season', { season: null })}:
+              </Typography>
+              <Link
+                className="flex items-center space-x-1 md:space-x-2"
+                to={path(Pages.StatisticsSeasonDetailed, {
+                  id: event.season.id,
+                })}
+              >
+                <img
+                  style={{
+                    backgroundColor: event.season.discipline.bgColor,
+                  }}
+                  className="size-12 rounded-sm p-1"
+                  src={event.season.discipline.mainImgUrl}
+                />
+                <Typography weight="semibold">
+                  {event.season.seasonYear} {event.season.discipline.title}
+                </Typography>
+              </Link>
+            </div>
+          )}
+        </div>
+      </div>
+      {event.classification?.length > 0 && (
+        <div className="mt-6 lg:w-4/5">
+          <Typography variant="2xl" weight="semibold" className="mb-4">
+            {t('raceEventDetailed.class')}
+          </Typography>
+
+          <RaceClassificationTable classifications={event.classification} />
         </div>
       )}
-
-      <div className="flex flex-col space-y-2">
-        <div className="flex items-center space-x-2">
-          <MapPin />
-          <Typography weight="medium">{event.circuit.name}</Typography>
-          <Typography className="ml-2">
-            {t('common.namings.laps', { count: event.laps })} (
-            {Number(event.laps) * event.circuit.length} km)
-          </Typography>
-        </div>
-
-        <div className="flex items-center">
-          <Calendar />
-          <Typography className="ml-2">
-            {new Date(event.startDate).toDateString()} -{' '}
-            {new Date(event.endDate).toDateString()}
-          </Typography>
-        </div>
-
-        {event.season && (
-          <div className="flex items-center space-x-2">
-            <Typography>
-              {t('common.namings.season', { season: null })}:
-            </Typography>
-            <Link
-              className="flex items-center space-x-1 md:space-x-2"
-              to={path(Pages.StatisticsSeasonDetailed, { id: event.season.id })}
-            >
-              <img
-                style={{
-                  backgroundColor: event.season.discipline.bgColor,
-                }}
-                className="size-12 rounded-sm p-1"
-                src={event.season.discipline.mainImgUrl}
-              />
-              <Typography weight="semibold">
-                {event.season.seasonYear} {event.season.discipline.title}
-              </Typography>
-            </Link>
-          </div>
-        )}
-        {event.classification?.length > 0 && (
-          <div className="mt-6">
-            <Typography variant="2xl" weight="semibold" className="mb-4">
-              Race Classification
-            </Typography>
-
-            <RaceClassificationTable classifications={event.classification} />
-          </div>
-        )}
-      </div>
     </div>
   );
 };

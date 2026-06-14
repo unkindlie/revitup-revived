@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import type { TRaceClassification } from '^/types/stats/race-classification';
 import { Pages, path } from '../../../../lib/routing/client';
 import { Link } from 'react-router';
+import { useTranslation } from '../../../../hooks/useTranslation';
 
 type SortKey =
   | 'position'
@@ -31,6 +32,7 @@ export const RaceClassificationTable = ({
 }) => {
   const [sortKey, setSortKey] = useState<SortKey>('position');
   const [direction, setDirection] = useState<SortDirection>('asc');
+  const { t } = useTranslation(['stats']);
 
   const sorted = useMemo(() => {
     const data = [...classifications];
@@ -99,13 +101,31 @@ export const RaceClassificationTable = ({
       <table className="w-full text-sm">
         <thead className="bg-muted">
           <tr>
-            <Header label="Pos" sortKey="position" />
+            <Header
+              label={t('raceEventDetailed.sortColumns.pos')}
+              sortKey="position"
+            />
             <Header label="#" sortKey="entryNumber" />
-            <Header label="Entry" sortKey="name" />
-            <Header label="Car" sortKey="car" />
-            <Header label="Time" sortKey="time" />
-            <Header label="FL" sortKey="fastestLap" />
-            <Header label="Driver" sortKey="driver" />
+            <Header
+              label={t('raceEventDetailed.sortColumns.entry')}
+              sortKey="name"
+            />
+            <Header
+              label={t('raceEventDetailed.sortColumns.car')}
+              sortKey="car"
+            />
+            <Header
+              label={t('raceEventDetailed.sortColumns.time')}
+              sortKey="time"
+            />
+            <Header
+              label={t('raceEventDetailed.sortColumns.fastestLap')}
+              sortKey="fastestLap"
+            />
+            <Header
+              label={t('raceEventDetailed.sortColumns.driver')}
+              sortKey="driver"
+            />
           </tr>
         </thead>
 
