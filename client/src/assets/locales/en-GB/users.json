@@ -1,0 +1,30 @@
+{
+  "profile": {
+    "actions": {
+      "changePw": {
+        "title": "Change password",
+        "action": "Change"
+      },
+      "changePfp": {
+        "title": "Change profile picture",
+        "action": "Upload"
+      },
+      "editProfile": {
+        "title": "Edit profile",
+        "action": "Update"
+      }
+    },
+    "body": {
+      "bio": {
+        "title": "About the user",
+        "placeholder": "User has not provided his bio/description of his profile"
+      },
+      "images": {
+        "title": "{{username}}' Profile Images",
+        "action": "Delete",
+        "items_one": "image",
+        "items_other": "images"
+      }
+    }
+  }
+}

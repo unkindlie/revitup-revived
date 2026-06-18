@@ -18,6 +18,7 @@ import { Spinner } from '@/components/common/spinner/Spinner';
 import { useUpdateUser } from '@/hooks/features/users/useUpdateUser';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
 import { Textarea } from '../../../ui/textarea';
+import { useTranslation } from '../../../../hooks/useTranslation';
 
 const schema = yup.object({
   username: yup.string().required().min(8).max(100),
@@ -35,6 +36,7 @@ export function EditProfileDialog({
 }) {
   const { closeHidden, closeRef } = useCloseDialog();
   const { mutateAsync, isPending } = useUpdateUser(userId);
+  const { t } = useTranslation(['users']);
 
   const {
     register,
@@ -62,22 +64,26 @@ export function EditProfileDialog({
     <Dialog>
       <DialogTrigger asChild>
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          Edit profile
+          {t('profile.actions.editProfile.title')}
         </DropdownMenuItem>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle> {t('profile.actions.editProfile.title')}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-          <Input {...register('username')} />
+          <Input placeholder="Назва користувача" {...register('username')} />
 
-          <Textarea {...register('description')} />
+          <Textarea placeholder="Опис" {...register('description')} />
 
-          <Button disabled={!isValid || isPending}>
-            {isPending ? <Spinner size="sm" /> : 'Save'}
+          <Button className="w-full" disabled={!isValid || isPending}>
+            {isPending ? (
+              <Spinner size="sm" />
+            ) : (
+              t('profile.actions.editProfile.action')
+            )}
           </Button>
         </form>
 

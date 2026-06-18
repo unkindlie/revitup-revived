@@ -5,6 +5,7 @@ import { Typography } from '@/components/common/typography/Typography';
 import { ProfileContextMenu } from '@/components/features/profile/ProfileContextMenu';
 import { useGetUserById } from '@/hooks/features/users/useGetUserById';
 import { useResponse } from '@/hooks/useResponse';
+import { useTranslation } from '../hooks/useTranslation';
 
 type ProfilePageProps = {
   id: number;
@@ -12,6 +13,7 @@ type ProfilePageProps = {
 
 export const ProfilePage = ({ id }: ProfilePageProps) => {
   const { data: userRes } = useGetUserById(id);
+  const { t } = useTranslation(['users']);
 
   const { data: user } = useResponse(userRes);
 
@@ -33,10 +35,10 @@ export const ProfilePage = ({ id }: ProfilePageProps) => {
             </Typography>
             <Typography>
               {user.roles.includes('admin')
-                ? 'Admin'
+                ? t('components.roles.admin', { ns: 'common' })
                 : user.roles.includes('editor')
-                  ? 'Editor'
-                  : 'Default peasant'}
+                  ? t('components.roles.editor', { ns: 'common' })
+                  : t('components.roles.user', { ns: 'common' })}
             </Typography>
           </div>
         </div>
@@ -44,11 +46,10 @@ export const ProfilePage = ({ id }: ProfilePageProps) => {
       </div>
       <div>
         <Typography variant="2xl" weight="semibold">
-          About the user
+          {t('profile.body.bio.title')}
         </Typography>
         <Typography>
-          {user.description ||
-            'User has not provided his bio/description of his profile'}
+          {user.description || t('profile.body.bio.placeholder')}
         </Typography>
       </div>
     </div>

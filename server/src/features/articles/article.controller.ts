@@ -27,12 +27,14 @@ import { imageFileFilter } from '../../common/file-upload/image-file.filter';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UserRole } from '../user/enums/user-role.enum';
 import { ArticleQueryDto } from './dto/article-query.dto';
+import { CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('articles')
 export class ArticleController {
   constructor(private service: ArticleService) {}
 
   @Get()
+  @CacheTTL(10000)
   async getArticles(@Query() query: ArticleQueryDto) {
     return this.service.findArticles(
       query.page ?? 1,
@@ -42,11 +44,13 @@ export class ArticleController {
   }
 
   @Get('random')
+  @CacheTTL(10000)
   async getRandomArticle() {
     return this.service.getRandomArticle();
   }
 
   @Get(':id')
+  @CacheTTL(10000)
   async findArticleById(@Param('id', ParseIntPipe) id: number) {
     return await this.service.findArticleById(id);
   }

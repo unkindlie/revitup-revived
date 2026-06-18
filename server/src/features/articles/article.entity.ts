@@ -32,10 +32,6 @@ export class Article {
   })
   previewText: string;
 
-  // TODO: replace this column with a separate "paragraphs" table
-  @Column({ length: 2000, nullable: true })
-  text: string;
-
   @Column({ name: 'main_img_url', nullable: true })
   mainImgUrl: string;
 

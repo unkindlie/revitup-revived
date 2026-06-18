@@ -244,7 +244,7 @@ export const ArticleDetailedPage = () => {
           <RequireRoles roles={['admin', 'editor']}>
             <div className="mt-4 flex gap-2">
               <Button className="w-32" onClick={() => deleteArticle()}>
-                {deletionPending ? <Spinner size="sm" /> : 'Delete article'}
+                {deletionPending ? <Spinner size="sm" /> : 'Видалити статтю'}
               </Button>
             </div>
           </RequireRoles>
