@@ -5,13 +5,16 @@ import { ThreadRepository } from 'features/threads/thread.repository';
 import { ThreadShortDto } from 'features/threads/types/thread-short.dto';
 import { ThreadCreateDto } from 'features/threads/types/thread-create.dto';
 import { ThreadsFromCategoryDto } from './types/threads-from-category.dto';
+import { PaginatedQuery } from '../../common/types/pagination.type';
 
 @Injectable()
 export class ThreadService {
   constructor(private repo: ThreadRepository) {}
 
-  async getThreads(): Promise<ThreadShortDto[]> {
-    return plainToInstance(ThreadShortDto, await this.repo.getThreads());
+  async getThreads(query: PaginatedQuery): Promise<[ThreadShortDto[], number]> {
+    const [threads, count] = await this.repo.getThreads(query.page, query.take);
+
+    return [plainToInstance(ThreadShortDto, threads), count];
   }
 
   async getThreadsByCategoryCode(
