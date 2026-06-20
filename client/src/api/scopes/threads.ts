@@ -1,6 +1,9 @@
 import { api } from '@/api';
-import { backendPath, BackendRoutes } from '@/lib/routing/backend';
-import type { TResponse } from '^/types/response/response.type';
+import { backendPath } from '@/lib/routing/backend';
+import type {
+  TPaginatedResponse,
+  TResponse,
+} from '^/types/response/response.type';
 import type {
   TThreadCreate,
   TThreadDetailed,
@@ -9,12 +12,13 @@ import type {
 } from '^/types/threads';
 import type { TThreadsWithCategory } from '^/types/thread-categories';
 
-export async function getThreads(): Promise<TResponse<TThreadShort[]>> {
-  const res = await api.get<TResponse<TThreadShort[]>>(
-    BackendRoutes.ThreadBase,
-  );
+export async function getThreads(
+  page = 1,
+  take = 15,
+): Promise<TPaginatedResponse<TThreadShort>> {
+  const resp = await api.get(backendPath('ThreadBase', {}, { page, take }));
 
-  return await res.json();
+  return await resp.json();
 }
 
 export async function getThreadsByCategory(

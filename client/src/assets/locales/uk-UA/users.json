@@ -1,0 +1,29 @@
+{
+  "profile": {
+    "actions": {
+      "changePw": {
+        "title": "Змінити пароль",
+        "action": "Змінити"
+      },
+      "changePfp": {
+        "title": "Змінити фото профілю",
+        "action": "Завантажити"
+      },
+      "editProfile": {
+        "title": "Оновити профіль",
+        "action": "Оновити"
+      }
+    },
+    "body": {
+      "bio": {
+        "title": "Про користувача",
+        "placeholder": "Користувач не надав опис свого профілю"
+      },
+      "images": {
+        "title": "Фото профілю {{username}}",
+        "action": "Видалити",
+        "items": "фото"
+      }
+    }
+  }
+}

@@ -33,8 +33,8 @@ export const RaceEventItem = ({
         <MapPin />
         <Typography weight="medium">{circuit.name}</Typography>
         <Typography className="ml-2">
-          {t('common.namings.laps', { count: laps })} ({laps * circuit.length}{' '}
-          km)
+          {t('common.namings.laps', { count: laps })} (
+          {(laps * circuit.length).toFixed(3)} km)
         </Typography>
       </div>
       <div className="flex">

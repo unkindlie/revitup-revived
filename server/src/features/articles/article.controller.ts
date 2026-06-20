@@ -24,25 +24,33 @@ import { AccessTokenGuard } from '../auth/guards/access-token.guard';
 import { UserPayloadDto } from '../auth/dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { imageFileFilter } from '../../common/file-upload/image-file.filter';
-import { PaginatedQuery } from '../../common/types/pagination.type';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { UserRole } from '../user/enums/user-role.enum';
+import { ArticleQueryDto } from './dto/article-query.dto';
+import { CacheTTL } from '@nestjs/cache-manager';
 
 @Controller('articles')
 export class ArticleController {
   constructor(private service: ArticleService) {}
 
-  // TODO: add querying and page/take params
   @Get()
-  async getArticles(@Query() query: PaginatedQuery) {
-    return this.service.findArticles(query.page ?? 1, query.take ?? 10);
+  @CacheTTL(10000)
+  async getArticles(@Query() query: ArticleQueryDto) {
+    return this.service.findArticles(
+      query.page ?? 1,
+      query.take ?? 10,
+      query.search,
+    );
   }
 
   @Get('random')
+  @CacheTTL(10000)
   async getRandomArticle() {
     return this.service.getRandomArticle();
   }
 
-  // TODO: swap UUID with article link
   @Get(':id')
+  @CacheTTL(10000)
   async findArticleById(@Param('id', ParseIntPipe) id: number) {
     return await this.service.findArticleById(id);
   }
@@ -63,6 +71,7 @@ export class ArticleController {
   }
 
   @Post()
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   @UseGuards(AccessTokenGuard)
   async createArticle(
     @Body() article: ArticleCreateDto,
@@ -74,6 +83,7 @@ export class ArticleController {
   }
 
   @Patch('publish/:id')
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   @UseGuards(AccessTokenGuard)
   async publishArticle(
     @Param('id', ParseIntPipe) id: number,
@@ -85,6 +95,7 @@ export class ArticleController {
   }
 
   @Patch('update/:id')
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   @UseGuards(AccessTokenGuard)
   @UseInterceptors(
     FileInterceptor('image', {
@@ -109,6 +120,7 @@ export class ArticleController {
   }
 
   @Patch('revert-soft-delete/:id')
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   async revertSoftDelete(@Param('id', ParseIntPipe) id: number) {
     await this.service.revertSoftDelete(id);
 
@@ -116,6 +128,7 @@ export class ArticleController {
   }
 
   @Delete('soft/:id')
+  @Roles([UserRole.EDITOR, UserRole.ADMIN])
   async softDelete(@Param('id', ParseIntPipe) id: number) {
     await this.service.softDeleteArticle(id);
 

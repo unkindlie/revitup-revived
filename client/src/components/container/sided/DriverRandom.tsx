@@ -6,11 +6,14 @@ import { Typography } from '@/components/common/typography/Typography';
 import { Pages, path } from '@/lib/routing/client';
 import { useRandomDriver } from '@/hooks/features/drivers/useRandomDriver';
 import { useResponse } from '@/hooks/useResponse';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 export const DriverRandom = () => {
   const { data: response, isLoading } = useRandomDriver();
 
   const { data: driver } = useResponse(response);
+
+  const { t } = useTranslation(['common']);
 
   if (isLoading) {
     return (
@@ -75,7 +78,9 @@ export const DriverRandom = () => {
 
         <div className="text-muted-foreground flex items-center gap-2">
           <User size={16} />
-          <Typography variant="sm">View driver profile</Typography>
+          <Typography variant="sm">
+            {t('components.randomDriver.action')}
+          </Typography>
         </div>
       </div>
     </Link>

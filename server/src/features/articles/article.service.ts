@@ -19,8 +19,8 @@ export class ArticleService {
     private commentService: CommentService,
   ) {}
 
-  async findArticles(page: number, take: number) {
-    const [articles, count] = await this.repo.findArticles(page, take);
+  async findArticles(page: number, take: number, search?: string) {
+    const [articles, count] = await this.repo.findArticles(page, take, search);
 
     return {
       items: plainToInstance(ArticleShortDto, articles),

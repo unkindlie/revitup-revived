@@ -16,6 +16,7 @@ import { useCreateArticle } from '@/hooks/features/articles/useCreateArticle';
 
 import { createArticleSchema } from '^/schemas/articles/create-article.schema';
 import { TranslationNamespaceProvider } from '../../../contexts/TranslationNamespaceContext';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 type FormValues = {
   title: string;
@@ -34,6 +35,7 @@ export const ArticleCreateForm = () => {
   });
 
   const { mutateAsync: createArticle, isPending } = useCreateArticle();
+  const { t } = useTranslation(['articles']);
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
@@ -49,28 +51,28 @@ export const ArticleCreateForm = () => {
     <TranslationNamespaceProvider namespace={'common'}>
       <Dialog>
         <DialogTrigger asChild>
-          <Button>Create Article</Button>
+          <Button>{t('index.draft.create')}</Button>
         </DialogTrigger>
 
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create a draft</DialogTitle>
+            <DialogTitle>{t('index.draft.create')}</DialogTitle>
           </DialogHeader>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               id="title"
-              label="Title"
+              label={t('common.fields.title')}
               errorMessage={errors.title?.message}
             >
               <Input {...register('title')} />
             </FormField>
 
-            <FormField id="previewText" label="Preview Text">
+            <FormField id="previewText" label={t('common.fields.previewText')}>
               <Input {...register('previewText')} />
             </FormField>
 
             <Button type="submit" disabled={!isValid || isPending}>
-              {isPending ? <Spinner size="sm" /> : 'Create draft'}
+              {isPending ? <Spinner size="sm" /> : t('index.draft.action')}
             </Button>
           </form>
         </DialogContent>

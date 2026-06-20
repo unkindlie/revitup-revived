@@ -11,12 +11,13 @@ import { useSetFavouriteDriver } from '../../hooks/features/users/useSetFavourit
 import { useUserStore } from '../../stores/user.store';
 import { useFavouriteDriver } from '../../hooks/features/users/useFavouriteDriver';
 import { useMemo } from 'react';
-import { RequireAuth } from '../../hoc/RequireAuth';
+import { useTranslation } from '../../hooks/useTranslation';
 
 export const DriverDetailedPage = () => {
   const { id } = useParams<{ id: string }>();
   const user = useUserStore((state) => state.user);
   const isLogged = useUserStore((state) => state.isLogged);
+  const { t } = useTranslation(['drivers']);
 
   const { data: driverRes, isLoading } = useDriverById(Number(id));
   const { data: favouriteIdRes } = useFavouriteDriver(user?.id);
@@ -45,7 +46,7 @@ export const DriverDetailedPage = () => {
   if (!driver) {
     return (
       <div className="flex w-full items-center justify-center py-20">
-        <Typography variant="lg">Driver not found</Typography>
+        <Typography variant="lg">{t('detailed.notFound')}</Typography>
       </div>
     );
   }
@@ -97,7 +98,7 @@ export const DriverDetailedPage = () => {
                 className="flex items-center gap-2 rounded-full border px-3 py-1"
               >
                 {d.mainImgUrl && (
-                  <img
+                  <ImageWithSkeleton
                     src={d.mainImgUrl}
                     className="h-5 w-5 rounded-sm object-cover"
                   />
@@ -111,14 +112,18 @@ export const DriverDetailedPage = () => {
         <div className="text-muted-foreground grid grid-cols-2 gap-3 text-sm">
           {driver.dateOfBirth && (
             <div>
-              <span className="text-foreground font-medium">Born:</span>{' '}
+              <span className="text-foreground font-medium">
+                {t('detailed.born')}
+              </span>{' '}
               {new Date(driver.dateOfBirth).toDateString()}
             </div>
           )}
 
           {driver.number && (
             <div>
-              <span className="text-foreground font-medium">Number:</span>{' '}
+              <span className="text-foreground font-medium">
+                {t('detailed.number')}
+              </span>{' '}
               {driver.number}
             </div>
           )}
@@ -126,10 +131,10 @@ export const DriverDetailedPage = () => {
 
         <div className="mt-2 flex flex-col">
           <Typography variant="lg" weight="semibold">
-            Biography
+            {t('detailed.biography')}
           </Typography>
 
-          <Typography className="mt-2 leading-7 whitespace-pre-wrap">
+          <Typography className="mt-2 whitespace-pre-wrap">
             {driver.biography ?? 'No biography available.'}
           </Typography>
         </div>
@@ -137,7 +142,7 @@ export const DriverDetailedPage = () => {
         {!!driver.images?.length && (
           <div className="mt-4">
             <Typography variant="lg" weight="semibold">
-              Gallery
+              {t('detailed.gallery')}
             </Typography>
 
             <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-3">
@@ -146,7 +151,7 @@ export const DriverDetailedPage = () => {
                   key={img.id}
                   className="h-32 overflow-hidden rounded-md border"
                 >
-                  <img
+                  <ImageWithSkeleton
                     src={img.imageUrl}
                     className="h-full w-full object-cover object-top"
                   />

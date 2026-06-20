@@ -17,6 +17,7 @@ import { FormField } from '@/components/common/form/FormField';
 import { PasswordInput } from '@/components/common/inputs/PasswordInput';
 import { usePasswordResetChangeLogged } from '@/hooks/features/auth/password-reset/use-change-password-logged';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
+import { useTranslation } from '../../../../hooks/useTranslation';
 
 const schema = yup.object({
   password: yup.string().required().min(6).max(64),
@@ -26,6 +27,7 @@ type FormBody = yup.InferType<typeof schema>;
 
 export function ChangePasswordDialog() {
   const { closeHidden } = useCloseDialog();
+  const { t } = useTranslation(['users']);
 
   const { mutateAsync, isPending } = usePasswordResetChangeLogged();
 
@@ -51,26 +53,30 @@ export function ChangePasswordDialog() {
     <Dialog>
       <DialogTrigger asChild>
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          Change password
+          {t('profile.actions.changePw.title')}
         </DropdownMenuItem>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Change password</DialogTitle>
+          <DialogTitle>{t('profile.actions.changePw.title')}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
           <FormField
             id="password"
-            label="Password"
+            label="Пароль"
             errorMessage={errors.password?.message}
           >
             <PasswordInput {...register('password')} />
           </FormField>
 
-          <Button disabled={!isValid || isPending}>
-            {isPending ? <Spinner size="sm" /> : 'Change'}
+          <Button className="w-full" disabled={!isValid || isPending}>
+            {isPending ? (
+              <Spinner size="sm" />
+            ) : (
+              t('profile.actions.changePw.title')
+            )}
           </Button>
         </form>
 

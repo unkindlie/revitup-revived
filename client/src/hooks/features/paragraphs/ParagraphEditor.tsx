@@ -4,6 +4,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Typography } from '@/components/common/typography/Typography';
 
 import type { Paragraph } from '^/types/paragraphs';
+import { useTranslation } from '../../useTranslation';
 
 type Props = {
   paragraph: Paragraph;
@@ -18,11 +19,13 @@ export const ParagraphEditor = ({
   onChange,
   onRemove,
 }: Props) => {
+  const { t } = useTranslation(['articles']);
+
   return (
     <div className="flex flex-col gap-2.5 rounded-md border p-3">
       <div className="flex items-center justify-between">
         <Typography variant="lg" weight="semibold">
-          Paragraph {index + 1}
+          {t('draftEdit.actions.paragraphs.single')} {index + 1}
         </Typography>
 
         <Button
@@ -30,12 +33,12 @@ export const ParagraphEditor = ({
           variant="destructive"
           onClick={() => onRemove(index)}
         >
-          Remove
+          {t('draftEdit.actions.paragraphs.remove')}
         </Button>
       </div>
 
       <Input
-        placeholder="Paragraph title"
+        placeholder={t('draftEdit.actions.paragraphs.title')}
         value={paragraph.title}
         onChange={(e) =>
           onChange(index, { ...paragraph, title: e.target.value })
@@ -43,7 +46,7 @@ export const ParagraphEditor = ({
       />
 
       <Textarea
-        placeholder="Paragraph content"
+        placeholder={t('draftEdit.actions.paragraphs.content')}
         value={paragraph.content}
         onChange={(e) =>
           onChange(index, { ...paragraph, content: e.target.value })

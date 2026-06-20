@@ -6,15 +6,17 @@ import { Pages, path } from '@/lib/routing/client';
 
 import { useLatestThreads } from '@/hooks/features/threads/useLatestThreads';
 import { useResponse } from '@/hooks/useResponse';
+import { useTranslation } from 'react-i18next';
 
 export const LatestThreads = () => {
   const { data: threadsRes, isLoading } = useLatestThreads();
   const { data: threads } = useResponse(threadsRes);
+  const { t } = useTranslation(['common']);
 
   return (
     <div className="bg-card h-fit w-full rounded-lg border p-4">
       <Typography variant="xl" weight="semibold">
-        Latest Threads
+        {t('components.latestThreads.title')}
       </Typography>
 
       <div className="mt-4">

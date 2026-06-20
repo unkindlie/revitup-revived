@@ -16,23 +16,38 @@
       "disabledTooltip": "Please log into the account to create the thread"
     },
     "createForm": {
+      "header": {
+        "title": "Add a thread",
+        "description": "Here you can create your thread"
+      },
       "fields": {
-        "title": "Title",
-        "description": "Description",
+        "title": {
+          "name": "Title",
+          "placeholder": "Thread title"
+        },
+        "description": {
+          "name": "Description",
+          "placeholder": "Thread description"
+        },
         "category": "Category"
       },
       "misc": {
         "chooseCategory": "Choose a thread category",
         "noCategories": "No thread categories available"
-      }
+      },
+      "success": "Thread created successfully"
     }
   },
   "detailed": {
+    "index": "Threads",
     "noThread": {
       "title": "404 Not Found :(",
       "message": "Looks like such thread does not exist, or it was removed"
     },
     "info": {
+      "title": "Thread info",
+      "created": "Created:",
+      "category": "Category:",
       "author": "Thread by: {{author}}"
     }
   }

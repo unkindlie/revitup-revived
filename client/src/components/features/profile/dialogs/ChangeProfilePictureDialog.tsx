@@ -18,10 +18,12 @@ import { FileList } from '@/components/common/file/FileList';
 import { useUploadUserPfp } from '@/hooks/features/users/useUploadUserPfp';
 import { useCloseDialog } from '@/hooks/ui/useCloseDialog';
 import { isImageFile, ensureSquareFile } from '@/lib/image/upload';
+import { useTranslation } from '../../../../hooks/useTranslation';
 
 export function ChangeProfilePictureDialog({ userId }: { userId: number }) {
   const { closeHidden, closeRef } = useCloseDialog();
   const { mutateAsync: uploadPfp, isPending } = useUploadUserPfp(userId);
+  const { t } = useTranslation(['users']);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -69,13 +71,13 @@ export function ChangeProfilePictureDialog({ userId }: { userId: number }) {
     <Dialog>
       <DialogTrigger asChild>
         <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          Change profile picture
+          {t('profile.actions.changePfp.title')}
         </DropdownMenuItem>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Change profile picture</DialogTitle>
+          <DialogTitle>{t('profile.actions.changePfp.title')}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -103,7 +105,11 @@ export function ChangeProfilePictureDialog({ userId }: { userId: number }) {
             onClick={handleUpload}
             disabled={!files.length || isPending}
           >
-            {isPending ? <Spinner size="sm" /> : 'Upload'}
+            {isPending ? (
+              <Spinner size="sm" />
+            ) : (
+              t('profile.actions.changePfp.action')
+            )}
           </Button>
         </div>
 

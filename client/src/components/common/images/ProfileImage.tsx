@@ -23,6 +23,7 @@ import useDeleteUserPfp from '@/hooks/features/users/useDeleteUserPfp';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/common/spinner/Spinner';
 import { toast } from 'sonner';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 type ProfileImageProps = {
   src: string;
@@ -46,6 +47,7 @@ export const ProfileImage = ({
   disabled?: boolean;
 }) => {
   const textCls = 'text-white select-none';
+  const { t } = useTranslation(['users']);
 
   if (!src || imageCount === 0) {
     return (
@@ -61,11 +63,8 @@ export const ProfileImage = ({
         <div
           className={`flex h-full ${disabled ? '' : 'cursor-pointer'} flex-col items-center justify-center`}
         >
-          <Typography className={textCls} variant="lg" weight="semibold">
-            {imageCount}
-          </Typography>
           <Typography className={cn(textCls, 'uppercase')} weight="semibold">
-            images
+            {imageCount} {t('profile.body.images.items', { count: imageCount })}
           </Typography>
         </div>
       </div>
@@ -74,7 +73,6 @@ export const ProfileImage = ({
   );
 };
 
-// TODO: create black-backgrounded fullscreen gallery after MVP (read "diploma")
 export const ProfileImageGallery = ({
   src,
   user: { id, username },
@@ -83,6 +81,7 @@ export const ProfileImageGallery = ({
   const { data: images = [] } = useResponse<BaseImage[]>(imageRes);
   const currentUser = useUserStore((s) => s.user);
   const isOwner = !!currentUser && currentUser.id === id;
+  const { t } = useTranslation(['users']);
 
   const { mutate: deletePfp, isPending: deleting } = useDeleteUserPfp(id);
 
@@ -93,7 +92,9 @@ export const ProfileImageGallery = ({
       </DialogTrigger>
       <DialogContent aria-describedby={undefined}>
         <DialogHeader>
-          <DialogTitle>{username}' Profile Images</DialogTitle>
+          <DialogTitle>
+            {t('profile.body.images.title', { username })}
+          </DialogTitle>
         </DialogHeader>
         {isLoading || !images ? (
           <Typography>Loading</Typography>
@@ -120,13 +121,18 @@ export const ProfileImageGallery = ({
                             if (!confirm('Delete this profile image?')) return;
 
                             deletePfp(it.id, {
-                              onSuccess: () => toast.success('Image deleted'),
+                              onSuccess: () =>
+                                toast.success('Зображення видалено'),
                               onError: () =>
-                                toast.error('Unable to delete image'),
+                                toast.error('Неможливо видалити зображення'),
                             });
                           }}
                         >
-                          {deleting ? <Spinner size="sm" /> : 'Delete'}
+                          {deleting ? (
+                            <Spinner size="sm" />
+                          ) : (
+                            t('profile.body.images.action')
+                          )}
                         </Button>
                       )}
                     </div>

@@ -5,6 +5,9 @@ export const TranslationNamespaces = {
   Events: 'events',
   Threads: 'threads',
   Statistics: 'stats',
+  Articles: 'articles',
+  Drivers: 'drivers',
+  Users: 'users',
 } as const;
 
 export type TranslationNamespace =

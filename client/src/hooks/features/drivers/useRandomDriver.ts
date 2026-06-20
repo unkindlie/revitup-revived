@@ -5,4 +5,5 @@ export const useRandomDriver = () =>
   useQuery({
     queryKey: ['driver-random'],
     queryFn: getRandomDriver,
+    refetchOnWindowFocus: false,
   });

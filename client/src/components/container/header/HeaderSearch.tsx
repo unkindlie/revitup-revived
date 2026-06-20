@@ -116,7 +116,7 @@ export const HeaderSearch = () => {
       return (
         <Link
           to={path(Pages.EventDetailed, { id: item.id })}
-          className="flex items-center gap-3"
+          className="hover:bg-accent flex items-center gap-3 rounded-md px-3 py-1"
         >
           {item.mainImgUrl ? (
             <img src={item.mainImgUrl} className="h-12 w-12 rounded" />
@@ -125,14 +125,16 @@ export const HeaderSearch = () => {
           )}
           <div>
             <div className="font-semibold">{item.title}</div>
-            <div className="text-muted-foreground text-sm">Event</div>
+            <div className="text-muted-foreground text-sm">
+              {t('components.search.types.event')}
+            </div>
           </div>
         </Link>
       );
     }
     if (item.type === 'discipline') {
       return (
-        <div className="flex items-center gap-3">
+        <div className="hover:bg-accent flex items-center gap-3 rounded-md px-3 py-1">
           {item.mainImgUrl ? (
             <img src={item.mainImgUrl} className="h-10 w-10 rounded-full" />
           ) : (
@@ -140,7 +142,9 @@ export const HeaderSearch = () => {
           )}
           <div>
             <div className="font-semibold">{item.title}</div>
-            <div className="text-muted-foreground text-sm">Discipline</div>
+            <div className="text-muted-foreground text-sm">
+              {t('components.search.types.discipline')}
+            </div>
           </div>
         </div>
       );
@@ -149,19 +153,21 @@ export const HeaderSearch = () => {
       return (
         <Link
           to={path(Pages.DriverDetailed, { id: item.id })}
-          className="flex items-center gap-3"
+          className="hover:bg-accent flex items-center gap-3 rounded-md px-3 py-1"
         >
           {item.mainImgUrl ? (
             <img
               src={item.mainImgUrl}
-              className="h-10 w-10 rounded-full object-cover"
+              className="h-12 w-12 rounded-sm object-cover"
             />
           ) : (
-            <div className="bg-muted-foreground h-10 w-10 rounded-full" />
+            <div className="bg-muted-foreground h-12 w-12 rounded-full" />
           )}
           <div>
             <div className="font-semibold">{item.title}</div>
-            <div className="text-muted-foreground text-sm">Driver</div>
+            <div className="text-muted-foreground text-sm">
+              {t('components.search.types.driver')}
+            </div>
           </div>
         </Link>
       );
@@ -182,7 +188,9 @@ export const HeaderSearch = () => {
         )}
         <div>
           <div className="font-semibold">{item.title}</div>
-          <div className="text-muted-foreground text-sm">Article</div>
+          <div className="text-muted-foreground text-sm">
+            {t('components.search.types.article')}
+          </div>
         </div>
       </Link>
     );

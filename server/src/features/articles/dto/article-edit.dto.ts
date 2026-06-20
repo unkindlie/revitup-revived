@@ -33,11 +33,6 @@ export class ArticleEditDto {
   @MaxLength(200)
   previewText?: string;
 
-  @IsString()
-  @IsOptional()
-  @MaxLength(2000)
-  text?: string;
-
   @IsInt()
   @IsOptional()
   disciplineId?: number;

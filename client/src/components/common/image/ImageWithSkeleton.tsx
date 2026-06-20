@@ -2,12 +2,15 @@ import { useEffect, useState } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 type Props = React.ImgHTMLAttributes<HTMLImageElement>;
 
 export const ImageWithSkeleton = ({ src, className, alt, ...props }: Props) => {
   const [loading, setLoading] = useState(Boolean(src));
   const [error, setError] = useState(false);
+
+  const { t } = useTranslation(['common']);
 
   useEffect(() => {
     setLoading(Boolean(src));
@@ -22,8 +25,8 @@ export const ImageWithSkeleton = ({ src, className, alt, ...props }: Props) => {
           className,
         )}
       >
-        <span className="text-muted-foreground text-sm">
-          No image available
+        <span className="text-muted-foreground py-10 text-sm">
+          {t('components.image.noImage')}
         </span>
       </div>
     );

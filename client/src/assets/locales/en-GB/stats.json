@@ -16,6 +16,10 @@
         "title": "Seasons",
         "description": "Any season of all disciplines"
       }
+    },
+    "reset": "Reset",
+    "years": {
+      "all": "All years"
     }
   },
   "raceSeasons": {
@@ -25,5 +29,16 @@
   "raceEvents": {
     "title": "Race events",
     "noEvents": "No race events found in this season"
+  },
+  "raceEventDetailed": {
+    "class": "Race Classification",
+    "sortColumns": {
+      "pos": "Pos",
+      "entry": "Entry",
+      "car": "Car",
+      "time": "Time",
+      "fastestLap": "FL",
+      "driver": "Driver"
+    }
   }
 }

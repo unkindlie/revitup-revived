@@ -12,36 +12,40 @@ import {
 } from '@/components/ui/select';
 import { useDisciplines } from '@/hooks/features/disciplines/useDisciplines';
 import { useResponse } from '@/hooks/useResponse';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 type SelectProps = ComponentProps<typeof SelectPrimitive.Root>;
 
 export const DisciplineSelect = ({
   onValueChange,
-  defaultValue,
+  value,
   ...props
 }: SelectProps) => {
   const { data: disciplinesRes, isLoading } = useDisciplines();
+  const { t } = useTranslation(['common']);
 
   const { data: disciplines } = useResponse(disciplinesRes);
 
   if (isLoading || !disciplines) return null;
 
   if (!disciplines.length)
-    return <Typography variant="sm">No disciplines available</Typography>;
+    return (
+      <Typography variant="sm">
+        {t('components.disciplineSelect.notAvailable')}
+      </Typography>
+    );
 
   return (
-    <Select
-      onValueChange={onValueChange}
-      defaultValue={defaultValue}
-      {...props}
-    >
+    <Select onValueChange={onValueChange} value={value} {...props}>
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Choose discipline" />
+        <SelectValue
+          placeholder={t('components.disciplineSelect.placeholder')}
+        />
       </SelectTrigger>
       <SelectContent className="w-full" position="popper">
         <SelectGroup>
           {disciplines.map((d) => (
-            <SelectItem key={d.id} value={d.shortCode}>
+            <SelectItem key={d.id} value={String(d.shortCode)}>
               <>
                 {d.mainImgUrl && (
                   <img src={d.mainImgUrl} className="mr-2 h-5 w-5 rounded-sm" />

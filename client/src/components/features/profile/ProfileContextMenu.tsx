@@ -11,8 +11,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { TranslationNamespaceProvider } from '@/contexts/TranslationNamespaceContext';
 import { useUserStore } from '@/stores/user.store';
+import type { UserDetailed } from '../../../../utils/types/users';
 
-export const ProfileContextMenu = ({ id }: { id: number }) => {
+type ProfileContextMenuProps = Pick<
+  UserDetailed,
+  'id' | 'username' | 'description'
+>;
+
+export const ProfileContextMenu = ({ id }: ProfileContextMenuProps) => {
   const user = useUserStore((s) => s.user);
 
   return (

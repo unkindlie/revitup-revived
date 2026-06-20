@@ -26,7 +26,36 @@
     "search": {
       "title": "Search",
       "recent": "Recent",
-      "clearAll": "Clear all"
+      "clearAll": "Clear all",
+      "types": {
+        "event": "Event",
+        "discipline": "Discipline",
+        "driver": "Driver",
+        "article": "Article"
+      }
+    },
+    "image": {
+      "noImage": "No image available"
+    },
+    "randomDriver": {
+      "action": "View driver profile"
+    },
+    "latestThreads": {
+      "title": "Latest threads"
+    },
+    "roles": {
+      "user": "Default peasant",
+      "editor": "Editor",
+      "admin": "Admin"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "fileUpload": "Upload an image or click to browse",
+    "disciplineSelect": {
+      "placeholder": "Choose discipline",
+      "notAvailable": "No disciplines available"
     }
   },
   "header": {
@@ -44,6 +73,7 @@
     "sections": {
       "news": "News",
       "events": "Events",
+      "drivers": "Drivers",
       "threads": "Threads",
       "stats": "Statistics"
     }

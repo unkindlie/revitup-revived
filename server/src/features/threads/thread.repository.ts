@@ -17,14 +17,15 @@ export class ThreadRepository {
     @InjectDataSource() private dataSource: DataSource,
   ) {}
 
-  // TODO: add pagination
-  async getThreads(): Promise<Thread[]> {
-    return await this.repo.find({
+  async getThreads(page = 1, take = 15): Promise<[Thread[], number]> {
+    return this.repo.findAndCount({
       select: THREADS_SELECT_OBJ,
       order: {
         createdAt: 'DESC',
       },
       relations: ['author', 'category'],
+      skip: (page - 1) * take,
+      take,
     });
   }
 
