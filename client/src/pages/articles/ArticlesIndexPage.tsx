@@ -21,7 +21,7 @@ export const ArticlesIndexPage = () => {
 
   const { t } = useTranslation(['articles']);
 
-  const { data: articlesRes, isFetched } = useGetArticles(page, 10, search);
+  const { data: articlesRes, isFetched } = useGetArticles(page, 3, search);
   const { data: articles } = useResponse(articlesRes);
 
   const { currentPage, totalPages, hasPreviousPage, hasNextPage, goToPage } =
