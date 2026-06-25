@@ -7,7 +7,6 @@ import {
   SelectTrigger,
   SelectValue,
   SelectContent,
-  SelectGroup,
   SelectItem,
 } from '@/components/ui/select';
 import { useDisciplines } from '@/hooks/features/disciplines/useDisciplines';
@@ -43,20 +42,18 @@ export const DisciplineSelect = ({
         />
       </SelectTrigger>
       <SelectContent className="w-full" position="popper">
-        <SelectGroup>
-          {disciplines.map((d) => (
-            <SelectItem key={d.id} value={String(d.shortCode)}>
-              <>
-                {d.mainImgUrl && (
-                  <img src={d.mainImgUrl} className="mr-2 h-5 w-5 rounded-sm" />
-                )}
-                <Typography variant="md" weight="medium">
-                  {d.title}
-                </Typography>
-              </>
-            </SelectItem>
-          ))}
-        </SelectGroup>
+        {disciplines.map((d) => (
+          <SelectItem key={d.id} value={String(d.id)}>
+            <>
+              {d.mainImgUrl && (
+                <img src={d.mainImgUrl} className="mr-2 h-5 w-5 rounded-sm" />
+              )}
+              <Typography variant="md" weight="medium">
+                {d.title}
+              </Typography>
+            </>
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );
