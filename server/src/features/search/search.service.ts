@@ -37,12 +37,9 @@ export class SearchService {
         .createQueryBuilder('a')
         .select(['a.id', 'a.title', 'a.mainImgUrl'])
         .where('a.deleted_at IS NULL')
-        .andWhere(
-          '(a.title ILIKE :q OR a.preview_text ILIKE :q OR a.text ILIKE :q)',
-          {
-            q,
-          },
-        )
+        .andWhere('(a.title ILIKE :q OR a.preview_text ILIKE :q)', {
+          q,
+        })
         .getMany(),
       this.eventRepo
         .createQueryBuilder('e')
