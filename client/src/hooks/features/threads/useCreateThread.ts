@@ -13,7 +13,7 @@ export const useCreateThread = () => {
     mutationKey: ['thread-create'],
     mutationFn: (thread: TThreadCreate) => createThread(thread),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['threads-index'] });
+      queryClient.invalidateQueries({ queryKey: ['threads'] });
       queryClient.invalidateQueries({ queryKey: ['latest-threads'] });
       toast.success(t('index.createForm.success'));
     },
