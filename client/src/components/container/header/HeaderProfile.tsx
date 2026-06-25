@@ -13,8 +13,6 @@ export const HeaderProfile = () => {
   const { data: pfpSrcRes } = useGetUserLatestPfp(user?.id || 0);
   const { data: pfpSrc } = useResponse(pfpSrcRes);
 
-  console.log(pfpSrc);
-
   if (!isLogged) return null;
 
   if (!pfpSrc) {
@@ -30,7 +28,7 @@ export const HeaderProfile = () => {
       <img
         src={pfpSrc}
         alt="profile"
-        className="h-9 w-9 cursor-pointer rounded-sm object-cover"
+        className="size-9 min-h-9 min-w-9 cursor-pointer rounded-sm object-cover"
       />
     </Link>
   );

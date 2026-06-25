@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 
+import { Typography } from '@/components/common/typography/Typography';
+import { useTranslation } from '@/hooks/useTranslation';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 type Props = React.ImgHTMLAttributes<HTMLImageElement>;
 
@@ -25,9 +26,9 @@ export const ImageWithSkeleton = ({ src, className, alt, ...props }: Props) => {
           className,
         )}
       >
-        <span className="text-muted-foreground py-10 text-sm">
+        <Typography className="text-muted-foreground py-20" variant="lg">
           {t('components.image.noImage')}
-        </span>
+        </Typography>
       </div>
     );
   }

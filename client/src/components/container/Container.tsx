@@ -12,7 +12,7 @@ export const Container = () => (
     <Header />
 
     <div className="mx-4 my-6 flex flex-1 flex-col gap-4 transition-transform lg:mx-10 lg:flex-row">
-      <aside className="hidden w-full space-y-3 lg:block lg:w-56">
+      <aside className="hidden w-full space-y-3 xl:block xl:w-56">
         <ArticleRandom />
         <DriverRandom />
       </aside>
@@ -21,7 +21,7 @@ export const Container = () => (
         <Outlet />
       </section>
 
-      <aside className="hidden w-full justify-end lg:block lg:w-56">
+      <aside className="hidden w-full justify-end xl:block xl:w-56">
         <LatestThreads />
       </aside>
     </div>

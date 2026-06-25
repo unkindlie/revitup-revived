@@ -20,7 +20,7 @@ type ArticleProps = {
 const SIZES = {
   titleVariant: {
     sm: 'base',
-    md: 'xl',
+    md: 'lg',
     lg: '2xl',
   },
 } as const;
@@ -67,7 +67,7 @@ export const Article = ({ article, variant, size = 'sm' }: ArticleProps) => {
             )}
           </div>
 
-          <Typography variant="xl" weight="semibold">
+          <Typography className="text-pretty" variant="xl" weight="semibold">
             {article.title}
           </Typography>
 

@@ -6,7 +6,7 @@ import { Typography } from '@/components/common/typography/Typography';
 import { Pages, path } from '@/lib/routing/client';
 import { useRandomDriver } from '@/hooks/features/drivers/useRandomDriver';
 import { useResponse } from '@/hooks/useResponse';
-import { useTranslation } from '../../../hooks/useTranslation';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export const DriverRandom = () => {
   const { data: response, isLoading } = useRandomDriver();
@@ -37,7 +37,7 @@ export const DriverRandom = () => {
       })}
       className="group bg-background block overflow-hidden rounded-lg border transition-all hover:shadow-lg"
     >
-      <div className="relative h-40 overflow-hidden">
+      <div className="relative h-44 overflow-hidden">
         <img
           src={driver.profileImgUrl}
           alt={`${driver.firstName} ${driver.lastName}`}
@@ -55,7 +55,7 @@ export const DriverRandom = () => {
         </div>
       </div>
 
-      <div className="space-y-3 p-4">
+      <div className="p-3">
         <div className="flex flex-wrap gap-2">
           {/* {driver.disciplines?.map((discipline) => (
             <div

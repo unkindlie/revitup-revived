@@ -2,10 +2,10 @@ import { Calendar1, FileText } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 
 import { Typography } from '@/components/common/typography/Typography';
+import { useTranslation } from '@/hooks/useTranslation';
 import { Pages, path } from '@/lib/routing/client';
 
 import type { ArticleShort } from '^/types/articles';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 type Props = {
   article: ArticleShort;

@@ -82,8 +82,6 @@ export const HeaderSearch = () => {
   const onOpen = async () => {
     const ids = loadRecent();
 
-    console.log(loadRecent());
-
     if (ids.length === 0) return setRecent([]);
     try {
       const fetched = await fetchItems(ids);

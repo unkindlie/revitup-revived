@@ -14,30 +14,41 @@ export const Header = () => {
   const { t } = useTranslation(TranslationNamespaces.Common);
 
   return (
-    <header className="bg-main sticky top-0 z-50 flex h-16 w-full items-center justify-between px-7">
-      <div className="flex flex-row items-center gap-6">
-        <HeaderLogo />
-        <div className="hidden gap-6 md:flex">
-          {NAV_ROUTES.map(({ id, route }, i) => (
-            <HeaderLink to={route} title={t(`header.sections.${id}`)} key={i} />
-          ))}
+    <header className="bg-main sticky top-0 z-50 flex w-full flex-col gap-y-3 px-7 py-3">
+      <div className="flex w-full items-center justify-between">
+        <div className="flex flex-row items-center gap-6">
+          <HeaderLogo />
+          <div className="hidden gap-6 lg:flex">
+            {NAV_ROUTES.map(({ id, route }, i) => (
+              <HeaderLink
+                to={route}
+                title={t(`header.sections.${id}`)}
+                key={i}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center">
+          <DropdownDialogProvider initialValue={undefined}>
+            <div className="mr-4">
+              <HeaderSearch />
+            </div>
+            <div className="mr-4 hidden items-center md:flex">
+              <HeaderProfile />
+            </div>
+            <div className="hidden md:block">
+              <HeaderDropdown />
+            </div>
+            <div className="md:hidden">
+              <HeaderSheet />
+            </div>
+          </DropdownDialogProvider>
         </div>
       </div>
-      <div className="flex items-center">
-        <DropdownDialogProvider initialValue={undefined}>
-          <div className="mr-4">
-            <HeaderSearch />
-          </div>
-          <div className="mr-4 hidden items-center md:flex">
-            <HeaderProfile />
-          </div>
-          <div className="hidden md:block">
-            <HeaderDropdown />
-          </div>
-          <div className="md:hidden">
-            <HeaderSheet />
-          </div>
-        </DropdownDialogProvider>
+      <div className="hidden gap-6 md:flex lg:hidden">
+        {NAV_ROUTES.map(({ id, route }, i) => (
+          <HeaderLink to={route} title={t(`header.sections.${id}`)} key={i} />
+        ))}
       </div>
     </header>
   );
