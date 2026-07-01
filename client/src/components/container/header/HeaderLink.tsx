@@ -1,4 +1,6 @@
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
+
+import { cn } from '@/lib/utils';
 
 type HeaderLinkProps = {
   title: string;
@@ -6,8 +8,17 @@ type HeaderLinkProps = {
   badgeNum?: number;
 };
 
-export const HeaderLink = ({ title, to }: HeaderLinkProps) => (
-  <Link className="text-white font-bold text-lg" to={to}>
-    {title}
-  </Link>
-);
+export const HeaderLink = ({ title, to }: HeaderLinkProps) => {
+  const location = useLocation();
+
+  return (
+    <Link
+      className={cn('text-lg font-bold text-white', {
+        underline: location.pathname === to,
+      })}
+      to={to}
+    >
+      {title}
+    </Link>
+  );
+};

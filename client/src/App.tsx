@@ -108,7 +108,7 @@ function App() {
           children: [{ index: true, Component: MePage }],
         },
         {
-          path: '/stats',
+          path: Pages.StatisticsBase,
           children: [
             { index: true, Component: StatsBasePage },
             {
@@ -128,7 +128,7 @@ function App() {
           ],
         },
         {
-          path: '/drivers',
+          path: Pages.DriversBase,
           children: [
             { index: true, Component: DriversIndexPage },
             { path: ':id', Component: DriverDetailedPage },

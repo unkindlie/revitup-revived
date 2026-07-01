@@ -2,8 +2,10 @@ import type { PropsWithChildren } from 'react';
 
 import { useUserStore } from '@/stores/user.store';
 
+import type { Role } from '^/types/roles';
+
 type RequireRolesProps = PropsWithChildren & {
-  roles: string[];
+  roles: Role[];
 };
 
 export const RequireRoles = ({ roles, children }: RequireRolesProps) => {

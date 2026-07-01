@@ -1,24 +1,28 @@
 import { Typography } from '@/components/common/typography/Typography';
 import { ArticleCard } from '@/components/features/articles/ArticleCard';
+import { ArticleCreateForm } from '@/components/features/articles/ArticleCreateForm';
+import { RequireAuth } from '@/hoc/RequireAuth';
+import { RequireRoles } from '@/hoc/RequireRoles';
 import { useGetMyDrafts } from '@/hooks/features/articles/useGetMyDrafts';
 import { useResponse } from '@/hooks/useResponse';
-import { RequireAuth } from '../../hoc/RequireAuth';
-import { RequireRoles } from '../../hoc/RequireRoles';
-import { useTranslation } from '../../hooks/useTranslation';
+import { useTranslation } from '@/hooks/useTranslation';
 
+// TODO: add redirect HOC when no roles match
 export const ArticlesDraftIndexPage = () => {
   const { data: draftsRes } = useGetMyDrafts();
   const { data: drafts } = useResponse(draftsRes);
+
   const { t } = useTranslation(['articles']);
 
   return (
     <RequireAuth>
       <RequireRoles roles={['editor', 'admin']}>
         <div className="w-full">
-          <div className="mb-4 space-y-1">
+          <div className="mb-4 flex flex-col space-y-2 md:flex-row md:items-center md:justify-between md:space-y-0">
             <Typography variant="3xl" weight="semibold">
               {t('draft.title')}
             </Typography>
+            <ArticleCreateForm />
           </div>
 
           {!drafts?.length ? (

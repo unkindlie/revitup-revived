@@ -5,12 +5,12 @@ type UseDocumentTitleOptions = {
 };
 
 export const useDocumentTitle = (
-  title: string,
+  title?: string,
   options?: UseDocumentTitleOptions,
 ) => {
   const { appNamed } = options ?? { appNamed: false };
 
   useEffect(() => {
-    document.title = title + (appNamed ? ' | REVITUP' : '');
+    if (title) document.title = title + (appNamed ? ' | REVITUP' : '');
   }, [title, appNamed]);
 };

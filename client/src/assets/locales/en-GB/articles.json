@@ -10,8 +10,8 @@
   },
   "index": {
     "title": "Articles",
-    "description": "Choose the article you like",
     "search": "Search articles..",
+    "noArticles": "No articles found.",
     "draft": {
       "title": "My drafts",
       "create": "Create a draft article",

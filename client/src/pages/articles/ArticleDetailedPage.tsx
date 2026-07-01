@@ -7,13 +7,13 @@ import { ImageWithSkeleton } from '@/components/common/image/ImageWithSkeleton';
 import { CommentsBlock } from '@/components/features/comments/CommentsBlock';
 import { Button } from '@/components/ui/button';
 import { CommentReplyProvider } from '@/contexts/CommentReplyContext';
+import { RequireRoles } from '@/hoc/RequireRoles';
 import { useDeleteArticle } from '@/hooks/features/articles/useDeleteArticle';
 import { useGetArticleById } from '@/hooks/features/articles/useGetArticleById';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useResponse } from '@/hooks/useResponse';
+import { useTranslation } from '@/hooks/useTranslation';
 import { timeAgo } from '@/time-ago';
-import { RequireRoles } from '../../hoc/RequireRoles';
-import { useTranslation } from '../../hooks/useTranslation';
 
 export const ArticleDetailedPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -25,7 +25,7 @@ export const ArticleDetailedPage = () => {
     useDeleteArticle(Number(id) || 0);
   const { t } = useTranslation(['articles']);
 
-  useDocumentTitle(`${article ? article.title : t('detailed.loading')}`, {
+  useDocumentTitle(article?.title, {
     appNamed: true,
   });
 

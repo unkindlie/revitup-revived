@@ -2,6 +2,7 @@ export const Pages = {
   Main: '/',
 
   ArticlesIndex: '/articles',
+  ArticlesDraft: '/articles/draft',
   ArticleDetailed: '/articles/:id',
   ArticleDraftEdit: '/articles/draft/:id',
 
@@ -31,10 +32,6 @@ export const NAV_ROUTES = [
   {
     id: 'news',
     route: Pages.ArticlesIndex,
-  },
-  {
-    id: 'events',
-    route: Pages.EventsIndex,
   },
   {
     id: 'threads',

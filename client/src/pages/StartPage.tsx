@@ -5,14 +5,17 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useResponse } from '@/hooks/useResponse';
 import { useIsMobile } from '../hooks/ui/useIsMobile';
 import { cn } from '../lib/utils';
+import { useTranslation } from '../hooks/useTranslation';
 
 export const StartPage = () => {
   const { isFetched, data: articlesResponse } = useGetArticles(1, 11);
   const { data: articles } = useResponse(articlesResponse);
 
+  const { t } = useTranslation(['index']);
+
   const isMobile = useIsMobile();
 
-  useDocumentTitle('Your place of Motorsport', {
+  useDocumentTitle(t('start.pageTitle'), {
     appNamed: true,
   });
 
